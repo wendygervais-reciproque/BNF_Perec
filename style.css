@@ -1,0 +1,111 @@
+:root {
+
+    --color-bg: #d7dae5;
+    --color-black: #121317;
+    --color-white: #fff;
+
+    --font-ibm-plex-sans: IBM Plex Sans;
+}
+html
+{
+    height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+
+    background: var(--color-bg);
+    color: var(--color-black);
+    font-family: var(--font-ibm-plex-sans);
+    font-size: 18px;
+
+    display: flex;
+    border: #cbd2d3;
+    border-style: solid;
+    width: 1920px;
+    height: 1080px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    background-color: var(--color-black);
+    border-radius: 40px;
+}
+
+#ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: none;
+}
+
+#content {
+    width: 1680px;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    height: calc(0.8*1080px);
+}
+
+.page {
+    width: 50%;
+    height: 100%;
+    border-radius: 40px;
+    box-sizing: border-box;
+}
+
+#left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 80px;
+
+    background: var(--color-white);
+}
+
+.text-content-original {
+    position: relative;
+    line-height: 33px;
+    display: -webkit-inline-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    max-width: 510px;
+}
+
+#action-bar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 10, 0.8);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+#toggle-btn {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  font-family: monospace;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+#toggle-btn:hover {
+  background: #00ffcc; /* Petit rappel de votre couleur d'exergue ! */
+}

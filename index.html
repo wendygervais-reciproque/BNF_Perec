@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Game of Life - Texte Procédura</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="content">
+        <div class="page" id="left">
+            <div class="text-content-original">Dans le coin gauche de la pièce, il y a un grand fauteuil moderne, fait
+                d’une gigantesque demi-sphère d’altuglas cerclée d’acier, posée sur un piétement de métal chromé.
+                <br>À côté, un bloc de marbre de section octogonale fait office <br>de table basse ; un briquet d’acier
+                est posé dessus ainsi qu’un cache-pot
+                cylindrique d’où émerge un chêne nain, un de ces bonzaï japonais dont la croissance a été à ce point
+                contrôlée, ralentie, modifiée, qu’ils offrent tous les signes de la maturité, voire de la sénescence,
+                en n’ayant pratiquement pas grandi, et dont ceux qui les cultivent disent que leur perfection dépend
+                moins du soin matériel qu’on leur apporte que de la concentration méditative que leur éleveur leur
+                consacre.
+            </div>
+        </div>
+        <div class="page" id="right">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+    </div>
+
+    <div id="action-bar">
+        <button id="btn-load">1. Charger un nouveau texte</button>
+        <button id="btn-send" disabled>2. Envoyer le signal</button>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
