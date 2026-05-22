@@ -15,6 +15,7 @@ canvas.height = container.clientHeight;
 const cellSize = 3;
 const colorHighlightBg = '#ffee00f6';
 let currentHighlightBgPixels = [];
+let highlightBgPath = new Path2D();
 
 const formationSpeedMultiplier = 0.4;
 const maxClusterSize = 3;
@@ -55,6 +56,11 @@ function animate(timestamp) {
       let dims = Algo.getGridDimensions(canvas.width, canvas.height, cellSize);
       let coords = TextManager.getCoordinates(pendingText, dims.cols, dims.rows);
       currentHighlightBgPixels = coords.highlightBgPixels;
+      // Reconstruire le Path2D une seule fois par formation (pas chaque frame)
+      highlightBgPath = new Path2D();
+      for (const bp of currentHighlightBgPixels) {
+        highlightBgPath.rect(bp.x * cellSize, bp.y * cellSize, cellSize, cellSize);
+      }
 
       Algo.startFormation(coords.textPixels);
 
@@ -75,12 +81,8 @@ function animate(timestamp) {
       // On utilise la progression calculée par l'algo pour le fondu (de 0.0 à 1.0)
       ctx.globalAlpha = Algo.crystallizationProgress;
       ctx.fillStyle = colorHighlightBg;
-
-      for (let bgPixel of currentHighlightBgPixels) {
-        ctx.fillRect(bgPixel.x * cellSize, bgPixel.y * cellSize, cellSize, cellSize);
-      }
-
-      ctx.globalAlpha = 1.0; // Toujours réinitialiser l'alpha !
+      ctx.fill(highlightBgPath);
+      ctx.globalAlpha = 1.0;
     }
   }
 
