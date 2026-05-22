@@ -1,6 +1,6 @@
 :root {
 
-    --color-bg: #d7dae5;
+    --color-bg: #151517;
     --color-black: #121317;
     --color-white: #fff;
 
@@ -24,8 +24,6 @@ body {
     font-size: 18px;
 
     display: flex;
-    border: #cbd2d3;
-    border-style: solid;
     width: 1920px;
     height: 1080px;
     flex-direction: column;
@@ -46,17 +44,16 @@ canvas {
 }
 
 #content {
-    width: 1680px;
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 1px;
-    height: calc(0.8*1080px);
+    height: calc(1080px - 120px);
 }
 
 .page {
     width: 50%;
     height: 100%;
-    border-radius: 40px;
     box-sizing: border-box;
 }
 
@@ -93,16 +90,13 @@ canvas {
 }
 
 #action-bar {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10, 10, 10, 0.8);
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #333;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.8);
+    width: 100%;
+    height: 120px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
 }
 
 #toggle-btn {
@@ -111,7 +105,7 @@ canvas {
   border: none;
   padding: 10px 20px;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 18px;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s;

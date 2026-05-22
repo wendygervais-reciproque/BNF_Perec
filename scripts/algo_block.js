@@ -30,7 +30,8 @@ export const PARAMS = {
   colorHighlight: '#1a1a1a',
   colorEphemeral: '#6925e9',
   colorCollision: '#00ffcc',
-  alphaEphemeral: 0.8
+  alphaEphemeral: 0.8,
+  cellGap: 0
 };
 
 // Paramètres figés
@@ -602,7 +603,7 @@ export function draw(ctx) {
   }
 
   let hasHeat = false;
-  const cs = cellSize, csm1 = cellSize - 1;
+  const cs = cellSize, csm1 = cellSize - PARAMS.cellGap;
 
   for (let k = 0; k < visibleCells.length; k++) {
     const idx = visibleCells[k];
