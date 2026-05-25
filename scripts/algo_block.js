@@ -31,7 +31,7 @@ export const PARAMS = {
   colorEphemeral: '#6925e9',
   colorCollision: '#00ffcc',
   alphaEphemeral: 0.8,
-  cellGap: 0
+  cellGap: 1
 };
 
 // Paramètres figés

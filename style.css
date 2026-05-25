@@ -3,6 +3,8 @@
     --color-bg: #151517;
     --color-black: #121317;
     --color-white: #fff;
+    --color-help-mint: #AEEFED;
+    --color-help-purple: #3D2E6C;
 
     --font-ibm-plex-sans: IBM Plex Sans;
 }
@@ -17,11 +19,12 @@ html
 body {
     margin: 0;
     overflow: hidden;
+    position: relative;
 
     background: var(--color-bg);
     color: var(--color-black);
     font-family: var(--font-ibm-plex-sans);
-    font-size: 18px;
+    font-size: 24px;
 
     display: flex;
     width: 1920px;
@@ -65,7 +68,12 @@ canvas {
 
     padding: 80px;
 
-    background: var(--color-white);
+    background-color: var(--color-white);
+    background-image:
+        linear-gradient(to right,  var(--grid-color-left) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color-left) 1px, transparent 1px);
+    background-size: var(--grid-spacing) var(--grid-spacing);
+    background-origin: border-box;
 }
 #right { position: relative; overflow: hidden;}
 #overlay 
@@ -81,36 +89,161 @@ canvas {
 
 .text-content-original {
     position: relative;
-    line-height: 33px;
-    display: -webkit-inline-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    max-width: 510px;
+    display: block;
+    max-width: 640px;
+    line-height: calc(var(--grid-spacing)*2);
 }
 
-#action-bar {
-    background: rgba(255, 255, 255, 0.8);
-    width: 100%;
-    height: 120px;
+#btn-show {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    height: 60px;
+    padding: 10px 45px 11px;
+    border: none;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 600;
+    font-size: 32px;
+    font-style: normal;
+    line-height: normal;
+    white-space: nowrap;
+    background: var(--color-black);
+    color: var(--color-white);
+    cursor: pointer;
+}
+
+#btn-show[disabled] {
+    display: none;
+}
+
+#btn-help {
+    width: 120px;
+    flex-shrink: 0;
+    border: none;
+    background: var(--color-help-mint);
+    color: var(--color-help-purple);
+    font-family: var(--font-ibm-plex-sans);
+    font-size: 40px;
+    font-weight: 300;
+    cursor: pointer;
     display: flex;
-    gap: 16px;
     align-items: center;
     justify-content: center;
 }
 
-#toggle-btn {
-  background: #ffffff;
-  color: #000000;
-  border: none;
-  padding: 10px 20px;
-  font-family: monospace;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
+#btn-help.active {
+    background: var(--color-help-purple);
+    color: var(--color-help-mint);
 }
 
-#toggle-btn:hover {
-  background: #00ffcc; /* Petit rappel de votre couleur d'exergue ! */
+#action-bar {
+    background: var(--color-white);
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: stretch;
+    border-top: 1px solid #D1D1D1;
+}
+
+#contraintes {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-contrainte {
+    height: 60px;
+    padding: 10px 32px 12px 32px;
+    border: none;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 500;
+    font-size: 24px;
+    font-style: normal;
+    line-height: normal;
+    background: var(--color-white);
+    color: var(--color-black);
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-contrainte.active {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding-bottom: 11px;
+}
+
+#help-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(1080px - 120px);
+    background: var(--color-help-purple);
+    z-index: 20;
+    padding: 80px;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap: 48px;
+}
+
+#help-panel.open {
+    display: flex;
+}
+
+#help-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#help-intro h1 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--color-white);
+    line-height: normal;
+}
+
+#help-intro p {
+    margin: 0;
+    font-size: 20px;
+    color: var(--color-help-mint);
+    line-height: 1.5;
+    max-width: 960px;
+}
+
+#help-constraints-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.help-card {
+    padding: 32px;
+    border: 1px solid rgba(174, 239, 237, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.help-card h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-help-mint);
+    line-height: normal;
+}
+
+.help-card p {
+    margin: 0;
+    font-size: 17px;
+    color: var(--color-white);
+    line-height: 1.6;
+    opacity: 0.85;
 }

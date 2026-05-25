@@ -13,28 +13,36 @@ canvas.height = container.clientHeight;
 // 1. INVARIANTS ET PARAMÈTRES
 // ==========================================
 const cellSize = 3;
-const colorHighlightBg = '#ffee00f6';
+const colorHighlightBg = '#15b1b1f6';
 let currentHighlightBgPixels = [];
 let highlightBgPath = new Path2D();
 
 const formationSpeedMultiplier = 0.4;
 const maxClusterSize = 3;
 
-const texts = [
-  "L'obscurité de la demeure semblait vibrer sous l'effet de *couinements incessants* qui troublaient le sommeil du vieil homme. Il soupçonnait que le savant démoniaque avait orchestré un plan machiavélique pour dérober les précieuses montres de la collection familiale. Armé de son petit marteau, le cocher s'avança avec une détermination fébrile vers la source du trouble. Il s'approcha de la lourde tenture qui pendait au mur, le cœur battant. D'un geste sec, il frappa la cloison, espérant ainsi mettre fin au mystère qui hantait la nuit et déjouer la ruse maléfique.",
-  "Une nuit, le vieux palefrenier fut tiré de son sommeil par de *légers grattements* qui semblaient émaner de la cellule voisine. Il songea que l'alchimiste hérétique avait dompté l'un de ses rongeurs pour qu'il vienne lui dérober ses amulettes. Il se leva, saisit dans sa sacoche de cuir un petit maillet de fer qu'il ne quittait jamais, pénétra dans la chambre, s'approcha avec la plus grande prudence de la tapisserie de laine et frappa violemment à l'endroit d'où le bruit semblait sourdre."
-];
-let currentTextIndex = 0;
+// ==========================================
+// CONFIGURATION DE LA GRILLE
+// Modifier ces 3 valeurs pour ajuster les deux grilles simultanément.
+// ==========================================
+const gridInterval   = 8;                             // nombre de cellules entre chaque ligne de grille
+const lineGap        = 6;                              // lignes de grille vides entre les lignes de texte (0, gridInterval, 2*gridInterval…)
+const gridColorLeft  = 'rgba(18, 19, 23, 0.06)';      // couleur des lignes — page gauche
+const gridColorRight = 'rgba(255, 255, 255, 0.06)';   // couleur des lignes — canvas (page droite)
+
+// Propagation au CSS pour la grille de la page gauche
+document.documentElement.style.setProperty('--grid-spacing',    `${cellSize * gridInterval}px`);
+document.documentElement.style.setProperty('--grid-color-left', gridColorLeft);
+
 let pendingText = null;
 
 const controlPanel = new ControlPanel();
 
 // ==========================================
-// 2. MACHINE À ÉTATS 
+// 2. MACHINE À ÉTATS
 // ==========================================
-const STATE_CHAOS = 0;           // Destruction en cours, mouvement organique perpétuel
-const STATE_FORMING = 1;         // Les particules cherchent leur place
-const STATE_IDLE = 2;            // Texte formé, système immobile
+const STATE_CHAOS = 0;
+const STATE_FORMING = 1;
+const STATE_IDLE = 2;
 
 let currentState = STATE_CHAOS;
 let lastTime = 0;
@@ -42,6 +50,25 @@ let lastTime = 0;
 // ==========================================
 // 3. LA BOUCLE D'ANIMATION
 // ==========================================
+// Grille pré-rendue une seule fois sur un canvas hors-écran
+const gridCanvas = new OffscreenCanvas(canvas.width, canvas.height);
+(function () {
+  const gctx = gridCanvas.getContext('2d');
+  const spacing = cellSize * gridInterval;
+  gctx.beginPath();
+  gctx.strokeStyle = gridColorRight;
+  gctx.lineWidth = 1;
+  for (let x = spacing; x < canvas.width; x += spacing) {
+    gctx.moveTo(x + 0.5, 0);
+    gctx.lineTo(x + 0.5, canvas.height);
+  }
+  for (let y = spacing; y < canvas.height; y += spacing) {
+    gctx.moveTo(0, y + 0.5);
+    gctx.lineTo(canvas.width, y + 0.5);
+  }
+  gctx.stroke();
+}());
+
 function animate(timestamp) {
   if (!lastTime) lastTime = timestamp;
   let dt = (timestamp - lastTime) / 1000;
@@ -49,36 +76,29 @@ function animate(timestamp) {
   if (dt > 0.1) dt = 0.1;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(gridCanvas, 0, 0);
 
-  // LOGIQUE D'ÉTAT PURE
   if (currentState === STATE_CHAOS) {
     if (pendingText !== null) {
       let dims = Algo.getGridDimensions(canvas.width, canvas.height, cellSize);
-      let coords = TextManager.getCoordinates(pendingText, dims.cols, dims.rows);
+      let coords = TextManager.getCoordinates(pendingText, dims.cols, dims.rows, gridInterval, lineGap);
       currentHighlightBgPixels = coords.highlightBgPixels;
-      // Reconstruire le Path2D une seule fois par formation (pas chaque frame)
       highlightBgPath = new Path2D();
       for (const bp of currentHighlightBgPixels) {
         highlightBgPath.rect(bp.x * cellSize, bp.y * cellSize, cellSize, cellSize);
       }
-
       Algo.startFormation(coords.textPixels);
-
       pendingText = null;
       currentState = STATE_FORMING;
     }
-  }
-  else if (currentState === STATE_FORMING) {
+  } else if (currentState === STATE_FORMING) {
     if (Algo.isTextFullyFormed()) {
       currentState = STATE_IDLE;
     }
   }
 
-  // DESSIN DU FOND JAUNE (Fondu synchronisé avec la cristallisation)
   if (currentState === STATE_FORMING || currentState === STATE_IDLE) {
     if (currentHighlightBgPixels.length > 0 && Algo.crystallizationProgress > 0) {
-
-      // On utilise la progression calculée par l'algo pour le fondu (de 0.0 à 1.0)
       ctx.globalAlpha = Algo.crystallizationProgress;
       ctx.fillStyle = colorHighlightBg;
       ctx.fill(highlightBgPath);
@@ -86,48 +106,98 @@ function animate(timestamp) {
     }
   }
 
-  // L'ALGORITHME FAIT SA VIE (Nettoyé du paramètre inutile)
   Algo.update(dt, formationSpeedMultiplier);
   Algo.draw(ctx);
-
-  // NOUVEAU : Mise à jour du panneau de contrôle pour calculer les FPS
   controlPanel.update();
 
   requestAnimationFrame(animate);
 }
 
 // ==========================================
-// 4. LES BOUTONS
+// 4. CHARGEMENT DES CONTRAINTES
 // ==========================================
-const btnLoad = document.getElementById('btn-load');
-const btnSend = document.getElementById('btn-send');
+const { contraintes } = await (await fetch('/textes.json')).json();
 
-if (btnLoad && btnSend) {
-  // BOUTON "GÉNÉRER" -> Lance la destruction et l'errance
-  btnLoad.addEventListener('click', () => {
-    if (currentState === STATE_IDLE || currentState === STATE_FORMING) {
-      Algo.startChaos(); // SIGNAL EXPLICITE DE DESTRUCTION
-      currentState = STATE_CHAOS;
+function applyKeywordHighlighting(text, contexte) {
+  if (!contexte) return text;
+  const keywords = contexte.split(',').map(k => k.trim()).filter(k => k.length > 0);
+  keywords.sort((a, b) => b.length - a.length);
+  let result = text;
+  for (const keyword of keywords) {
+    const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    result = result.replace(new RegExp(escaped, 'gi'), match => `*${match}*`);
+  }
+  return result;
+}
 
-      btnLoad.disabled = true;
-      btnLoad.innerText = 'Génération en cours...';
-      btnSend.disabled = false;
+// ==========================================
+// 5. LES BOUTONS
+// ==========================================
+const constraintButtons = document.querySelectorAll('.btn-contrainte');
+const btnShow = document.getElementById('btn-show');
+let selectedText = null;
+
+constraintButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    constraintButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const id = btn.dataset.id;
+    const contrainte = contraintes.find(c => c.id === id);
+    let text = contrainte.texte;
+    if (id === 'forcage' || id === 'homosemantique') {
+      text = applyKeywordHighlighting(text, contrainte.contexte);
     }
+    selectedText = text;
+
+    if (currentState !== STATE_CHAOS) {
+      Algo.startChaos();
+      currentState = STATE_CHAOS;
+    }
+    pendingText = null;
+
+    if (btnShow) btnShow.disabled = false;
   });
+});
 
-  // BOUTON "ENVOYER" -> Lance la formation du nouveau texte
-  btnSend.addEventListener('click', () => {
-    currentTextIndex = (currentTextIndex + 1) % texts.length;
-    pendingText = texts[currentTextIndex];
+if (btnShow) {
+  btnShow.addEventListener('click', () => {
+    pendingText = selectedText;
+    btnShow.disabled = true;
+  });
+}
 
-    btnLoad.disabled = false;
-    btnLoad.innerText = '1. Charger un nouveau texte';
-    btnSend.disabled = true;
+const btnHelp = document.getElementById('btn-help');
+const helpPanel = document.getElementById('help-panel');
+
+if (btnHelp && helpPanel) {
+  btnHelp.addEventListener('click', () => {
+    const isOpen = helpPanel.classList.toggle('open');
+    btnHelp.classList.toggle('active', isOpen);
+    btnHelp.textContent = isOpen ? '×' : '?';
   });
 }
 
 // LANCEMENT INITIAL
 Algo.getGridDimensions(canvas.width, canvas.height, cellSize);
 Algo.init();
-pendingText = texts[currentTextIndex];
 requestAnimationFrame(animate);
+
+// Snap du texte gauche sur la grille — s'exécute après le premier rendu
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  const textEl = document.querySelector('.text-content-original');
+  const leftEl  = document.getElementById('left');
+  if (!textEl || !leftEl) return;
+
+  const spacing     = cellSize * gridInterval;
+  const cs          = getComputedStyle(textEl);
+  // Demi-interlignage : espace vide entre le haut de la line box et le haut de l'em box
+  const halfLeading = Math.max(0, (parseFloat(cs.lineHeight) - parseFloat(cs.fontSize)) / 2);
+
+  // On snappe le haut de l'em box (là où l'encre commence) plutôt que le haut de la line box
+  const delta     = textEl.getBoundingClientRect().top - leftEl.getBoundingClientRect().top;
+  const inkTop    = delta + halfLeading;
+  const remainder = ((inkTop % spacing) + spacing) % spacing;
+  const snap      = remainder < spacing / 2 ? -remainder : spacing - remainder;
+  textEl.style.transform = `translateY(${snap}px)`;
+}));

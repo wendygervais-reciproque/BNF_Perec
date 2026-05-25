@@ -2,7 +2,6 @@ import { getLetterBitmap } from './font.js';
 
 const letterSpacing = 1;
 const wordSpacing = 3;
-const lineSpacing = 4;
 const padding = 40;
 const fontHeight = 10;
 
@@ -36,31 +35,45 @@ function measureWord(word) {
 }
 
 // L'interface principale pour notre chef d'orchestre
-export function getCoordinates(text, cols, rows) {
+export function getCoordinates(text, cols, rows, gridInterval = 10, lineGap = 0) {
   let textPixels = [];
   let highlightBgPixels = [];
 
-  const maxWidth = cols - (padding * 2);
-  let words = text.split(' ');
-  let lines = [];
-  let currentLine = { words: [], width: 0 };
+  const lineSpacing = lineGap;
+  // Ligne de base à l'index 8 du bitmap (cf. font.js : "Ligne 8 = Ligne de base")
+  // Les 2 lignes vides du bas (indices 8-9) créent l'écart sous l'encre.
+  const baselineRow = 8;
 
-  for (let w of words) {
-    let wWidth = measureWord(w);
-    let addedWidth = currentLine.width === 0 ? wWidth : wordSpacing + wWidth;
-    if (currentLine.width + addedWidth > maxWidth && currentLine.words.length > 0) {
-      lines.push(currentLine);
-      currentLine = { words: [w], width: wWidth };
-    } else {
-      currentLine.words.push(w);
-      currentLine.width += addedWidth;
+  const maxWidth = cols - (padding * 2);
+  let lines = [];
+
+  for (const segment of text.split('\n')) {
+    let currentLine = { words: [], width: 0 };
+    for (let w of segment.split(' ').filter(w => w.length > 0)) {
+      let wWidth = measureWord(w);
+      let addedWidth = currentLine.width === 0 ? wWidth : wordSpacing + wWidth;
+      if (currentLine.width + addedWidth > maxWidth && currentLine.words.length > 0) {
+        lines.push(currentLine);
+        currentLine = { words: [w], width: wWidth };
+      } else {
+        currentLine.words.push(w);
+        currentLine.width += addedWidth;
+      }
     }
+    lines.push(currentLine);
   }
-  if (currentLine.words.length > 0) lines.push(currentLine);
+  while (lines.length > 0 && lines[lines.length - 1].words.length === 0) lines.pop();
 
   let totalTextHeight = (lines.length * fontHeight) + ((lines.length - 1) * lineSpacing);
-  let startY = Math.floor((rows - totalTextHeight) / 2);
-  if (startY < padding) startY = padding;
+
+  // Snap la baseline (pas le haut du caractère) sur la ligne de grille la plus proche.
+  // La baseline est à baselineRow cellules depuis le haut du caractère.
+  let rawBaseline = (rows - totalTextHeight) / 2 + baselineRow;
+  let snappedBaseline = Math.round(rawBaseline / gridInterval) * gridInterval;
+  let startY = snappedBaseline - baselineRow;
+  if (startY < padding) {
+    startY = Math.ceil((padding + baselineRow) / gridInterval) * gridInterval - baselineRow;
+  }
 
   let cursorY = startY;
   let highlightMode = false;

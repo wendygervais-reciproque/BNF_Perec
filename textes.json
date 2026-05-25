@@ -1,0 +1,40 @@
+{
+  "contraintes": [
+    {
+      "id": "changement_epoque",
+      "nom": "Changement d'époque",
+      "contexte": "Moyen Âge",
+      "texte": "L'an de grâce suivant, le sieur Grégoire de Simpous obtint une dotation de sa guilde, dont la somme, bien que modeste, lui permettait de subvenir à ses besoins de subsistance sans avoir l'obligation de lever le fer ou de cultiver la terre. Mais au lieu de se consacrer à l'étude des textes sacrés et de parfaire son savoir de clerc, il sombra alors dans une mélancolie profonde ; une léthargie obscure, semblable à un brouillard de l'âme, dont apparemment rien ne parvint à le tirer."
+    },
+    {
+      "id": "forcage",
+      "nom": "Forçage",
+      "contexte": "Grégoire Simpson, bourse, licence, neurasthénie, léthargie",
+      "texte": "Après avoir obtenu sa bourse, Grégoire Simpson pensait enfin pouvoir s'épanouir. Pourtant, au lieu de valider sa licence, il s'enfonça dans une profonde neurasthénie qui semblait consumer son ambition. Ce n'était pas une simple fatigue, mais une léthargie singulière, un vide existentiel où le temps s'étirait sans fin. Ses projets de vie s'évaporèrent, laissant place à une inertie pesante. Il restait là, spectateur de son propre déclin, incapable de retrouver l'élan qui l'animait autrefois. Son avenir, autrefois si clair, s'était dissipé dans ce silence assourdissant."
+    },
+    {
+      "id": "haiku",
+      "nom": "Haïku",
+      "contexte": null,
+      "texte": "L'argent de la bourse,\n\nSommeil profond de l'esprit,\n\nL'âme s'assoupit."
+    },
+    {
+      "id": "homosemantique",
+      "nom": "Homosémantique",
+      "contexte": "une aide financière, se dévouer à son apprentissage académique, son diplôme de premier cycle, prostration psychologique, absence totale de vitalité",
+      "texte": "L'année suivante, Grégoire Simpson obtint une aide financière dont le montant, bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail. Mais au lieu de se dévouer à son apprentissage académique et de finir son diplôme de premier cycle, il tomba alors dans une sorte de prostration psychologique ; une absence totale de vitalité dont apparemment rien ne parvint à le réveiller."
+    },
+    {
+      "id": "changement_lieu",
+      "nom": "Changement de lieu",
+      "contexte": "Kenya",
+      "texte": "L'année suivante, Jomo Otieno obtint une bourse d'études dont le montant, bien que modeste, lui permettait de subvenir à ses besoins essentiels sans avoir à courir après des petits boulots épuisants dans les rues poussiéreuses de Nairobi. Mais au lieu de se consacrer à ses cours et de décrocher son diplôme à l'université, il sombra dans une sorte de mélancolie profonde ; une léthargie pesante, comme si la chaleur écrasante de la savane et l'agitation des matatus ne pouvaient plus l'atteindre. Il restait là, immobile, le regard perdu vers l'horizon, comme pétrifié par un vide que rien ne semblait pouvoir combler."
+    },
+    {
+      "id": "changement_genre_litteraire",
+      "nom": "Changement de genre littéraire",
+      "contexte": "Épistolaire",
+      "texte": "Ma chère amie,\n\nGrégoire a obtenu cette bourse l'an dernier. Certes, elle est modeste, mais suffisante pour lui éviter de travailler. Pourtant, au lieu de poursuivre sa licence, il s'est laissé emporter par une neurasthénie profonde. C’est une léthargie singulière qui l'enveloppe, un sommeil de l'âme dont rien ne semble pouvoir le tirer. Je le regarde s'enfoncer dans cet état avec une impuissance totale. Il semble s'être retiré du monde, et malgré tous nos efforts, rien ne parvient à le réveiller de cette torpeur accablante. Je m'inquiète sincèrement."
+    }
+  ]
+}
