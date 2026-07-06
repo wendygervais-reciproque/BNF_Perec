@@ -8,7 +8,7 @@
     },
     {
       "id": "forcage",
-      "nom": "Forçage",
+      "nom": "Mots imposés",
       "contexte": "Grégoire Simpson, bourse, licence, neurasthénie, léthargie",
       "texte": "Après avoir obtenu sa bourse, Grégoire Simpson pensait enfin pouvoir s'épanouir. Pourtant, au lieu de valider sa licence, il s'enfonça dans une profonde neurasthénie qui semblait consumer son ambition. Ce n'était pas une simple fatigue, mais une léthargie singulière, un vide existentiel où le temps s'étirait sans fin. Ses projets de vie s'évaporèrent, laissant place à une inertie pesante. Il restait là, spectateur de son propre déclin, incapable de retrouver l'élan qui l'animait autrefois. Son avenir, autrefois si clair, s'était dissipé dans ce silence assourdissant."
     },
@@ -20,7 +20,7 @@
     },
     {
       "id": "homosemantique",
-      "nom": "Homosémantique",
+      "nom": "Synonymes",
       "contexte": "une aide financière, se dévouer à son apprentissage académique, son diplôme de premier cycle, prostration psychologique, absence totale de vitalité",
       "texte": "L'année suivante, Grégoire Simpson obtint une aide financière dont le montant, bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail. Mais au lieu de se dévouer à son apprentissage académique et de finir son diplôme de premier cycle, il tomba alors dans une sorte de prostration psychologique ; une absence totale de vitalité dont apparemment rien ne parvint à le réveiller."
     },

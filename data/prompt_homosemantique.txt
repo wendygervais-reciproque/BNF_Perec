@@ -1,0 +1,9 @@
+Tâche : Substitution homosémantique.
+Instructions :
+    Identifie 5 mots ou expressions clés dans le texte fourni.
+    Remplace chacun de ces éléments par un synonyme ou une périphrase (une description ou une définition indirecte) afin de modifier la texture du vocabulaire.
+    Exemple : 'Un chat' =   'Un félin domestique' ; 'La voiture' =   'Le véhicule motorisé' ; 'Il pleut' =  'Les précipitations tombent'.
+    Attention : Ne change PAS le sens profond du texte ; l'information doit rester identique malgré le changement de mots.
+
+    Mets les éléments modifiés en gras.
+Sortie : Au début de ta réponse, indique uniquement les mots choisis, puis passe immédiatement au texte transformé. N'affiche aucune analyse de ton travail.

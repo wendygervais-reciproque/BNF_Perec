@@ -1,0 +1,10 @@
+Tâche : Transcréation culturelle par immersion aléatoire et enrichissement.
+Instructions :
+    Analyse le texte fourni pour en extraire le sens profond, l'intrigue et les éléments narratifs essentiels.
+    Réécris le texte toujours en français en effectuant une transposition culturelle complète vers le pays suivant : <PAYS>
+        Adapte le vocabulaire, les objets et les concepts pour qu'ils correspondent aux réalités sociales et culturelles de ce pays.
+        Remplace les lieux géographiques par des localisations emblématiques ou crédibles dans ce pays.
+        Remplace les noms propres par des noms locaux ou des noms dont la sonorité est authentique à la culture choisie.
+        Enrichissement par stéréotypes : Si le texte original est trop pauvre, trop neutre ou manque de détails sensoriels, tu as l'autorisation d'insérer des éléments, des expressions, des odeurs, des couleurs ou des actions typiques (parfois stéréotypées) du pays choisi pour donner une "texture" immédiate et une ambiance forte au récit.
+    Attention : La structure narrative et l'intrigue du texte d'origine doivent rester intactes. L'enrichissement doit servir l'ambiance sans dénaturer l'histoire. Le texte généré doit être en Français.
+Sortie : Au début de ta réponse, indique uniquement le nouveau lieu choisi, puis passe immédiatement au texte transformé. N'affiche aucune analyse de ton travail.

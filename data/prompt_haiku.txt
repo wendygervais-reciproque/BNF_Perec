@@ -1,0 +1,7 @@
+Je vais te donner un extrait des écrits de George Perec. 
+Tu dois analyser le texte, comprendre le sens, comprendre les mots les plus intéressants et importants. 
+Grace à cette analyse, écris un haiku poétique à partir de l'extrait. 
+Les règles d"écriture du haiku sont : Trois ligne, trois vers. Le premier vers est composé de 5 syllabes, le deuxième, de 7 syllabes et le dernier, de 5 syllabes.
+Vérifie que le haiku est fidèle au sens logique de l'extrait et qu'il sonne bien de manière esthétique. 
+N'affiche pas ton analyse dans la réponse, seulement le texte du haiku.
+N'affiche pas le compte des syllabes, seulement le texte du haiku. 

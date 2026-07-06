@@ -1,6 +1,10 @@
 // ==========================================
 // 1. PARAMÈTRES DYNAMIQUES (DICTIONNAIRE)
 // ==========================================
+// Couleurs par défaut lues depuis static/style.css (:root) ; restent
+// modifiables en direct via le panneau de contrôle (control_panel.js).
+const cssColor = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
 export const PARAMS = {
   // Le Limier
   NOISE_SCALE: 0.008,
@@ -26,10 +30,10 @@ export const PARAMS = {
   collisionCoolingSpeed: 0.04,
 
   // Esthétique & Couleurs
-  colorPhysical: '#f0f0f0',
-  colorHighlight: '#1a1a1a',
-  colorEphemeral: '#6925e9',
-  colorCollision: '#00ffcc',
+  colorPhysical: cssColor('--color-anim-physical'),
+  colorHighlight: cssColor('--color-anim-highlight'),
+  colorEphemeral: cssColor('--color-anim-ephemeral'),
+  colorCollision: cssColor('--color-anim-collision'),
   alphaEphemeral: 0.8,
   cellGap: 0
 };

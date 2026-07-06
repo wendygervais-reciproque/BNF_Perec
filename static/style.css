@@ -1,0 +1,396 @@
+:root {
+
+    /* ===== Surfaces ===== */
+    --color-app-bg:       #4c4945;                  /* fond de l'application, hors pages */
+    --color-page-bg:      #F8EDDE;                  /* page gauche — papier */
+    --color-canvas-bg:    #1C1710;                  /* page droite — canvas d'animation */
+    --color-actionbar-bg: #CC9F72;                  /* barre de contraintes */
+    --color-help-bg:      var(--color-page-bg);       /* panneau d'aide */
+
+    /* ===== Textes ===== */
+    --color-text-original:  #3E3227;                     /* extrait, page gauche */
+    --color-help-text:      var(--color-text-original);  /* textes du panneau d'aide */
+    --color-text-iteration: #C1B7A8;                     /* compteur « TEXTE N° » */
+    --color-text-on-dark:   #F8EDDE;                     /* libellés et icônes sur fonds sombres */
+    --color-text-on-light:  #130F0A;                     /* libellés et icônes sur fonds clairs */
+
+    /* ===== Composants ===== */
+    --color-accent:           #A04243;                   /* bouton aide */
+    --color-btn-active-bg:    #130F0A;                   /* bouton contrainte sélectionné */
+    --color-btn-active-text:  var(--color-text-on-dark);
+    --color-actionbar-border: #e3c9af;                   /* liseré haut de la barre de contraintes */
+    --color-highlight-bg:     var(--color-actionbar-bg); /* exergue des mots sur le canvas (lu par main.js) */
+    --color-canvas-vignette:  rgba(19, 15, 10, 0.95);    /* dérivé de --color-canvas-bg */
+    --color-help-card-border: rgba(62, 50, 39, 0.4);     /* dérivé de --color-help-text */
+    --color-idle-veil:        rgba(19, 15, 10, 0.4);     /* voile du mode inactif, dérivé de --color-canvas-bg */
+
+    /* ===== Grilles (lues par main.js pour le canvas) ===== */
+    --color-grid-page:   rgba(18, 19, 23, 0.06);    /* lignes de grille — page gauche */
+    --color-grid-canvas: rgba(255, 255, 255, 0.06); /* lignes de grille — canvas */
+
+    /* ===== Moteur d'animation (défauts lus par scripts/algo_block.js,
+       réglables en direct via le panneau de contrôle) ===== */
+    --color-anim-physical:  #f0f0f0;   /* particules physiques */
+    --color-anim-highlight: #1a1a1a;   /* highlight des particules */
+    --color-anim-ephemeral: #6925e9;   /* plasma / cellules éphémères */
+    --color-anim-collision: #00ffcc;   /* étincelles de collision */
+
+    --font-ibm-plex-sans: IBM Plex Sans;
+}
+html
+{
+    height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+
+    background: var(--color-app-bg);
+    color: var(--color-text-original);
+    font-family: var(--font-ibm-plex-sans);
+    font-size: 24px;
+
+    display: flex;
+    width: 1920px;
+    height: 1080px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    background-color: var(--color-canvas-bg);
+    border-radius: 40px;
+}
+
+#ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: none;
+}
+
+#content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    height: calc(1080px - 120px);
+}
+
+.page {
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+#left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 80px;
+
+    background-color: var(--color-page-bg);
+    background-image:
+        linear-gradient(to right,  var(--color-grid-page) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--color-grid-page) 1px, transparent 1px);
+    background-size: var(--grid-spacing) var(--grid-spacing);
+    background-origin: border-box;
+}
+#left { position: relative; }
+#right { position: relative; overflow: hidden;}
+#overlay
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
+    -webkit-box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
+    -moz-box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
+}
+
+.text-content-original {
+    position: relative;
+    display: block;
+    width: 640px;
+    line-height: calc(var(--grid-spacing)*2);
+}
+
+.text-source {
+    display: block;
+    width: 640px;
+    margin-top: 48px;
+    font-size: 16px;
+    text-align: left;
+    color: var(--color-help-text);
+}
+
+#btn-help {
+    width: 120px;
+    flex-shrink: 0;
+    border: none;
+    background: var(--color-accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn-help .icon-question { display: flex; color: var(--color-help-bg); }
+#btn-help .icon-close { display: none; color: var(--color-accent); }
+
+#btn-help.active {
+    background: var(--color-help-bg);
+}
+
+#btn-help.active .icon-question { display: none; }
+#btn-help.active .icon-close { display: flex; }
+
+#action-bar {
+    background: var(--color-actionbar-bg);
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: stretch;
+    border-top: 1px solid var(--color-actionbar-border);
+}
+
+#contraintes {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-contrainte {
+    height: 60px;
+    padding: 10px 32px 12px 32px;
+    border: none;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 500;
+    font-size: 24px;
+    font-style: normal;
+    line-height: normal;
+    background: transparent;
+    color: var(--color-text-on-light);
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-contrainte.active {
+    background: var(--color-btn-active-bg);
+    color: var(--color-btn-active-text);
+    padding-bottom: 11px;
+}
+
+/* Rebond « jello » — appliqué à un bouton aléatoire, à cadence
+   légèrement irrégulière, une fois le mode inactif enclenché (main.js) */
+.btn-contrainte.jello {
+    animation: btn-idle-jello 0.8s both;
+}
+
+@keyframes btn-idle-jello {
+    0%   { transform: scale3d(1, 1, 1); }
+    30%  { transform: scale3d(0.75, 1.25, 1); }
+    40%  { transform: scale3d(1.25, 0.75, 1); }
+    50%  { transform: scale3d(0.85, 1.15, 1); }
+    65%  { transform: scale3d(1.05, 0.95, 1); }
+    75%  { transform: scale3d(0.95, 1.05, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+}
+
+/* Voile du mode inactif — assombrit tout sauf la barre d'action pour
+   mettre les boutons de contrainte en exergue (piloté par main.js) */
+#idle-veil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(1080px - 120px);   /* tout l'écran sauf la barre d'action */
+    background: var(--color-idle-veil);
+    opacity: 0;
+    transition: opacity 0.5s ease;  /* disparition rapide au retour de l'utilisateur */
+    pointer-events: none;
+    z-index: 25;                    /* au-dessus des pages et du panneau d'aide */
+}
+
+#idle-veil.visible {
+    opacity: 1;
+    transition: opacity 1.6s ease;  /* apparition lente et douce */
+}
+
+#help-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(1080px - 120px);
+    background: var(--color-help-bg);
+    z-index: 20;
+    padding: 80px;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#help-panel.open {
+    display: flex;
+}
+
+.help-main {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+#help-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#help-intro h1 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--color-help-text);
+    line-height: normal;
+}
+
+#help-intro p {
+    margin: 0;
+    font-size: 20px;
+    color: var(--color-help-text);
+    line-height: 1.5;
+    max-width: 960px;
+}
+
+#help-constraints-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+}
+
+.help-card {
+    padding: 48px;
+    border-top: 1px solid var(--color-help-card-border);
+    border-left: 1px solid var(--color-help-card-border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.help-card:nth-child(3n) {
+    border-right: 1px solid var(--color-help-card-border);
+}
+
+.help-card:nth-child(n+4) {
+    border-bottom: 1px solid var(--color-help-card-border);
+}
+
+.help-card h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-help-text);
+    line-height: normal;
+}
+
+.help-card p {
+    margin: 0;
+    font-size: 17px;
+    color: var(--color-help-text);
+    line-height: 1.6;
+}
+
+#help-legal {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-help-text);
+    font-weight: 400;
+    padding-top: 56px;
+}
+
+#help-legal > div {
+    flex: 1;
+    margin: 0;
+}
+
+#help-legal p {
+    margin: 0;
+}
+
+/* ==========================================
+   Actions sur les pages (renouveler / nouveau texte / itération)
+   ========================================== */
+
+#text-iteration {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    z-index: 10;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 300;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    color: var(--color-text-iteration);
+    text-transform: uppercase;
+}
+
+.btn-page-action {
+    position: absolute;
+    top: 12px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 64px;
+    padding: 2px 24px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 45px;
+    cursor: pointer;
+}
+
+#btn-renew-extract {
+    right: 24px;
+    color: var(--color-text-on-light);
+}
+
+#btn-renew-extract svg {
+    width: 20px;
+    height: 28px;
+    fill: var(--color-text-on-light);
+}
+
+#btn-new-text {
+    left: 24px;
+    color: var(--color-text-on-dark);
+}
+
+#btn-new-text svg {
+    width: 40px;
+    height: 40px;
+    fill: var(--color-text-on-dark);
+}
+
+.btn-page-action:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}

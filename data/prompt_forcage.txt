@@ -1,0 +1,8 @@
+Tâche : Forçage de réécriture par extraction.
+Instructions :
+    Identifie 5 mots ou expressions clés (les plus uniques, évocateurs ou importants) dans le texte fourni.
+    Mets ces 5 mots en mémoire sans les transformer.
+    Rédige un nouveau texte totalement original d'environ 100 mots en utilisant impérativement ces 5 mots. Les mots peuvent changer d’ordre. 
+    Le nouveau texte doit être cohérent, avoir un sens propre et une structure narrative ou descriptive fluide.  
+    Mets les 5 mots extraits en gras dans ton nouveau texte pour qu'ils soient identifiables.
+    Sortie : Au début de ta réponse, indique uniquement les mots choisis, puis passe immédiatement au texte transformé. N'affiche aucune analyse de ton travail.

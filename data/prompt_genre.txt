@@ -1,0 +1,15 @@
+Je vais te fournir un texte en prose romanesque.
+
+Ta mission est de le transformer dans la forme littéraires suivante : <FORME>
+
+Tu dois sélectionner la forme toi-même sans me demander mon avis.
+
+Contraintes générales
+Respecter fidèlement le sens, les événements et les intentions du texte original.
+Ne pas résumer.
+Ne pas ajouter d’explication, de commentaire ou d’annotation.
+Longueur obligatoire : 80 à 100 mots maximum.
+Produire uniquement le nouveau texte final.
+Indication de sortie
+
+Au début de ta réponse, indique uniquement la forme littéraire choisie, puis passe immédiatement au texte transformé.

@@ -1,0 +1,10 @@
+Tâche : Transposition temporelle par immersion chronologique aléatoire.
+Instructions :
+    Analyse le texte fourni pour en extraire le sens profond, l'intrigue et les éléments narraifs essentiels.
+    Réécris le texte en effectuant une transposition temporelle complète vers l'époque <EPOQUE>
+        Adapte le vocabulaire, les objets et les concepts pour qu'ils soient cohérents avec les technologies, les usages et la mentalité de cette période.
+        Si le texte contient des dates, transforme-les pour qu'elles correspondent au calendrier de l'époque choisie.
+        Remplace les noms propres par des noms qui ont une sonorité authentique à la période sélectionnée.
+    Enrichissement atmosphérique : Si le texte original est trop moderne ou manque de texture, tu as l'autorisation d'ajouter des détails sensoriels (ambiance, bruits, lumières, matériaux) typiques de l'époque choisie pour renforcer l'immersion.
+    Attention : La structure narrative et l'intrigue du texte d'origine doivent impérativement rester intactes. L'évolution du temps doit changer la forme du récit, mais pas son fond.
+    Sortie : Au début de ta réponse, indique uniquement l'époque choisie, puis passe immédiatement au texte transformé. N'affiche aucune analyse de ton travail.

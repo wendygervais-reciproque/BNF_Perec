@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Perec - Jeux d'écriture</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="content">
+        <div class="page" id="left">
+            <button id="btn-renew-extract" class="btn-page-action">
+                <svg viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.125 18.7092C0.708333 17.943 0.416667 17.1714 0.25 16.3945C0.0833333 15.6176 0 14.8248 0 14.016C0 11.2277 0.984375 8.82782 2.95312 6.81642C4.92188 4.80502 7.27083 3.79932 10 3.79932H11.3438L8.84375 1.24515L10.0625 0L14.7188 4.75713L10.0625 9.51425L8.8125 8.23717L11.2812 5.71494H10C7.77083 5.71494 5.85938 6.52908 4.26562 8.15735C2.67188 9.78563 1.875 11.7385 1.875 14.016C1.875 14.6332 1.93229 15.2185 2.04688 15.772C2.16146 16.3254 2.30208 16.8468 2.46875 17.3364L1.125 18.7092ZM9.875 28L5.21875 23.2429L9.875 18.4857L11.0938 19.7309L8.59375 22.2851H10C12.2292 22.2851 14.1406 21.4709 15.7344 19.8426C17.3281 18.2144 18.125 16.2615 18.125 13.984C18.125 13.3668 18.0729 12.7815 17.9688 12.2281C17.8646 11.6746 17.7083 11.1532 17.5 10.6636L18.8438 9.29076C19.2604 10.057 19.5573 10.8286 19.7344 11.6055C19.9115 12.3824 20 13.1752 20 13.984C20 16.7723 19.0156 19.1722 17.0469 21.1836C15.0781 23.195 12.7292 24.2007 10 24.2007H8.59375L11.0938 26.7548L9.875 28Z"/></svg>
+                Renouveler l'extrait
+            </button>
+            <div class="text-content-original">L'année suivante, Grégoire Simpson obtint une bourse dont le montant,
+                bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail.
+                Mais au lieu de se consacrer à ses études et de finir sa licence, il tomba alors dans une sorte de neurasthénie ;
+                une léthargie singulière dont apparemment rien ne parvint à le réveiller.
+            </div>
+            <div class="text-source">Georges Perec, <em>La Vie mode d'emploi</em>, 1978</div>
+        </div>
+        <div class="page" id="right">
+            <div id="text-iteration">Texte n° <span id="text-iteration-number">1</span></div>
+            <div id="overlay"></div>
+            <canvas id="gameCanvas"></canvas>
+            <button id="btn-new-text" class="btn-page-action">
+                Écrire un nouveau texte
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.08567 30C7.51256 30 7.02167 29.7957 6.613 29.387C6.20433 28.9783 6 28.4874 6 27.9143V12.0857C6 11.5126 6.20433 11.0217 6.613 10.613C7.02167 10.2043 7.51256 10 8.08567 10H31.9143C32.4874 10 32.9783 10.2043 33.387 10.613C33.7957 11.0217 34 11.5126 34 12.0857V27.9143C34 28.4874 33.7957 28.9783 33.387 29.387C32.9783 29.7957 32.4874 30 31.9143 30H8.08567ZM8.08567 28.3247H31.9143C32.0341 28.3247 32.1324 28.2862 32.2093 28.2093C32.2862 28.1324 32.3247 28.0341 32.3247 27.9143V12.0857C32.3247 11.9659 32.2862 11.8676 32.2093 11.7907C32.1324 11.7138 32.0341 11.6753 31.9143 11.6753H8.08567C7.96589 11.6753 7.86756 11.7138 7.79067 11.7907C7.71378 11.8676 7.67533 11.9659 7.67533 12.0857V27.9143C7.67533 28.0341 7.71378 28.1324 7.79067 28.2093C7.86756 28.2862 7.96589 28.3247 8.08567 28.3247ZM15.2153 26.2573H24.7847V24.223H15.2153V26.2573ZM11.089 21.6717H13.123V19.6377H11.089V21.6717ZM16.3443 21.6717H18.3787V19.6377H16.3443V21.6717ZM21.6213 21.6717H23.6557V19.6377H21.6213V21.6717ZM26.877 21.6717H28.911V19.6377H26.877V21.6717ZM11.089 17.095H13.123V15.0607H11.089V17.095ZM16.3443 17.095H18.3787V15.0607H16.3443V17.095ZM21.6213 17.095H23.6557V15.0607H21.6213V17.095ZM26.8127 17.159H28.847V15.1247H26.8127V17.159Z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div id="help-panel">
+        <div class="help-main">
+            <div id="help-intro">
+                <h1>Perec — Jeux d'écriture</h1>
+                <p>À partir d'un extrait de <em>La Vie mode d'emploi</em> de Georges Perec, six contraintes d'écriture — inspirées des pratiques oulipistes — transforment le texte source. Explorez comment la forme modifie le sens, et comment une même matière narrative peut donner naissance à des textes radicalement différents.</p>
+            </div>
+            <div id="help-constraints-grid">
+                <div class="help-card">
+                    <h2>Changement d'époque</h2>
+                    <p>Réécriture du texte source dans une autre période historique. Le vocabulaire, les références culturelles et les réalités sociales sont adaptés à l'époque choisie.</p>
+                </div>
+                <div class="help-card">
+                    <h2>Mots imposés</h2>
+                    <p>Réécriture intégrant des mots ou expressions imposés (mis en valeur). Le texte absorbe naturellement ces éléments sans que leur présence semble artificielle.</p>
+                </div>
+                <div class="help-card">
+                    <h2>Haïku</h2>
+                    <p>Condensation en une forme poétique japonaise de trois vers. L'essentiel de la scène est capturé dans l'économie des mots et la juxtaposition des images.</p>
+                </div>
+                <div class="help-card">
+                    <h2>Synonymes</h2>
+                    <p>Réécriture dans laquelle les mots clés (mis en valeur) sont remplacés par des synonymes ou périphrases équivalentes, en conservant la structure narrative du texte original.</p>
+                </div>
+                <div class="help-card">
+                    <h2>Changement de lieu</h2>
+                    <p>Réécriture déplaçant l'action dans une autre géographie. L'atmosphère, les noms propres et les références culturelles sont adaptés au nouvel environnement choisi.</p>
+                </div>
+                <div class="help-card">
+                    <h2>Changement de genre littéraire</h2>
+                    <p>Réécriture selon les codes d'un autre genre littéraire (théâtre, discours, poésie, lettre...) avec ses conventions formelles et sa posture narrative spécifiques.</p>
+                </div>
+            </div>
+        </div>
+        <div id="help-legal">
+            <div>
+                <p>MENTIONS LÉGALES - Pulvinar ultricies risus erat dignissim ultricies ac erat nisl volutpat. Aenean platea faucibus vestibulum justo nullam risus facilisi nulla commodo. Ultricies amet lacus mollis pretium feugiat orci. Dolor in ornare dolor rutrum. Sed purus massa elementum non feugiat. Aenean arcu nulla mattis magna sit. Etiam sit donec vivamus sed nascetur fusce. Eu suspendisse in tempus vitae. Ut amet netus purus mus pretium amet phasellus. Elit quis ac sit turpis tristique eu. Quis eu mattis massa consequat vulputate in habitant eros. Mauris massa egestas sagittis vulputate donec integer laoreet.</p>
+            </div>
+            <div>
+                <p>In justo adipiscing semper eget enim mauris elit felis lacus. Non sit nam velit duis ut ut. Risus adipiscing vulputate rhoncus integer ullamcorper erat tellus nulla. Maecenas diam suscipit tincidunt fringilla. Ultrices viverra egestas scelerisque a integer arcu. Nec dui et lectus vestibulum. Quis molestie praesent mauris proin est purus nulla. Lorem volutpat ac pellentesque enim.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="idle-veil"></div>
+
+    <div id="action-bar">
+        <button id="btn-help">
+            <svg class="icon-question" viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="32"><path d="M9.52382 32C11.1018 32 12.381 30.7359 12.381 29.1765C12.381 27.6171 11.1018 26.3529 9.52382 26.3529C7.94587 26.3529 6.66668 27.6171 6.66668 29.1765C6.66668 30.7359 7.94587 32 9.52382 32Z" fill="currentColor"/><path d="M11.4286 2.10102e-05H8.57144C7.44512 -0.00246076 6.3294 0.214944 5.28833 0.639752C4.24727 1.06456 3.30136 1.6884 2.50493 2.47546C1.7085 3.26252 1.07723 4.1973 0.647367 5.22612C0.217502 6.25494 -0.00249005 7.35753 2.12605e-05 8.4706V9.41178H3.80954V8.4706C3.80954 7.22253 4.31124 6.02557 5.20427 5.14304C6.0973 4.26052 7.30851 3.76472 8.57144 3.76472H11.4286C12.6915 3.76472 13.9027 4.26052 14.7958 5.14304C15.6888 6.02557 16.1905 7.22253 16.1905 8.4706C16.1905 9.71868 15.6888 10.9156 14.7958 11.7982C13.9027 12.6807 12.6915 13.1765 11.4286 13.1765H7.61906V21.6471H11.4286V16.9412C13.7019 16.9412 15.882 16.0487 17.4895 14.4602C19.0969 12.8717 20 10.7171 20 8.4706C20 6.22406 19.0969 4.06954 17.4895 2.481C15.882 0.892455 13.7019 2.10102e-05 11.4286 2.10102e-05Z" fill="currentColor"/></svg>
+            <svg class="icon-close" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M28.3429 32L16 19.6571L3.65714 32L0 28.3429L12.3429 16L0 3.65714L3.65714 0L16 12.3429L28.3429 0L32 3.65714L19.6571 16L32 28.3429L28.3429 32Z" fill="currentColor"/></svg>
+        </button>
+        <div id="contraintes">
+            <button class="btn-contrainte" data-id="changement_epoque">Changement d'époque</button>
+            <button class="btn-contrainte" data-id="forcage">Mots imposés</button>
+            <button class="btn-contrainte" data-id="haiku">Haïku</button>
+            <button class="btn-contrainte" data-id="homosemantique">Synonymes</button>
+            <button class="btn-contrainte" data-id="changement_lieu">Changement de lieu</button>
+            <button class="btn-contrainte" data-id="changement_genre_litteraire">Changement de genre littéraire</button>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

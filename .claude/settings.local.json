@@ -19,7 +19,14 @@
       "Bash(npm install *)",
       "Bash(node shot.mjs)",
       "Bash(pkill -f \"http.server 8123\")",
-      "Bash(rm -f /tmp/shot.mjs /tmp/shot2.mjs /tmp/help-panel.png /tmp/main-view.png /tmp/after-click.png)"
+      "Bash(rm -f /tmp/shot.mjs /tmp/shot2.mjs /tmp/help-panel.png /tmp/main-view.png /tmp/after-click.png)",
+      "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__get_metadata",
+      "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__whoami",
+      "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__get_design_context",
+      "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__use_figma",
+      "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__get_screenshot",
+      "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__get_variable_defs",
+      "Bash(/c/Users/simon/AppData/Local/Programs/Python/Python312/python.exe -c ' *)"
     ]
   }
 }
