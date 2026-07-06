@@ -13,7 +13,7 @@ canvas.height = container.clientHeight;
 // 1. INVARIANTS ET PARAMÈTRES
 // ==========================================
 const cellSize = 3;
-const colorHighlightBg = '#15b1b1f6';
+const colorHighlightBg = '#CC9F72';
 let currentHighlightBgPixels = [];
 let highlightBgPath = new Path2D();
 
@@ -135,7 +135,9 @@ function applyKeywordHighlighting(text, contexte) {
 // ==========================================
 const constraintButtons = document.querySelectorAll('.btn-contrainte');
 const btnShow = document.getElementById('btn-show');
+const textIterationNumber = document.getElementById('text-iteration-number');
 let selectedText = null;
+let textIteration = 1;
 
 constraintButtons.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -157,6 +159,9 @@ constraintButtons.forEach(btn => {
     pendingText = null;
 
     if (btnShow) btnShow.disabled = false;
+
+    textIteration += 1;
+    if (textIterationNumber) textIterationNumber.textContent = textIteration;
   });
 });
 
@@ -174,9 +179,32 @@ if (btnHelp && helpPanel) {
   btnHelp.addEventListener('click', () => {
     const isOpen = helpPanel.classList.toggle('open');
     btnHelp.classList.toggle('active', isOpen);
-    btnHelp.textContent = isOpen ? '×' : '?';
   });
 }
+
+// ==========================================
+// 6. ÉTAT IDLE DES BOUTONS CONTRAINTE
+// ==========================================
+const contraintesEl = document.getElementById('contraintes');
+const IDLE_DELAY_MS = 15000;
+
+constraintButtons.forEach((btn, i) => {
+  btn.style.setProperty('--btn-shimmer-index', i);
+});
+
+let idleTimer = null;
+
+function resetIdleTimer() {
+  contraintesEl.classList.remove('idle');
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => contraintesEl.classList.add('idle'), IDLE_DELAY_MS);
+}
+
+['mousemove', 'mousedown', 'keydown', 'click', 'touchstart'].forEach(evt => {
+  document.addEventListener(evt, resetIdleTimer, { passive: true });
+});
+
+resetIdleTimer();
 
 // LANCEMENT INITIAL
 Algo.getGridDimensions(canvas.width, canvas.height, cellSize);
