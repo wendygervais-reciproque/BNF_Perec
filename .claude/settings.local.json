@@ -26,7 +26,8 @@
       "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__use_figma",
       "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__get_screenshot",
       "mcp__09af441b-5f9c-443e-8522-c5c4609f94bd__get_variable_defs",
-      "Bash(/c/Users/simon/AppData/Local/Programs/Python/Python312/python.exe -c ' *)"
+      "Bash(/c/Users/simon/AppData/Local/Programs/Python/Python312/python.exe -c ' *)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

@@ -333,6 +333,33 @@ canvas {
     margin: 0;
 }
 
+/* Cartouche du paramètre de contrainte (lieu, époque, genre) — suspendu
+   en haut de la page générée, cf. maquette Figma « A2.2 Vue principale » */
+#constraint-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 32px 48px;
+    border-radius: 0 0 40px 40px;
+    background: var(--color-btn-active-bg);
+    color: var(--color-btn-active-text);
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#constraint-badge[hidden] {
+    display: none;
+}
+
 /* ==========================================
    Actions sur les pages (renouveler / nouveau texte / itération)
    ========================================== */

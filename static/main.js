@@ -129,10 +129,15 @@ let currentTextId = null;    // extrait actuellement affiché page gauche
 let activeConstraintId = null;
 let generationToken = 0;     // invalide les réponses des générations abandonnées
 let fallbackContraintes = null;
+let fallbackTextes = null;
 
-// Textes de secours pré-écrits, utilisés si le LLM est injoignable
+// Textes de secours pré-générés, utilisés si le LLM est injoignable.
+// "textes" : un texte par couple (extrait, contrainte), produit par
+// generate_secours.py ; "contraintes" : anciens textes génériques, gardés
+// en dernier recours si un couple manque.
 try {
-  ({ contraintes: fallbackContraintes } = await (await fetch('/textes_secours.json')).json());
+  ({ contraintes: fallbackContraintes, textes: fallbackTextes } =
+    await (await fetch('/textes_secours.json')).json());
 } catch (e) {
   console.warn('Textes de secours indisponibles :', e);
 }
@@ -161,15 +166,38 @@ function markdownBoldToHighlight(text) {
   return text.replace(/\*\*([^*]+)\*\*/g, '*$1*');
 }
 
-function getFallbackText(constraintId) {
-  if (!fallbackContraintes) return null;
-  const contrainte = fallbackContraintes.find(c => c.id === constraintId);
+// Contraintes à variable aléatoire : libellé du cartouche affiché sur la
+// page générée (le serveur fournit le sien via data.variable ; cette table
+// sert pour les textes de secours, où seule la valeur est stockée)
+const BADGE_LABELS = {
+  changement_epoque: 'Époque',
+  changement_lieu: 'Lieu',
+  changement_genre_litteraire: 'Genre',
+};
+
+function getFallback(constraintId, textId) {
+  // Texte propre au couple (extrait, contrainte) : le gras y est déjà
+  // en markdown, comme dans une réponse du LLM.
+  const entry = fallbackTextes?.[textId]?.[constraintId];
+  const badgeLabel = BADGE_LABELS[constraintId];
+  if (entry?.texte) {
+    return {
+      text: markdownBoldToHighlight(entry.texte),
+      variable: badgeLabel ? { label: badgeLabel, value: entry.contexte } : null,
+    };
+  }
+
+  // Dernier recours : texte générique de la contrainte, sans lien avec l'extrait
+  const contrainte = fallbackContraintes?.find(c => c.id === constraintId);
   if (!contrainte) return null;
   let text = contrainte.texte;
   if (constraintId === 'forcage' || constraintId === 'homosemantique') {
     text = applyKeywordHighlighting(text, contrainte.contexte);
   }
-  return text;
+  return {
+    text,
+    variable: badgeLabel ? { label: badgeLabel, value: contrainte.contexte } : null,
+  };
 }
 
 // Aligne le haut de l'em box du texte gauche sur la grille
@@ -207,12 +235,29 @@ async function loadRandomExtract() {
   }
 }
 
-function queueTextForDisplay(text) {
+// Cartouche du paramètre (lieu, époque, genre) en haut de la page générée
+const constraintBadgeEl = document.getElementById('constraint-badge');
+const badgeLabelEl = document.getElementById('constraint-badge-label');
+const badgeValueEl = document.getElementById('constraint-badge-value');
+
+function setConstraintBadge(variable) {
+  if (!constraintBadgeEl) return;
+  if (variable?.value) {
+    badgeLabelEl.textContent = `${variable.label} :`;
+    badgeValueEl.textContent = variable.value;
+    constraintBadgeEl.hidden = false;
+  } else {
+    constraintBadgeEl.hidden = true;
+  }
+}
+
+function queueTextForDisplay(text, variable = null) {
   if (currentState !== STATE_CHAOS) {
     Algo.startChaos();
     currentState = STATE_CHAOS;
   }
   pendingText = text;
+  setConstraintBadge(variable);
   textIteration += 1;
   if (textIterationNumber) textIterationNumber.textContent = textIteration;
 }
@@ -227,8 +272,10 @@ async function generate() {
     currentState = STATE_CHAOS;
   }
   pendingText = null;
+  setConstraintBadge(null); // l'ancien texte se dissout, sa mention avec
 
   let text = null;
+  let variable = null;
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), GENERATION_TIMEOUT_MS);
@@ -242,13 +289,14 @@ async function generate() {
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Erreur serveur');
     text = markdownBoldToHighlight(data.answer);
+    variable = data.variable;
   } catch (e) {
     console.warn('Génération IA indisponible, texte de secours utilisé :', e);
-    text = getFallbackText(activeConstraintId);
+    ({ text, variable } = getFallback(activeConstraintId, currentTextId) ?? {});
   }
 
   if (token !== generationToken) return; // une génération plus récente a pris la main
-  if (text) queueTextForDisplay(text);
+  if (text) queueTextForDisplay(text, variable);
 }
 
 // ==========================================

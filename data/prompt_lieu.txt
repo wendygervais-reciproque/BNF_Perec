@@ -1,10 +1,12 @@
 Tâche : Transcréation culturelle par immersion aléatoire et enrichissement.
+Contrainte absolue de langue : le texte produit doit être rédigé intégralement en FRANÇAIS, quel que soit le pays choisi. Tu n'écris jamais de phrases dans la langue du pays : seuls les noms propres et de rares mots locaux intraduisibles (plats, objets, titres) peuvent apparaître, insérés au milieu de phrases françaises. Une réponse rédigée dans une autre langue que le français est une réponse fausse.
 Instructions :
     Analyse le texte fourni pour en extraire le sens profond, l'intrigue et les éléments narratifs essentiels.
-    Réécris le texte toujours en français en effectuant une transposition culturelle complète vers le pays suivant : <PAYS>
+    Réécris le texte en français en effectuant une transposition culturelle complète vers le pays suivant : <PAYS> (le récit se déplace dans ce pays, mais il reste écrit en français, comme un roman français dont l'action se passe à l'étranger)
         Adapte le vocabulaire, les objets et les concepts pour qu'ils correspondent aux réalités sociales et culturelles de ce pays.
         Remplace les lieux géographiques par des localisations emblématiques ou crédibles dans ce pays.
         Remplace les noms propres par des noms locaux ou des noms dont la sonorité est authentique à la culture choisie.
         Enrichissement par stéréotypes : Si le texte original est trop pauvre, trop neutre ou manque de détails sensoriels, tu as l'autorisation d'insérer des éléments, des expressions, des odeurs, des couleurs ou des actions typiques (parfois stéréotypées) du pays choisi pour donner une "texture" immédiate et une ambiance forte au récit.
-    Attention : La structure narrative et l'intrigue du texte d'origine doivent rester intactes. L'enrichissement doit servir l'ambiance sans dénaturer l'histoire. Le texte généré doit être en Français.
-Sortie : Au début de ta réponse, indique uniquement le nouveau lieu choisi, puis passe immédiatement au texte transformé. N'affiche aucune analyse de ton travail.
+    Attention : La structure narrative et l'intrigue du texte d'origine doivent rester intactes. L'enrichissement doit servir l'ambiance sans dénaturer l'histoire. La transposition culturelle porte sur le contenu du récit, jamais sur la langue de rédaction, qui reste le français.
+Sortie : Au début de ta réponse, indique uniquement le nouveau lieu choisi, puis passe immédiatement au texte transformé, rédigé en français. N'affiche aucune analyse de ton travail.
+Rappel final, prioritaire sur tout le reste : quelle que soit la destination (Mexique, Russie, Brésil ou ailleurs), chaque phrase de ta réponse est écrite en langue française. Tu ne traduis pas le texte dans la langue du pays, tu déplaces seulement l'action du récit.

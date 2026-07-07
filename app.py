@@ -21,6 +21,32 @@ THINK_RE = re.compile(
 # gras dans le texte, d'où ce nettoyage a posteriori.
 WORD_LIST_RE = re.compile(r"^(?:\s*\*\*[^*\n]+\*\*\s*[,;.:]?[ \t]*)+\n+")
 
+# Garde-fou de langue : le modèle bascule parfois dans la langue du pays
+# (contrainte changement_lieu, surtout avec l'espagnol). On mesure la densité
+# de mots-outils typiquement français ; un texte français en contient ≥ 14 %,
+# un texte dans une autre langue ≤ 3 %. Sous le seuil, on redemande une
+# réponse. Trop grossier pour les textes courts (haïkus ≈ 0 %), donc activé
+# par contrainte via "check_french".
+FRENCH_STOPWORDS = frozenset(
+    "le les des du et est une dans pour avec ne pas au aux ce cette qui elle "
+    "était avait mais où sur son ses leur par comme plus ils sont être très "
+    "même".split()
+)
+FRENCH_RATIO_MIN = 0.10
+RETRY_FRENCH_PREFIX = (
+    "RAPPEL CRITIQUE : ta précédente réponse à cette tâche était rédigée "
+    "dans la langue du pays au lieu du français. C'est interdit. Réponds "
+    "cette fois intégralement en langue française, du premier au dernier "
+    "mot.\n\n"
+)
+
+
+def french_ratio(text: str) -> float:
+    words = re.findall(r"\w+", text.lower(), re.UNICODE)
+    if not words:
+        return 0.0
+    return sum(w in FRENCH_STOPWORDS for w in words) / len(words)
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).parent
@@ -47,6 +73,7 @@ CONSTRAINTS = {
         "file": "prompt_epoque.txt",
         "placeholder": "<EPOQUE>",
         "choices": EPOQUES,
+        "badge": "Époque",
     },
     "forcage": {
         "label": "Mots imposés",
@@ -65,14 +92,83 @@ CONSTRAINTS = {
         "file": "prompt_lieu.txt",
         "placeholder": "<PAYS>",
         "choices": COUNTRIES,
+        "check_french": True,
+        "badge": "Lieu",
     },
     "changement_genre_litteraire": {
         "label": "Changement de genre littéraire",
         "file": "prompt_genre.txt",
         "placeholder": "<FORME>",
         "choices": FORMES,
+        "badge": "Genre",
     },
 }
+
+# Les prompts à variable demandent au modèle d'annoncer le paramètre choisi
+# (lieu, époque, forme) en première ligne de sa réponse. Cette mention est
+# désormais affichée par le front dans un cartouche HTML : on la retire donc
+# du texte destiné au canvas. Garde-fou de longueur : si la première ligne
+# est anormalement longue, c'est du récit, on n'y touche pas.
+MENTION_MAX_LEN = 80
+
+
+def strip_leading_mention(answer: str) -> str:
+    first, sep, rest = answer.partition("\n")
+    if sep and len(first.strip()) <= MENTION_MAX_LEN and rest.strip():
+        return rest.strip()
+    return answer
+
+
+def badge_value(selected: str) -> str:
+    """Libellé court pour le cartouche : les formes littéraires sont décrites
+    ("théâtre tragédie : ton solennel, …"), on ne garde que le nom."""
+    return selected.split(":")[0].strip()
+
+
+# Dernier paramètre tiré pour chaque contrainte à variable (pays, époque,
+# forme) : on l'exclut du tirage suivant pour que deux générations
+# successives d'une même contrainte ne retombent jamais sur la même valeur.
+_last_choices: dict[str, str] = {}
+
+
+def pick_choice(constraint_id: str, constraint: dict) -> str:
+    last = _last_choices.get(constraint_id)
+    candidates = [c for c in constraint["choices"] if c != last]
+    selected = random.choice(candidates or constraint["choices"])
+    _last_choices[constraint_id] = selected
+    return selected
+
+
+def generate_answer(client: OpenAI, model: str, prompt: str,
+                    check_french: bool = False) -> tuple[str, str]:
+    """Appelle le LLM et renvoie (réponse brute, réponse nettoyée).
+
+    Si check_french est actif et que la réponse ne semble pas française,
+    on réessaie (conversation vierge, rappel en tête de prompt) : renvoyer
+    la mauvaise réponse dans l'historique ancre le modèle dans sa langue.
+    """
+    raw_answer = answer = ""
+    for attempt in (1, 2, 3):
+        content = prompt if attempt == 1 else RETRY_FRENCH_PREFIX + prompt
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": content}],
+            extra_body={
+                "chat_template_kwargs": {"enable_thinking": False},
+                "reasoning_effort": "low",
+            },
+        )
+        raw_answer = response.choices[0].message.content or ""
+        answer = THINK_RE.sub("", raw_answer).strip()
+        answer = WORD_LIST_RE.sub("", answer).strip()
+        if not check_french or french_ratio(answer) >= FRENCH_RATIO_MIN:
+            break
+        logging.warning(
+            "Réponse non française (ratio %.0f%%, tentative %d) : %.60r",
+            french_ratio(answer) * 100, attempt, answer,
+        )
+    return raw_answer, answer
+
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
@@ -128,8 +224,9 @@ def generate():
     constraint_text = read_file(DATA_DIR / constraint["file"])
     source_text = read_file(text_path)
 
+    selected = None
     if "placeholder" in constraint:
-        selected = random.choice(constraint["choices"])
+        selected = pick_choice(constraint_id, constraint)
         logging.info(
             "Variable '%s' pour la contrainte '%s' : %s",
             constraint["placeholder"], constraint_id, selected,
@@ -144,31 +241,28 @@ def generate():
     client = OpenAI(base_url=base_url, api_key=api_key)
 
     try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            extra_body={
-                "chat_template_kwargs": {"enable_thinking": False},
-                "reasoning_effort": "low",
-            },
+        raw_answer, answer = generate_answer(
+            client, model, prompt, constraint.get("check_french", False)
         )
     except Exception as exc:
         logging.exception("Appel LLM échoué")
         return jsonify({"error": f"LLM injoignable : {exc}"}), 502
 
-    raw_answer = response.choices[0].message.content or ""
     thinking = "\n\n".join(
         m.group(1).strip() for m in THINK_RE.finditer(raw_answer)
     )
-    answer = THINK_RE.sub("", raw_answer).strip()
-    answer = WORD_LIST_RE.sub("", answer).strip()
+    variable = None
+    if selected is not None:
+        answer = strip_leading_mention(answer)
+        variable = {"label": constraint["badge"], "value": badge_value(selected)}
     return jsonify({
         "prompt": prompt,
         "answer": answer,
         "raw_answer": raw_answer,
         "thinking": thinking,
+        "variable": variable,
     })
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=int(os.environ.get("PORT", 5001)))

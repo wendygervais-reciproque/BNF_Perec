@@ -36,5 +36,865 @@
       "contexte": "Épistolaire",
       "texte": "Ma chère amie,\n\nGrégoire a obtenu cette bourse l'an dernier. Certes, elle est modeste, mais suffisante pour lui éviter de travailler. Pourtant, au lieu de poursuivre sa licence, il s'est laissé emporter par une neurasthénie profonde. C’est une léthargie singulière qui l'enveloppe, un sommeil de l'âme dont rien ne semble pouvoir le tirer. Je le regarde s'enfoncer dans cet état avec une impuissance totale. Il semble s'être retiré du monde, et malgré tous nos efforts, rien ne parvient à le réveiller de cette torpeur accablante. Je m'inquiète sincèrement."
     }
-  ]
+  ],
+  "textes": {
+    "01": {
+      "haiku": {
+        "contexte": null,
+        "texte": "Nuit, un petit son,\nLe marteau frappe la tenture,\nRats dans la chambre."
+      },
+      "changement_epoque": {
+        "contexte": "Antiquité",
+        "texte": "Une nuit, le vieux charron fut réveillé par de minuscules gémissements qui semblaient émaner de la chambre. Il s'imagina que le sage sorcier avait dompté un des rongeurs et lui avait appris à manier les horloges. Il se leva, prit dans sa trousse d'outils qui ne le quittait jamais un petit marteau, pénétra dans la chambre, s'approcha avec la plus grande prudence de la tenture et frappa avec force à l'endroit d'où le bruit semblait lui parvenir."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le vieux **cocher** fut troublé par des **couinements** étranges émanant de la pièce. Il se demanda si un **savant démoniaque** avait réussi à domestiquer un rat pour lui apprendre à manier des montres. Armé de son **marteau**, il pénétra prudemment dans la chambre sombre. Il s'approcha de la **tenture**, prêt à découvrir la source de cette agitation nocturne."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "cocher, couinements, rats, marteau, chambre\n\nUne nuit, le **vieux cocher** fut réveillé par de **minuscules couinements** qui semblaient provenir de la **chambre**. Il s'imagina que le savant démoniaque avait apprivoisé un de ses **rats** et lui avait appris à aller chercher les montres. Il se leva, prit dans la trousse à outils qui ne le quittait jamais un petit **marteau**, pénétra dans la **chambre**, s'approcha le plus doucement possible de la tenture et frappa violemment à l'endroit d'où le bruit semblait lui parvenir."
+      },
+      "changement_lieu": {
+        "contexte": "Chine",
+        "texte": "Une nuit, le vieux charretteur fut réveillé par de minuscules couinements qui semblaient provenir de la chambre. Il s'imagina que le savant démoniaque avait apprivoisé un de ses rats et lui avait appris à aller chercher les montres. Il se leva, prit dans la trousse à outils qui ne le quittait jamais un petit marteau, pénétra dans la chambre, s'approcha le plus doucement possible de la tenture et frappa violemment à l'endroit d'où le bruit semblait lui parvenir."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "poétique",
+        "texte": "Nuit tissée, le vieux cocher éveille.\nDes murmures minuscules, couinements légers,\ns'échappent de la chambre.\nIl rêve du savant démoniaque,\nqui a dompté un rat,\nlui a enseigné le chemin des montres.\nLe corps s'éveille.\nLa trousse, fidèle compagne,\nporte le marteau.\nIl pénètre l'ombre,\ns'approche de la tenture,\net frappe l'écho du secret."
+      }
+    },
+    "02": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Le Duc de Gleichen fut capturé lors d'une confrontation contre les Sarrasins, et il fut jugé coupable et condamné à l'esclavage. Alors qu'il fut mobilisé pour entretenir les parterres du sérail, la fille du Sultan le remarqua. Elle jugea qu'il était un homme de valeur, développa un attachement profond pour lui, et lui proposa d'aider à sa libération en échange de son mariage."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le **comte**, capturé lors du conflit contre les **Sarrasins**, trouva refuge dans les **jardins** luxuriants du sérail. Là, sa fille, admirant sa noblesse, développa un profond **amour**. Elle lui promit de faciliter son **évasion**, offrant une voie vers une liberté qu'il n'avait jamais imaginée. Ce secret, tissé dans la verdure, devint le moteur de leur espoir face à l'adversité."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Jardin et chaîne,\nAmour pour la liberté,\nÉvasion offerte."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "comte de Gleichen, combat, esclavage, travaux des jardins, fille du sultan\n\nLe **seigneur** de Gleichen fut **retenu** dans une **lutte** contre les Sarrasins, et **sentencié** à la servitude. Comme il fut **mis au service** des parcelles du sérail, la **descendante** du sultan le **constata**. Elle jugea qu'il était **personne de valeur**, développa un sentiment d'affection pour lui, et lui proposa de faciliter sa fuite s'il souhaitait l'épouser."
+      },
+      "changement_lieu": {
+        "contexte": "Japon",
+        "texte": "Le *kōdō* de Gleichen fut capturé lors d'un affrontement contre les *Sarrasin*, et il fut condamné à la servitude. Alors qu'il était engagé dans l'entretien des jardins du *serail*, la fille du sultan le remarqua. Elle jugea qu'il était un homme de grande valeur, conçut un sentiment profond pour lui, et lui offrit de faciliter son échappée s'il souhaitait l'épouser."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Écoutez la vérité de notre histoire ! Le comte de Gleichen, victime d'un conflit, fut réduit à l'esclavage ! Mais même dans l'adversité, la noblesse demeure ! La fille du Sultan, voyant la dignité de cet homme, a su discerner le potentiel ! Elle a reconnu en lui un homme de valeur ! Elle a offert une alliance, une voie vers la liberté ! Nous devons saisir cette opportunité ! La reconnaissance de la qualité humaine est le fondement de notre avenir ! Agissons avec vision !"
+      }
+    },
+    "03": {
+      "changement_epoque": {
+        "contexte": "Antiquité",
+        "texte": "Cet homme — Cassius, fils de Lucius — fut la victime d'une des plus célèbres fraudes de tous les temps : deux charlatans de génie lui vendirent, au temps de l'an deux mille huit cent soixante-seize, le jarre dans lequel D'Arimathie avait recueilli le sang du Messie. La femme — une conteuse de la cité, nommée Lyra — a entrepris depuis trois années de reconstituer cette affaire sombre pour en faire la matière de son prochain rouleau."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'ombre des **escroqueries** planait sur la vie de **James Sherwood**. Elle était le cœur d'une histoire sombre, un mystère que seule la persévérance pouvait éclaircir. La quête de la vérité reposait sur la découverte du **vase** sacré, objet dont l'origine remonte à **D'Arimathie**. Cette affaire, d'une nature profondément **ténébreuse**, devenait le sujet central de l'œuvre de la romancière. Elle s'efforçait de dénouer les fils complexes de cette légende oubliée, cherchant à révéler les secrets enfouis sous le silence."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Vase du Christ,\nArnaqueurs volent le temps,\nLivre prend la noirceur."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "James Sherwood, arnaqueurs de génie, le vase, Ursula Sobieski\n\nCe **individu** — James Sherwood — fut la victime d'une des plus célèbres **fraudes** de tous les temps : deux **escrocs ingénieux** lui vendirent, en mille huit cent quatre-vingt-seize, le **récipient** dans lequel D'Arimathie avait recueilli le sang du Christ. La femme — une **auteure de romans** américaine nommée Ursula Sobieski — a entrepris depuis trois ans de reconstituer cette **affaire sombre** pour en faire la matière de son prochain livre."
+      },
+      "changement_lieu": {
+        "contexte": "Japon",
+        "texte": "Cet homme, Kenji Tanaka, fut la victime d'une des escroqueries les plus célèbres de tous les temps : deux maîtres du mensonge lui vendirent, en mille huit cent quatre-vingt-seize, le *chawan* dans lequel D'Arimathie avait recueilli le sang du Christ. La femme — une *shōsetsu* américaine nommée Akari Sato — a entrepris depuis trois ans de reconstituer cette affaire sombre pour en faire la matière de son prochain roman, en cherchant l'écho des *geisha* de Gion."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre tragédie",
+        "texte": "(Scène d'ouverture)\n\nLe destin frappe James Sherwood ! Deux serpents, d'esprit cruel, lui vendirent, en mille huit cent quatre-vingt-seize, le vase sacré où D'Arimathie déposa le sang du Christ. Ursula Sobieski, romancière, tressaille depuis trois ans, cherchant à dénicher cette noirceur pour son prochain ouvrage. La fatalité s'abat sur l'âme !"
+      }
+    },
+    "04": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Pendant vingt cycles, de l'an 2040 à l'an 2060, le Maître Bartlebooth, revenu sur le continent, reconstituerait, dans l'ordre chronologique, les modules de construction préparés, à raison d'un nouveau module tous les deux semaines. À mesure que les modules seraient réassemblés, les unités navales seraient « retexturées » par des nano-agents afin de pouvoir les décoller de leur substrat, les transporter à l'emplacement exact où — vingt cycles auparavant — elles avaient été imprimées, et les immerger dans une solution détergente d'où ne ressortirait qu'une feuille de papier synthétique, intacte et vierge."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le vieil artisan, **Bartlebooth**, s'attaquait à la complexité des **puzzles** avec une précision méticuleuse. Chaque quinze jours, il réassemblait une pièce, préparant une œuvre d'art temporaire. Les marines étaient ensuite **retexturées** avec soin, une étape cruciale pour pouvoir les **décoller** de leur support originel. Ce processus révélaient ensuite un papier absolument **vierge**, témoin silencieux d'une transformation parfaite."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Papier vierge attend,\nMarines retexturées,\nVingt ans reviennent."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Puzzles, Bartlebooth, reconstituerait, marines, solution détersive, feuille de papier Whatman\n\nDurant deux décennies, de 1955 à 1975, Bartlebooth, réintégré en France, remettrait en ordre, séquentiellement, un puzzle à raison d'un puzzle toutes les deux semaines. Tandis que les assemblages de puzzles seraient réorganisés, les unités navales seraient « retexturées » de façon à ce qu'on puisse les séparer de leur support, acheminées au lieu exact où — vingt années auparavant — elles avaient été colorées, et immergées dans un agent nettoyant d'où ne serait extraite qu'une feuille de papier Whatman, non altérée et vierge."
+      },
+      "changement_lieu": {
+        "contexte": "Kenya",
+        "texte": "Pendant vingt années, de 1955 à 1975, après être revenu au Kenya, Bartlebooth reconstituerait, dans l'ordre, les énigmes préparées, à raison d'un puzzle tous les quinze jours. À mesure que les pièces seraient réassemblées, les tissus seraient « retexturés » de manière à ce qu'on puisse les décoller de leur support, transportés à l'endroit même où — vingt ans auparavant — ils avaient été teints, et plongés dans une solution détergente d'où ne ressortirait qu'une feuille de papier *Whatman*, intacte et vierge."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Écoutez la vision ! Durant vingt années, de 1955 à 1975, Bartlebooth a œuvré ! Il a reconstitué, méthodiquement, les puzzles préparés, quinze jours d'un puzzle ! Puis, les marines ont été retexturées ! Nous les décollons de leur support, les transportons là où elles ont été peintes il y a vingt ans, et nous les submergeons dans une solution détergente ! Le résultat ? Une feuille de papier Whatman, intacte, vierge ! C'est la pureté que nous réclamons ! C'est la vérité que nous imposons !"
+      }
+    },
+    "05": {
+      "changement_epoque": {
+        "contexte": "Moyen Âge",
+        "texte": "Il y a près de six années, votre fille, dont on nommait Véronique Lambert, fut mise au service d'un mois comme domestique chez ma femme, celle-ci étant alitée et désirant qu'une personne veille sur notre fils Erik, qui n'avait qu'à peine cinq ans. Le vendredi, le onzième jour du mois de juin, en l'an de grâce quarante-trois (si l'on suit le compte des années depuis la fondation de notre lignée), pour des raisons que je ne saurais éclaircir, volontairement ou par inadvertance, elle laissa notre enfant périr dans les eaux."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "**Véronique Lambert**, engagement, malade, Erik, noyer.\n\nL'ombre du passé plane sur ce souvenir amer. Il y a six ans, l'arrivée de **Véronique Lambert** a marqué un tournant imprévu dans notre famille. La situation, exacerbée par la maladie de ma femme, avait créé un besoin urgent d'aide. Cet **engagement** temporaire, destiné à prendre soin d'Erik, fut une tentative de réconfort. Cependant, les circonstances obscures ont mené à une tragédie inouïe. Le jour du 11 juin 1953, une décision, qu'elle soit intentionnelle ou non, a conduit à ce terrible moment où notre fils fut victime du **noyer**. La douleur de cette perte reste gravée."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "L'eau prend la forme,\nUn mois s'est envolé vite,\nSilence dans l'eau."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "fille au pair, fils, malade, noyer, engagée\n\nIl y a un peu plus de six ans, votre **enfant**, qui se faisait alors appeler Véronique Lambert, fut **recrutée** pour un mois comme **assistante domestique** par ma femme qui, **affligée**, désirait que quelqu'un s'occupe de notre **descendance**, qui avait tout juste cinq ans. Le vendredi 11 juin 1953, pour des raisons que je continue d'ignorer, volontairement ou involontairement, elle laissa notre **enfant** se **submerger**."
+      },
+      "changement_lieu": {
+        "contexte": "Inde",
+        "texte": "Il y a à peine plus de six ans, votre fille, qui s'appelait alors Véronique Lambert, fut engagée pour un mois comme *ghar ki beti* par ma femme qui, souffrante, souhaitait qu'une personne s'occupe de notre fils Erik, qui n'avait que cinq ans. Le vendredi 11 juin 1953, pour des raisons que je continue d'ignorer, volontairement ou involontairement, elle laissa notre fils se noyer dans les eaux boueuses du *ghat*."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "épistolaire",
+        "texte": "Ma chère [Nom du destinataire, si connu, sinon laisser vide ou utiliser un terme affectueux],\n\nJe t'écris aujourd'hui avec un poids sur le cœur que je n'ose plus contenir. Il y a à peine six ans, ta fille, Véronique Lambert, fut engagée comme fille au pair par ma femme, qui, souffrante, souhaitait quelqu'un pour prendre soin de notre petit Erik, âgé de cinq ans. Le vendredi 11 juin 1953, pour des raisons que je ne parviens plus à saisir, volontaires ou non, elle laissa notre fils se noyer."
+      }
+    },
+    "06": {
+      "changement_epoque": {
+        "contexte": "Moyen Âge",
+        "texte": "Le petit-fils d'un apothicaire, dont la demeure se trouvait près de la grande place de la ville, nommé Guillaume de Valois, jouissait avec aisance de ce vieux sage qui lui fournissait des fioles d'élixirs prodigieux. Il s'emparait de ces potions, qu'il vendait à prix d'or, entre quarante et cinquante pièces d'argent, à la bande de jeunes hommes vains du quartier des marchands. Ce jour-là, il avait remis sa dotation mensuelle et, alors qu'il s'apprêtait à aller dépenser les cinq cents pièces d'or qu'il venait de gagner sur les grands boulevards de la cité, il fut saisi par les gardes."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le jeune homme, héritier d'une tradition pharmaceutique, s'évertuait à la vente de son **elixir parégorique** auprès des **drogués** du Quartier latin. Sa **provision mensuelle** était essentielle pour sa survie. Après avoir vendu sa marchandise, il avait l'intention de dépenser l'argent gagné sur les **Champs-Élysées**, un geste qui allait bientôt être interrompu par son arrestation."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Flacons d'élixir,\nArgent et rue de Madrid,\nChamps-Élysées lue."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Paul Hébert, **descendant d'un préparateur de médicaments** situé au **numéro 48, rue de Madrid**, tirait pleinement parti de ce **aîné** en lui **dérobant des contenants de remède** qu'il **commercialisait** entre quarante et cinquante francs à de **jeunes consommateurs de substances illicites** du Quartier latin ; il avait ce jour-là remis sa **dotation mensuelle** et s'apprêtait, lorsqu'il fut appréhendé, à **dépenser l'argent** sur les Champs-Élysées les cinq cents francs qu'il venait de **gagner**."
+      },
+      "changement_lieu": {
+        "contexte": "Maroc",
+        "texte": "Le petit-fils d'un pharmacien installé dans la médina de Fès, nommé Youssef, profitait abondamment de son grand-père, un homme dont la sagesse était aussi dense que le miel de montagne, en lui subtilisant des flacons d'un remède secret, un *attar* puissant, qu'il revendait entre quarante et cinquante dirhams à des jeunes hommes du quartier de la Kasbah. Ce jour-là, il avait livré sa provision mensuelle, remplie de *ghriba* et de *tagine*, et s'apprêtait, quand il fut appréhendé par les autorités locales, à aller dépenser les cinq cents dirhams qu'il venait de gagner au souk."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre tragédie",
+        "texte": "Le petit-fils, Hébert, fils du pharmacien de Madrid, s'emparait de l'élixir parégorique, le marchandant à prix d'or aux jeunes damnés du Quartier latin. Ce jour, la provision mensuelle fut livrée. Alors qu'il s'apprêtait à dépenser les cinq cents francs gagnés sur les Champs-Élysées, le destin vint. L'arrestation sombra dans l'ombre, et la fatalité scella son sort."
+      }
+    },
+    "07": {
+      "changement_epoque": {
+        "contexte": "Années Folles",
+        "texte": "L'année suivante, Gaspard Moreau décrocha une bourse, un maigre appoint qui lui assurait au moins la survie sans devoir se lancer dans la mêlée du labeur. Mais au lieu de se plonger dans les manuels et de valider son diplôme, il sombrita dans une sorte de mélancolie profonde ; une torpeur singulière dont il semblait que nul murmure ou aucune musique ne parvienne à le tirer de son sommeil."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'obtention de cette **bourse** fut un souffle d'espoir, offrant la possibilité de **survivre** sans la pression du labeur immédiat. Cependant, au lieu de se plonger dans les **études** promise, Grégoire s'enfonça dans une profonde **léthargie**. Cette somnolence étrange, un voile épais, semblait rendre impossible toute tentative de **réveiller** son esprit, laissant le temps s'écouler sans but."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Bourse légère,\nLéthargie sans fin s'installe,\nRien ne l'éveille."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Grégoire Simpson, **l'année suivante**, obtint une bourse dont le montant, bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail. Mais au lieu de se consacrer à ses études et de finir sa licence, il tomba alors dans une sorte de **neurasthénie** ; une **léthargie singulière** dont apparemment rien ne parvint à le réveiller.\n\n**Transformation :**\n\n**L'année suivante**, Grégoire Simpson obtint une subvention dont la somme, bien que modeste, lui offrait au moins la capacité de subsister sans nécessiter impérativement d'exercer une activité professionnelle. Cependant, au lieu d'investir son temps dans ses apprentissages et de finaliser son diplôme universitaire, il s'enfonça alors dans une forme de **état de fatigue chronique** ; une **somnolence particulière** dont, à première vue, rien ne parvenait à le sortir de son inertie."
+      },
+      "changement_lieu": {
+        "contexte": "Norvège",
+        "texte": "L'année suivante, Gunnar Halvorsen obtint en bourse une somme, bien que modeste, qui lui assurait au moins la subsistance sans avoir à se lancer dans la recherche d'emploi. Mais au lieu de se consacrer à ses études et de terminer sa *videregrad*, il tomba alors dans une sorte de *mørkhet*, une léthargie singulière dont apparemment rien ne parvint à le réveiller."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! L'année suivante, Grégoire Simpson fut doté d'une bourse, un maigre soutien, suffisant pour subsister, mais insuffisant pour l'ambition ! Au lieu de consacrer cette opportunité à l'excellence académique, il s'est laissé submerger ! Il a sombré dans une léthargie, une torpeur implacable, une neurasthénie qui l'a paralysé ! Nous ne pouvons tolérer cette inertie ! Il est temps de réveiller l'esprit, de forcer l'action, de sortir de cette torpeur qui nous retient ! L'avenir exige de l'effort, pas de l'abandon !"
+      }
+    },
+    "08": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Ils leur vendaient sept francs pour une tunique qui leur coûtait trois, et ils la revendaient à dix-sept, vingt-et-un, vingt-cinq ou trente francs selon la demande. Ils ont démarré dans la minuscule échoppe d'un ancien réparateur de bottes, près de la vieille ville de Saint-André. Aujourd'hui, ils possèdent trois points de vente à Paris, deux autres à Lille et à Cannes, et ils prévoient d'ouvrir une dizaine d'autres, permanents ou saisonniers, dans les cités côtières, les plages de l'Atlantique et les stations de ski."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le marchand, avec une détermination farouche, fixait le prix de **sept francs** pour une simple **chemise**. Leur art de **revendaient** était une danse complexe des prix, variant selon l'urgence. Aujourd'hui, leur empire s'étend sur plusieurs **magasins** à travers la France. Ils rêvent d'élargir leur portée, visant les côtes de l'**Atlantique** et les destinations de loisirs, cherchant toujours de nouveaux horizons pour leur commerce."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Sept francs pour un vêtement,\nMarchands s'étendent à l'infini,\nParis, Lille, neige."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "sept francs, chemise, revendaient, échoppe, magasins\n\nIls leur vendait **sept francs** une **chemise** qui lui en coûtait trois et qu'ils **revendaient** dix-sept, vingt et un, vingt-cinq ou trente francs selon les cas. Ils commencèrent dans la toute petite **échoppe** d'un ancien cordonnier, près de Saint-André-des-Arts. Ils possèdent aujourd'hui trois **magasins** à Paris, deux autres à Lille et à Cannes, et projettent d'en ouvrir une dizaine d'autres, permanents ou saisonniers, dans des villes d'eaux, des plages de l'Atlantique et des stations de sports d'hiver."
+      },
+      "changement_lieu": {
+        "contexte": "Égypte",
+        "texte": "Ils leur vendaient sept francs une chemise qui lui en coûtait trois et qu'ils revendaient dix-sept, vingt et un, vingt-cinq ou trente francs selon les cas. Ils commencèrent dans la toute petite échoppe d'un ancien *ḥarāf* (cordonnier), près de la Médina de Fustat. Ils possèdent aujourd'hui trois boutiques à Le Caire, deux autres à Alexandrie et à Assouan, et projettent d'en ouvrir une dizaine d'autres, permanentes ou saisonnières, dans les marchés du Nil, les ports de la Mer Rouge et les oasis du désert."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "administratif officiel",
+        "texte": "Activité commerciale initiale : vente d'une chemise à sept francs pour un coût d'acquisition de trois francs, avec une revente variant entre dix-sept, vingt-et-un, vingt-cinq ou trente francs selon les circonstances. L'implantation a débuté dans une échoppe artisanale située à Saint-André-des-Arts. L'entité dispose actuellement de trois points de vente à Paris, deux autres à Lille et Cannes. Des projets d'ouverture de dix unités supplémentaires, permanentes ou saisonnières, sont envisagés dans des localités situées en zones aquatiques, sur les plages de l'Atlantique et dans des stations de sports d'hiver."
+      }
+    },
+    "09": {
+      "changement_epoque": {
+        "contexte": "Renaissance",
+        "texte": "Isidore et Lucas manœuvraient les deux chariots aménagés en roulottes, enfonçant les pieux pour y établir les supports. Henri s'occupait de la préparation des mets, des livres de comptes et de l'agencement des scènes. Lucette, la jeune fille innocente, esquissait les dessins, tissait les étoffes et, par-dessus tout, répliquait les parures vestimentaires. Et Charlotte, la servante, s'occupait du reste : de la vaisselle, du nettoyage des roulottes, des achats auprès des marchands, des coups de peigne et des ajustements de dernière minute, etc."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Sous le soleil matinal, les aventuriers **conduisaient** leurs **roulottes** vers l'horizon. Henri préparait la **cuisine** avec soin, assurant que chaque repas soit parfait. Lucette, avec sa délicatesse, travaillait sur les **costumes**, tandis que Charlotte s'occupait de la **vaisselle** et du nettoyage minutieux. C'était une équipe où chaque tâche, du soin apporté aux détails, était essentielle pour la réussite de leur expédition."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Roulottes s'installent,\nMains œuvrent, costumes sont faits,\nVie en mouvement."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "camionnettes aménagées en roulottes, tréteaux, faire la cuisine, les comptes et les mises en scène, l'ingénue, reprendre les costumes, la duègne, la vaisselle, le ménage, les courses, les coups de peigne et les coups de fer de dernière minute"
+      },
+      "changement_lieu": {
+        "contexte": "Japon",
+        "texte": "Isidore et Lucas manœuvraient les deux *kei-bus* aménagés en roulottes, plantant les *kake* de support. Henri s'occupait de la préparation des mets, de la tenue des registres et de l'aménagement des décors. Lucette, l'innocente, esquissait des motifs, cousait des tissus, et surtout reproduisait les *kimono* et les tenues traditionnelles. Charlotte, la servante, gérait le reste : la vaisselle, le nettoyage minutieux des roulottes, les achats au *shōtengai*, les ajustements fins et les finitions de dernière minute, etc."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Regardez l'organisation, la force de notre unité ! Isidore et Lucas, à la tête de nos moyens logistiques, établissent les fondations ! Henri, l'artisan de la gestion, assure la finance et la vision stratégique ! Lucette, notre créatrice, façonne l'image, le costume de notre destinée ! Et Charlotte, notre pilier opérationnel, garantit l'ordre, la subsistance, la fluidité de chaque action ! C'est cette synergie, cette répartition des tâches, qui assure notre succès ! Ensemble, nous bâtissons l'avenir !"
+      }
+    },
+    "10": {
+      "changement_epoque": {
+        "contexte": "Antiquité",
+        "texte": "Promptement, Lykés et Thésios devinrent indissociables. Ils se tenaient à l'écart des autres, ne prenant pas part aux jeux des jeunes, mais marchaient en se tenant par le petit doigt, se regardaient avec des sourires, se racontaient, chacun dans sa propre langue, de longs contes que l'autre écoutait, ravi, sans en saisir le sens. Les autres enfants ne les appréciaient pas, leur faisaient des moqueries acerbes, cachaient des restes de petits animaux sauvages dans leurs lits de paille."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le temps passa, scellant l'amitié entre Elzbieta et Boubaker, qui devinrent rapidement **inséparables**. Ils partageaient des moments silencieux, échangeant des **histoires** complexes, chacun parlant sa propre **langue**. Boubaker était toujours **ravi** d'écouter les récits d'Elzbieta, même s'il ne saisissait pas toujours les nuances. À l'inverse, les autres enfants, par leur mépris, leur lançaient des moqueries **cruelles**, ignorant cette douce connexion."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Doigts se touchent,\nHistoires sans le même son,\nIsolement doux."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Elzbieta, Boubaker, jeux, langues, histoires\n\nTrès vite, **Elzbieta et Boubaker** devinrent inséparables. Ils restaient à l'écart des autres, ne prenaient pas part à leurs **jeux**, mais marchaient en se tenant par le petit doigt, se regardaient en souriant, se racontaient, chacun dans leur **langue**, de longues **histoires** que l'autre écoutait, ravi, sans les comprendre. Les autres enfants ne les aimaient pas, leur faisaient des blagues cruelles, cachaient des cadavres de mulots dans leurs lits.\n\nTrès vite, **la jeune femme et l'enfant**, devinrent inséparables. Ils restaient à l'écart des autres, ne prenaient pas part à leurs **activités ludiques**, mais marchaient en se tenant par le petit doigt, se regardaient en souriant, se racontaient, chacun dans sa **communication orale**, de longues **récits** que l'autre écoutait, ravi, sans les saisir. Les autres enfants ne les aimaient pas, leur faisaient des moqueries acerbes, dissimulaient des restes de rongeurs dans leurs couchages."
+      },
+      "changement_lieu": {
+        "contexte": "Norvège",
+        "texte": "Très vite, Elzbieta et Boubaker devinrent inséparables. Ils restaient à l'écart des autres, ne prenaient pas part à leurs jeux de boules de neige, mais marchaient en se tenant par le petit doigt, se regardaient avec un sourire discret, se racontaient des histoires longues, chacun dans sa langue, que l'autre écoutait avec une attention tranquille, fasciné par les sons. Les autres enfants ne les appréciaient pas, leur faisaient des remarques acerbes, et cachaient des coquillages polis dans leurs sacs à dos."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Écoutez-moi ! Regardez cette fraternité naissante ! Elzbieta et Boubaker, loin des jeux vains de la foule, ont tissé un lien inébranlable ! Ils partagent des récits, des mondes, une compréhension mutuelle qui transcende les jugements superficiels ! Alors que certains se moquent, que d'autres rejettent, nous voyons l'essence de l'union authentique ! Ce sont des âmes qui se soutiennent, qui se parlent, qui construisent leur propre vérité ! Ne laissons pas les critiques stériles éteindre cette lumière ! Soutenons cette solidarité !"
+      }
+    },
+    "11": {
+      "changement_epoque": {
+        "contexte": "Renaissance",
+        "texte": "Olivier, né en l'an de grâce de mil neuf cent vingt, grandit sur des rivages où la marée laissait souvent la plage déserte. À l'âge de dix ans, il fut placé sous la tutelle du couvent de Rochefort. Détestant l'encadrement et les études du cloître, il passait ses journées à s'isoler au fond de la salle commune, rêvant des promenades à cheval qu'il s'adonnait chaque dimanche. Il redoubla la troisième année de son apprentissage et échoua quatre fois à l'examen du baccalauréat."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'horizon des **plages** déserte semblait être le seul horizon pour Olivier. En tant que **pensionnaire** au lycée, il nourrissait un profond sentiment de **détestant** pour les contraintes académiques. Chaque semaine passée en classe était un refuge où il imaginait ses futures **promenades** à cheval. Malgré ses espoirs, il avait malheureusement **échoua** à plusieurs reprises, laissant derrière lui une série de déceptions."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Plages désertes,\nRêve de cheval à l'aube,\nÉchec, chemin long."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Olivier, né en 1920, grandit sur des **étendues côtières** alors le plus souvent **dépourvues d'habitants** et fut mis à dix ans **logement temporaire** au lycée de Rochefort. Détestant l'internat et les études, il se morfondait toute la semaine au fond de la classe en rêvant aux **sorties équestres** qu'il ferait le dimanche. Il redoubla la troisième et échoua quatre fois au bac."
+      },
+      "changement_lieu": {
+        "contexte": "Chine",
+        "texte": "Olivier, né en 1920, grandit sous le soleil ardent des côtes de la Chine du Sud, où les vagues salées l'appelaient plus que les bancs de sable déserts. À dix ans, il fut envoyé au *Xiakou* de Rochefort, une institution austère. Détestant cette vie de cloître et les manuels poussiéreux, il passait ses journées à s'enfermer dans le fond de la salle de classe, rêvant des longues excursions à dos de *Pony* qu'il imaginait faire chaque dimanche. Il réussit la troisième année, mais échoua quatre fois à l'examen du *Guanxi*."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "administratif officiel",
+        "texte": "L'individu, né en 1920, a connu une scolarité initiale au lycée de Rochefort à l'âge de dix ans. Un désintérêt marqué pour l'internat et les études a été observé. Durant cette période, l'individu manifestait une préférence pour les activités de promenade à cheval durant les dimanches. Concernant la scolarité, la troisième année a été redoublée et quatre tentatives d'obtention du baccalauréat ont été enregistrées comme ayant échoué."
+      }
+    },
+    "12": {
+      "changement_epoque": {
+        "contexte": "Renaissance",
+        "texte": "Cinoc, qui alors comptait une cinquantaine d'années, exerçait un métier singulier. Comme il l'expliquait lui-même, il était un « tueur de paroles » : il s'employait à la mise à jour des grands lexiques et des recueils de termes. Mais tandis que d'autres scribes et éditeurs cherchaient de nouveaux vocables et significations, lui était assigné, afin de leur offrir de la place, d'éradiquer tous les mots et toutes les notions tombées en déclin et oubli."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "**tueur de mots**, cinoc, dictionnaires, sens, désuétude\n\nLe vieil homme, un véritable **tueur de mots**, passait ses journées à un travail minutieux. Son objectif était de purifier les ouvrages, écartant toute **désuétude** pour laisser la place à l'innovation. Il jonglait avec les **dictionnaires**, cherchant constamment à définir de nouveaux **sens**. Cette tâche exigeait une précision chirurgicale, transformant le langage obsolète en une matière vivante et pertinente pour la nouvelle génération."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Mots anciens tombent,\nDictionnaires se purgent,\nNouveaux sens naissent."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "cinquantaine d'années, métier, tueur de mots, dictionnaires Larousse, désuétude\n\nCinoc, qui avait alors une **cinquantaine d'années**, exerçait un **curieux métier**. Comme il le disait lui-même, il était « **tueur de mots** » : il travaillait à la mise à jour des **dictionnaires Larousse**. Mais alors que d'autres rédacteurs étaient à la recherche de mots et de sens nouveaux, lui devait, pour leur faire de la place, éliminer tous les mots et tous les sens tombés en **désuétude**."
+      },
+      "changement_lieu": {
+        "contexte": "Chine",
+        "texte": "Cinoc, âgé d'une cinquantaine d'années, exerçait un métier singulier. Comme il le disait lui-même, il était un « tueur de mots » : il s'occupait de la mise à jour des dictionnaires, ceux qui servent de référentiel pour les échanges. Mais alors que d'autres scribes cherchaient des termes et des significations inédits, lui revenait la tâche d'éradiquer tous les mots et les sens devenus obsolètes, ceux qui n'avaient plus de place dans le flux incessant de la communication."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre tragédie",
+        "texte": "Le Cinoc, dont la cinquantaine avait marqué son âge, exerçait un métier étrange. Il se nomma « tueur de mots », car il œuvrait à l'actualisation des dictionnaires Larousse. Tandis que d'autres chassaient les néant et les sens naissants, lui, il devait, par décret fatal, éradiquer les termes et les significations tombés dans la désuétude. Le silence de ses actes scellait sa destinée."
+      }
+    },
+    "13": {
+      "changement_epoque": {
+        "contexte": "Antiquité",
+        "texte": "Pour combler les longues heures d'attente durant lesquelles le *kithara* (instrument de musique) restait silencieux, il dévorait un épais rouleau de parchemin qu'il avait déniché dans une caisse de bois. Des pages entières manquaient, et il s'efforçait de les relier entre elles, assemblant les récits dont il disposait. Il y était question, entre autres, d'un guerrier chinois féroce, d'une jeune femme d'yeux sombres et audacieux, d'un homme grand et calme dont les poings blanchissaient aux jointures lorsqu'un homme le contrariait de manière sérieuse."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'obscurité de la nuit enveloppait la pièce, mais son esprit était plongé dans un **roman** ancien, une évasion bienvenue face à l'ennui. Il imaginait des scènes intenses, comme celles d'un **Chinois féroce** face à l'adversité. Il admirait la bravoure d'une **fille courageuse** dont le regard promettait l'audace. Par contraste, il pensait à un **grand type tranquille**, dont la force était contenue, mais dont les **poings blanchissaient** sous la pression d'un conflit inattendu. Ce mélange de violence et de calme le fascinait."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Pages s'assemblent,\nMots d'un roman anciens,\nAttente s'éteint."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Chinois féroce, roman, pages, type tranquille, poings.\n\nPour occuper les longues heures d'attente pendant lesquelles la radio restait muette, il lisait un **volume conséquent de fiction** qu'il avait découvert dans un **boîte**. Des **sections complètes** étaient manquantes et il s'efforçait de relier entre elles les **segments** dont il disposait. Il y était question, entre autres, d'un **homme chinois agressif**, d'une fille courageuse aux yeux bruns, d'un **grand individu serein** dont les **mains se blanchissaient** aux jointures quand quelqu'un le contrariait pour de bon."
+      },
+      "changement_lieu": {
+        "contexte": "Inde",
+        "texte": "Pour occuper les longues heures d'attente pendant lesquelles la radio restait muette, il feuilletait un épais roman qu'il avait déniché dans une vieille malle. Des pages entières étaient manquantes et il s'efforçait de relier entre elles les fragments d'histoires dont il disposait. Il y était question, entre autres, d'un *sardar* chinois féroce, d'une jeune femme courageuse aux yeux noisette, d'un grand homme tranquille dont les poings blanchissaient aux jointures quand quelqu'un le contrariait pour de bon, attendant peut-être la prochaine livraison de *chai* épicé."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "**SCÈNE I : L'ATTENTE**\n\n*(Un homme, LÉO, est assis, l'air agacé. Il tient un livre déchiqueté.)*\n\nLÉO\n(Soupirant bruyamment)\nAh, la radio ! Muette ! Il faut que je m'occupe. Et qu'est-ce que je fais ? Je bricole un roman ! Regardez ça !\n\n*(Il montre ses pages lacérées.)*\n\nLÉO (continue)\nJ'essaie de coller les morceaux. On a un Chinois féroce, une fille aux yeux bruns courageux... et un grand type tranquille ! Attention, s'il vous tape sur les nerfs, ses poings deviennent... blanchis ! C'est ça, l'attente, les amis !"
+      }
+    },
+    "14": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Leur premier numéro exploitait deux techniques classiques des illusionnistes de rue : Blunt, en tant que \"codeur\", interprétait diverses informations à partir de séquences numériques apparemment aléatoires ; quant à Ingeborg, en tant que \"visionnaire\", elle rampa avec une lame de carbure sur la pellicule d'une carte holographique représentant Blunt et une cicatrice sanglante identique apparaissait sur le corps de son partenaire."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Sous la lune pâle, l'atmosphère était chargée d'une tension étrange. Le **fakir** **Blunt**, avec son regard perçant, semblait détenir des secrets enfouis dans les chiffres. À côté, l'aura de la **voyante** Ingeborg ajoutait une couche de mystère. Elle travaillait avec une précision implacable, utilisant une **plume d'acier** pour tracer des motifs invisibles. Le contraste était saisissant : la douceur apparente de la scène se brisait face à la réalité crue de la **balafre sanglante** qui marquait le corps de son compagnon."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Plume et gélatine,\nChiffres, mystère, sang sur l'image,\nFeu de la fête."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Blunt, en fakir, Ingeborg, en voyante, plume d'acier, gélatine, balafre sanglante\n\nLeur premier numéro exploitait deux **techniques** classiques des magiciens de fête foraine : **Blunt**, en **ascète**, devinait diverses choses à partir de chiffres apparemment choisis au hasard ; quant à **Ingeborg**, en **prophétesse**, elle éraflait avec une plume d'acier la **substance gélatineuse** d'une plaque photographique représentant **Blunt** et une **cicatrice** sanglante identique apparaissait sur le corps de son partenaire."
+      },
+      "changement_lieu": {
+        "contexte": "Maroc",
+        "texte": "Leur premier numéro exploitait deux trucs classiques des artistes de rue : Blunt, vêtu d'un *djellaba* usé, devinait diverses choses à partir de chiffres apparemment choisis au hasard ; quant à Ingeborg, la voyante, elle éraflait avec une pointe d'acier la gélatine d'une plaque photographique représentant Blunt et une balafre sanglante identique apparaissait sur le corps de son partenaire."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Regardez la stratégie ! Leur première manœuvre exploitait des méthodes archaïques, des illusions trompeuses ! Le personnage de Blunt, le mystique, lisait l'avenir à partir de chiffres arbitraires ! Et Ingeborg, la voyante, révélait la vérité par une marque sanglante sur la photographie ! C'est la manipulation, la tromperie ! Ils nous montrent comment les illusions peuvent masquer la réalité ! Nous devons voir clair ! Nous devons démasquer ces artifices ! La vérité est là, et nous devons la saisir !"
+      }
+    },
+    "15": {
+      "changement_epoque": {
+        "contexte": "Révolution Industrielle",
+        "texte": "Quand la cité de Forgeville s'établit près du bassin de la Rivière, l'un de ses premiers clients fut un artiste de rue, un jongleur qui avait ingéré quelques semaines auparavant l'un de ses outils de coupe. Ne sachant quoi faire, craignant de tenter une opération, Forgeville lui donna par pur hasard un vomi, et l'autre lui restitua une gerbe de petits clous de fer. Forgeville fut tellement ébloui par cette bizarrerie qu'il désira rédiger un rapport sur cette affaire."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'arrivée de **Dinteville** à **Lavaur** marqua un tournant inattendu. Un **jongleur**, dont la situation était précaire, avait récemment subi un incident étrange. Face à l'incertitude, une tentative désespérée de **vomitif** a eu des conséquences inattendues, laissant derrière elle un amas de petits **clous**. Ce chaos inattendu a suscité une curiosité intense chez Dinteville, le poussant à réfléchir à la nature imprévisible des événements."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Clous et vomi,\nL'émerveillement d'un geste,\nL'encre prend son vol."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "jongleur, couteaux, vomitif, éberlué, communication\n\nQuand Dinteville s'installa à Lavaur, l'un de ses premiers clients fut un **artiste de la jonglerie** qui avait avalé quelques semaines auparavant un de ses **instruments tranchants**. Ne sachant pas quoi faire, n'osant l'opérer, Dinteville lui donna à tout hasard un **reflux** et l'autre lui ressortit tout un tas de petits clous. Dinteville fut tellement **stimulé** qu'il voulut écrire une **correspondance** sur ce cas."
+      },
+      "changement_lieu": {
+        "contexte": "Inde",
+        "texte": "Quand Dinteville s'installa à Jaipur, l'un de ses premiers clients fut un *magician* qui avait avalé quelques semaines auparavant un de ses couteaux. Ne sachant quoi faire, n'osant pas l'opérer, Dinteville lui donna à tout hasard un *lassi* épicé et l'autre lui ressortit tout un tas de petits *thalis* de métal. Dinteville fut tellement éberlué qu'il voulut écrire une *patra* sur ce cas."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "**Scène :** Une taverne animée. DINTEVILLE, l'air ravi, s'adresse à un JONGLEUR tremblant.\n\n**DINTEVILLE**\n(Avec un rire nerveux)\nAlors, mon cher jongleur, la suite de l'histoire ! Tu as avalé un couteau, n'est-ce pas ? Et moi, j'ai eu l'idée !\n\n**JONGLEUR**\n(Hésitant)\nMais... qu'est-ce que je fais maintenant ? Je n'ose pas l'opérer !\n\n**DINTEVILLE**\nT'inquiète pas ! J'ai tenté un vomi, et voilà le résultat ! Regarde !\n\n(Il montre une pile de clous.)\n\n**JONGLEUR**\n(Hurlant)\nDes clous ! C'est tout !\n\n**DINTEVILLE**\n(Exalté)\nUne nouvelle chronique ! Ça va faire le buzz !"
+      }
+    },
+    "16": {
+      "changement_epoque": {
+        "contexte": "Antiquité",
+        "texte": "Il n'avait ni soif ni faim, ni la brûlure du feu ni le froid de la pierre ; il pouvait demeurer éveillé sans relâche plus de quarante heures, sans qu'aucune autre entreprise ne l'appelât, se contentant de prendre, un par un, les tesselles non encore assemblées, les contempler, les retourner et les déposer sans jamais tenter de les fixer, comme si toute tentative devait être inéluctablement vouée à l'échec. Une fois, il demeura assis soixante-deux heures consécutives — du matin du mercredi, à l'heure où le soleil commençait sa montée, jusqu'au soir du vendredi, à l'heure où les ombres s'allongeaient — devant un dessein de mosaïque inachevé."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le silence enveloppait la pièce, un vide où la **faim** et la **soif** n'avaient plus cours. Face au **puzzle** **inachevé**, il observait chaque pièce, réalisant que toute tentative de la rassembler était vouée à l'**échec**. Le temps s'étirait, les heures s'accumulaient, et la lumière vacillait, accentuant la solitude de cette attente infinie. Chaque retour de pièce était une méditation sur l'impossibilité de la complétion."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Pièces sans forme,\nTemps s'écoule sans but,\nPuzzle en attente."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "faim, soif, chaud, froid, puzzle\n\nIl n'avait ni **appétit** ni **désir hydrique**, ni **chaleur** ni **froideur** ; il pouvait demeurer sans dormir plus de quarante heures, sans rien faire d'autre que prendre une à une les pièces non encore rassemblées, les regarder, les retourner et les reposer sans même essayer de les placer, comme si n'importe quelle tentative devait être inexorablement vouée à l'échec. Une fois il resta assis 62 heures d'affilée — du mercredi matin huit heures au vendredi soir dix heures — devant un **assemblage de pièces incomplet**."
+      },
+      "changement_lieu": {
+        "contexte": "Brésil",
+        "texte": "Il n'avait ni faim ni soif, ni chaud ni froid ; il pouvait rester sans dormir plus de quarante heures, sans rien faire d'autre que prendre une à une les pièces non encore rassemblées, les regarder, les retourner et les reposer sans même essayer de les placer, comme si n'importe quelle tentative devait être inexorablement vouée à l'échec. Une fois il resta assis soixante-deux heures d'affilée — du mercredi matin huit heures au vendredi soir dix heures — devant un *quebra-cabeça* inachevé, l'air lourd de l'odeur du café *cafezinho* et du soleil écrasant de la *praia*."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "épistolaire",
+        "texte": "Mon cher ami,\n\nJe t'écris de mon état actuel. Je ne ressens ni faim, ni soif, ni chaud, ni froid. Je peux rester éveillé plus de quarante heures, n'ayant rien d'autre à faire que prendre, regarder, retourner et reposer les pièces d'un puzzle sans jamais tenter de les assembler, comme si toute tentative était vouée à l'échec. J'ai passé soixante-deux heures d'affilée, du mercredi matin à vendredi soir, assis devant ce puzzle inachevé.\n\nAmicalement,"
+      }
+    },
+    "17": {
+      "changement_epoque": {
+        "contexte": "Révolution Industrielle",
+        "texte": "Pendant des années, le maître d'œuvre de Massy guida Margay à la victoire dans tous les grands circuits de course européens. Et longtemps, quand il entendait la foule des tribunes et des gradins acclamer Lino à tout rompre et se lever en scandant son nom dès qu'il apparaissait sur la piste dans son uniforme de toile blanche ornée de bandes pourpres, quand il le voyait, vainqueur, grimper sur l'estrade pour recevoir ses médailles et ses couronnes, il n'en éprouvait que joie et fierté."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'atmosphère électrique régnait dans les grands **vélodromes** européens. Chaque apparition de **Massy** sur la piste suscitait une vague d'enthousiasme. Voir **Margay** s'élancer vers la victoire, recevoir les honneurs, était une source inépuisable de **fierté**. Le son incessant du public, prêt à **applaudir** son nom, rythmait chaque moment de cette performance exceptionnelle."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Vélodrome luit,\nApplaudissements enflamment,\nJoie, fierté pure."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Massy, Margay, vélodromes, public, Lino.\n\nDurant des périodes prolongées, **Massy** conduisit **Margay** à la réussite dans toutes les grandes **pistes cyclables** d'Europe. Et longtemps, lorsque il percevait l'assistance des espaces verts et des tribunes saluer **Lino** sans retenue et s'élever en chantant son appellation dès qu'il se manifestait sur la voie d'accès dans son uniforme blanc à rayures violettes, lorsque il le percevait, triomphant, monter sur l'estrade pour recevoir ses trophées et ses compositions, il ne ressentait que la gaieté et l'orgueil."
+      },
+      "changement_lieu": {
+        "contexte": "Égypte",
+        "texte": "Pendant des années, Massy mena Margay à la victoire dans tous les grands vélodromes d'Europe, là où l'air chaud et lourd de la saison s'accrochait aux murs de pierre de Gizeh. Et longtemps, quand il entendait le vacarme des foules, le bruit des mains qui claquent sur les bancs et les cris rauques des spectateurs sur les gradins, applaudissant Lino à tout rompre, et se lever en scandant son nom dès qu'il apparaissait sur la piste, vêtu de son *galabeya* blanc et de ses bandes violettes, quand il le voyait, vainqueur, grimper sur le podium pour recevoir ses médailles et ses bouquets, il n'en éprouvait que joie et fierté, sentant l'odeur âcre du *karkadé* flotter dans l'air."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "administratif officiel",
+        "texte": "Massy a conduit Margay à la victoire dans les compétitions majeures des vélodromes européens. Durant cette période, l'audition des acclamations du public sur les pelouses et dans les gradins pour Lino, ainsi que la réaction suscitée par l'apparition de l'athlète sur la piste, notamment lors de son apparition en tenue blanche à bandes violettes, étaient perçues comme des sources de satisfaction et de fierté. L'observation de Lino en tant que vainqueur, lors de la cérémonie de remise des médailles et des trophées sur le podium, générait une satisfaction et une fierté notables."
+      }
+    },
+    "18": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Quand Fernand de Beaumont a décidé de mettre fin à ses jours, le vingt-septième jour de l'octobre 2077, Bartlebooth était en orbite, ayant fraîchement finalisé sa vingt-deuxième projection holographique dans le petit hub spatial de Port Céleste. Il a reçu l'alerte via le réseau neuronal, et a réussi à réintégrer la Terre à temps pour assister à la cérémonie d'adieu de son regretté camarade, à Val-Nord."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "**Fernand de Beaumont**, **Méditerranée**, aquarelle, **Propriano**, enterrement\n\nLe silence de la **Méditerranée** enveloppait le port de **Propriano**. Bartlebooth, loin de la terre ferme, contemplait une dernière **aquarelle** sous le soleil ardent. L'information sur le suicide de **Fernand de Beaumont** parvint tardivement, mais il trouva la force de revenir. Il se rendit rapidement à l'endroit où l'on célébrait l'**enterrement**, cherchant un réconfort face à la tristesse."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Le port chante l'adieu,\nL'aquarelle dans la lumière,\nSouvenir amer."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Fernand de Beaumont, douze novembre 1935, Bartlebooth, Méditerranée, vingt et unième aquarelle, port corse de Propriano, radio, continent, enterrement, Lédignan.\n\nQuand **Fernand de Beaumont** s'autodétruisit, le **douze novembre 1935**, Bartlebooth se trouvait en **Méditerranée** et venait de réaliser sa **vingt et unième aquarelle** dans le **petit port corse de Propriano**. Il découvrit l'information par le moyen de la **radio**, et réussit à rejoindre le **continent** à temps pour assister à la cérémonie funéraire de son **malheureux ami**, à Lédignan."
+      },
+      "changement_lieu": {
+        "contexte": "Thaïlande",
+        "texte": "Quand Fernand de Beaumont s'est donné la mort, le douze novembre 1935, Bartlebooth était en Méditerranée, juste après avoir terminé sa vingt et une aquarelle dans le petit port de Phuket. Il a appris la nouvelle par la radio, et a réussi à revenir à temps sur le continent pour assister à l'inhumation de son malheureux ami, à Chiang Mai."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Le jour du douze novembre 1935, une tragédie a secoué notre communauté. Fernand de Beaumont a choisi la voie ultime. Pendant ce temps, Bartlebooth, loin des tumultes, était en Méditerranée, capturé par la beauté du port corse de Propriano, où il achevait une œuvre. Mais la vérité a finalement trouvé son chemin, portée par les ondes de la radio ! J'ai répondu à l'appel, j'ai pris la décision de revenir immédiatement. Nous avons assisté à l'enterrement de notre ami, Lédignan. Cet événement nous rappelle la fragilité de la vie et la force de notre solidarité face à l'adversité !"
+      }
+    },
+    "19": {
+      "changement_epoque": {
+        "contexte": "Révolution Industrielle",
+        "texte": "Elle arriva vers minuit. La nuit était noire, lourde et moite, le vent salin sifflant entre les mâts des voiliers endormis. Très loin, devant les entrepôts de l'Aigle, des sentinelles nonchalantes faisaient les cent pas, leurs lampes à huile vacillant dans l'air lourd. Loorens déroula jusqu'au pied de la forteresse une échelle de bois brut, tendue par des cordages de chanvre, qu'Ursula puis lui empruntèrent pour se retrouver, vingt-cinq mètres plus bas, sur une crique sablonneuse entourée de rochers sombres et de récifs à fleur d'eau, où l'odeur de sel et de poisson cru flottait."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Sous le ciel **noire**, l'attente s'étirait jusqu'au **minuit**. Devant les imposants appartements de l'**Aigle**, des silhouettes nonchalantes patrouillaient. Loorens, avec une dextérité discrète, déroula une échelle de **soie** tressée. Ursula l'emprunta, et ensemble, ils descendirent vers la **crique** sablonneuse, où les rochers anciens protégeaient le secret des eaux."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Nuit s'étire, noire,\nSoie tressée, ombre et silence,\nRochers à fleur d'eau."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "minuit, noire, gardes nonchalants, échelle de soie tressée, crique sablonneuse\n\nElle arriva vers **l'heure de minuit**. La nuit était **obscure**. Très loin, devant les appartements de l'Aigle, des **sentinelles désinvoltes** faisaient les cent pas. Loorens déroula jusqu'au pied de la forteresse une **montée de soie entrelacée** qu'Ursula puis lui empruntèrent pour se retrouver, vingt-cinq mètres plus bas, sur une **petite bande de sable** entourée de rochers et de récifs à fleur d'eau."
+      },
+      "changement_lieu": {
+        "contexte": "Japon",
+        "texte": "Elle arriva vers minuit. La nuit était noire, enveloppée d'une obscurité d'encre où seules les lumières lointaines des lanternes filtraient faiblement. Très loin, devant les *machiya* de l'Aigle, des *ronin* nonchalants faisaient les cent pas, leurs silhouettes se fondant dans l'ombre des toits de tuiles. Loorens déroula jusqu'au pied de la forteresse une échelle de soie tressée, fine comme un fil de *shibori*, qu'Ursula puis lui empruntèrent pour se retrouver, vingt-cinq mètres plus bas, sur une crique sablonneuse, où le sable fin chatouillait les pieds, entourée de rochers noirs et de récifs à fleur d'eau, où l'odeur salée de la mer rencontrait l'humidité des bambous."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Écoutez ma voix ! À minuit, sous le voile de cette nuit noire, l'ombre s'étendait. Devant les bastions de l'Aigle, des sentinelles nonchalantes rôdaient. Loorens, avec détermination, a déployé une échelle de soie, un lien ténu, pour nous mener. Nous avons atteint le seuil, vingt-cinq mètres au-dessus de la crique sablonneuse, encerclée de rochers et de récifs. C'est ici que se trouve notre position ! Nous sommes là !"
+      }
+    },
+    "20": {
+      "changement_epoque": {
+        "contexte": "Années Folles",
+        "texte": "Comme toutes les jeunes filles et les demoiselles d'Australie, Olivia avait sans aucun doute été entre les années dix-quarante et les années quarante-cinq marraine de guerre de plusieurs hommes du régiment. En vérité, il s'agissait pour elle de régiments entiers auxquels elle envoyait sa photographie signée ; de plus, une fois par mois, elle rédigeait une petite missive à un simple soldat ou à un sous-officier qui s'était distingué par un acte de bravoure, qu'il soit grand ou modeste."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'histoire d'**Olivia** est celle d'une détermination tranquille. En tant que **marraine de guerre**, elle tissait des liens inattendus avec le front. Chaque **photographie dédicacée** qu'elle envoyait résonnait avec l'espoir. Elle soutenait des **régiments entiers**, prouvant que l'engagement pouvait prendre de multiples formes. Ces gestes, souvent modestes, témoignaient de la puissance d'un **fait d'armes** simple, mais porteur d'une grande signification."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Photo d'une guerre,\nLettres à soldats courageux,\nSouvenirs restent."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "fillettes, jeunes filles, marraine de guerre, photographie dédicacée, soldat\n\nComme toutes les **jeunes filles** et les **filles** d'Australie, Olivia avait évidemment été entre 1940 et 1945 **protectrice militaire** de plusieurs hommes. En fait, il s'était agi pour elle de régiments entiers auxquels elle envoyait son **image personnalisée** ; de plus, une fois par mois, elle écrivait une petite lettre à un simple **militaire** ou à un sous-officier qui s'était signalé par un fait d'armes plus ou moins héroïque."
+      },
+      "changement_lieu": {
+        "contexte": "Chine",
+        "texte": "Comme toutes les jeunes femmes et les jeunes filles de la région de Canton, Olivia avait manifestement été la marraine de guerre de plusieurs soldats entre les années 1940 et 1945. En réalité, son rôle consistait à envoyer sa photographie dédicacée à des régiments entiers ; de plus, une fois par mois, elle rédigeait une petite missive à un simple soldat ou à un sous-officier qui s'était distingué par un acte d'héroïsme, peut-être un geste lié à la défense du *Qi* ou à la protection de la famille."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "épistolaire",
+        "texte": "Ma chère amie,\n\nJe voulais te raconter un peu de mon expérience. Comme toutes les jeunes filles d'Australie, j'ai été marraine de guerre pour plusieurs soldats entre 1940 et 1945. Cela impliquait d'envoyer ma photographie dédicacée à des régiments entiers. De plus, chaque mois, j'avais l'habitude d'écrire une petite lettre à un soldat ou un sous-officier qui avait fait un acte d'armes, d'une manière ou d'une autre, qui m'avait impressionnée."
+      }
+    },
+    "21": {
+      "changement_epoque": {
+        "contexte": "Années Folles",
+        "texte": "C'est dans les derniers mois de l'année mil neuf cent soixante-douze que Barnabé se rendit compte qu'il devenait aveugle. Cela avait commencé quelques semaines auparavant par des maux de tête lancinants, des torticolis tenaces et des troubles de la vue qui faisaient que, lorsqu'il passait une journée entière à assembler ses casse-têtes complexes, il avait la sensation que sa vision se brouillait, que le contour des objets se nimbait d'une brume imprécise."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'atmosphère s'épaississait dans l'atelier alors que Bartlebooth réalisait qu'il était **aveugle**. Les **maux de tête** persistants étaient devenus une réalité quotidienne, accompagnés de **troubles visuels** qui rendaient toute tâche ardue. Chaque tentative de résoudre les complexes **puzzles** se transformait en une lutte contre une **brume imprécise**, une obscurité grandissante qui menaçait de submerger sa perception du monde."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "L'année s'éteint,\nLa vue se voile en brume,\nL'ombre s'installe."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "mots choisis : derniers mois, aveugle, maux de tête, troubles visuels, vue se brouillait\n\nC'est dans les **derniers mois** de l'année mille neuf cent soixante-douze que Bartlebooth se rendit compte qu'il devenait **aveugle**. Cela avait commencé quelques semaines auparavant par des **maux de tête**, des torticolis et des **troubles visuels** qui faisaient que, lorsqu'il avait travaillé toute une journée sur ses puzzles, il avait la sensation que sa **vue se brouillait**, que le contour des choses se nimbait d'une brume imprécise."
+      },
+      "changement_lieu": {
+        "contexte": "Chine",
+        "texte": "C'est dans les derniers mois de l'année mille neuf cent soixante-douze que Maître Lin se rendit compte qu'il devenait aveugle. Cela avait commencé quelques semaines auparavant par des maux de tête lancinants, des torticolis persistants et des troubles de la vision qui faisaient que, lorsqu'il passait une journée entière à assembler des motifs complexes, il avait la sensation que sa vue se brouillait, que le contour des objets se drapait d'une brume imprécise, comme la vapeur s'échappant d'une casserole de *dumplings*."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "**SCÈNE 1 : Le Salon de Bartlebooth, fin 1972.**\n\n(BARTLEBOOTH, les yeux plissés, tente de monter un puzzle avec une expression exaspérée.)\n\nBARTLEBOOTH\n(Soupirant bruyamment)\nAh ! Ces derniers mois de 1972 ! Je réalise enfin la vérité qui me glace le sang : je deviens aveugle !\n\n(Il se frotte les yeux avec une vigueur exagérée.)\n\nBARTLEBOOTH\nAvant, c'était juste des maux de tête, des torticolis... Mais maintenant, quand je travaille sur ce puzzle, c'est la brume ! Le contour des choses se met à filer comme une vieille écharpe ! Quel désagrément !"
+      }
+    },
+    "22": {
+      "changement_epoque": {
+        "contexte": "Antiquité",
+        "texte": "Pour se venger de Livia, qui lui avait renversé une fiole d'encre de Chine sur sa tunique lors d'un cours de dessin, Isolde lui raconta qu'un vieil homme lascif, un homme de mauvaise réputation, la suivait dans les rues chaque fois qu'elle quittait le *locus* de l'école et qu'un jour il allait la saisir et lui arracher ses étoffes, l'obligeant à lui faire des actes répugnants."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le sentiment de **venger** l'humiliation persistait chez Isabelle. Elle se souvenait de l'incident, cet accident avec l'**encre de chine** qui avait taché sa tenue. Une terreur sourde l'habitait : la menace d'un **vieillard pornographique** qui la traquait. Elle imaginait le moment où il allait l'**attaquer**, forçant des actes **dégoûtantes** qu'elle ne souhaitait jamais subir. Cette peur alimentait sa détermination."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Encre sur la toile,\nOmbre traque dans la rue sombre,\nPeau offerte au froid."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Louisette Guerné, bouteille d'encre de chine, vieillard pornographique, lycée, arracher tous ses vêtements.\n\nAfin de se venger de **Louisette Guerné**, qui lui avait renversé une **bouteille d'encre de chine** sur sa blouse en classe de dessin, Isabelle lui a raconté qu'il y avait un **vieillard pornographique** qui la suivait dans la rue chaque fois qu'elle sortait du **lycée** et qu'un jour il allait l'attaquer et lui **arracher tous ses vêtements** et l'obliger à lui faire des choses dégoûtantes."
+      },
+      "changement_lieu": {
+        "contexte": "Brésil",
+        "texte": "Pour se venger de Louisette Guerné qui lui avait renversé une bouteille d'encre de chine sur sa blouse lors d'un cours de dessin, Isabelle lui a confié qu'un vieux *mestre* charlatan, un *palhaço* maléfique, la suivait dans la rue chaque fois qu'elle quittait le lycée. Il lui avait promis qu'un jour, il allait l'attaquer, lui arracher tous ses *saias* et l'obliger à lui faire des choses tellement *nojentas* que même le soleil de Rio ne pourrait les cacher."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "**SCÈNE :** Devant un tableau noir, Isabelle et Louisette sont en scène.\n\n**ISABELLE**\n(Avec un air dramatique)\nLouisette, écoute ça ! J'ai une rumeur !\n\n**LOUISETTE**\n(Légèrement agacée)\nQuelle rumeur, Isabelle ? Celle que tu as renversé de l'encre ?\n\n**ISABELLE**\nNon ! J'ai entendu dire qu'un vieillard... un *très* spécifique... me suit dans la rue ! Et qu'un jour, il allait me... attirer vers lui !\n\n**LOUISETTE**\n(Riant nerveusement)\nOh là là, Isabelle ! Tu es sûre que tu ne rêves pas ? C'est une histoire plus folle que l'encre de Chine !"
+      }
+    },
+    "23": {
+      "changement_epoque": {
+        "contexte": "Moyen Âge",
+        "texte": "Un jour, en chemin vers Cleray, Madame Danglars accompagnant son époux afin que celui-ci choisisse un étui de tabac, fut saisie d'une vive angoisse et d'une terreur irrésistibles. En fixant droit dans les yeux la marchande qui s'occupait d'eux, elle avait dérobé une boucle de ceinture faite d'écaille de serpent. Ce n'était qu'un vol de biens précieux, mais lorsque le soir même elle l'avoua à son mari, qui n'avait rien remarqué de l'affaire."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le silence de la soirée était rompu par un **émoi** soudain chez Madame Danglars. Une vive **frayeur** l'envahissait alors qu'elle observait la vendeuse. Ce **larcin** de **luxe**, une boucle de ceinture volée, avait été commis sans qu'on le remarque. La petite **écaille** de cette action, si insignifiante, avait tout bouleversé dans son esprit ce soir-là."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Écaille et secret,\nL'émotion saisit le regard,\nL'aveu du soir."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "mari, étui à cigarettes, émoi, frayeur, larcin\n\nUn jour, accompagnant son **conjoint** chez Cleray pour qu'il se choisisse un **réceptacle pour tabac**, Madame Danglars, saisie par une **vive émotion** et une **peur irrépressible** et regardant droit dans les yeux la vendeuse qui s'occupait d'eux, avait dérobé une **attache de ceinture** en écaille. Ce n'était qu'un **vol de biens précieux**, mais lorsque le soir même elle l'avoua à son **partenaire**, qui ne s'était aperçu de rien."
+      },
+      "changement_lieu": {
+        "contexte": "Thaïlande",
+        "texte": "Un jour, en accompagnant son époux chez un marchand de *siam* pour qu'il choisisse un étui à cigarettes, Madame Danglars, submergée par un frisson et une terreur irrésistibles, et fixant droit dans les yeux la vendeuse qui s'occupait d'eux, avait dérobé une boucle de ceinture ornée de motifs de *khon*. Ce n'était qu'un petit vol de luxe, mais lorsque la nuit tombait et qu'elle l'avoua à son mari, celui-ci ne s'était aperçu de rien, laissant derrière lui l'odeur douceâtre du *masaman*."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "SCÈNE 1 : L'étui de luxe\n\n(Madame Danglars, les yeux écarquillés, fixe la vendeuse. Le mari est distrait.)\n\nMME DANGLARS\n(Chuchotant, paniquée)\nMon Dieu ! J'ai volé une boucle de ceinture en écaille ! Un vol de luxe !\n\n(Elle se tourne vers son mari, qui est en train de choisir un étui.)\n\nMME DANGLARS (continuant, avec une fausse assurance)\nJe l'ai avoué ! Mais qui a vu ça ? Mon mari n'a rien vu ! C'est un mystère !\n\n(La vendeuse sourit, amusée.)"
+      }
+    },
+    "24": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Célia Crespi avait un garçon. Elle l'a fait naître en mille neuf cent trente-six. Presque personne n'a remarqué qu'elle était enceinte. Tout l'immeuble s'est interrogé sur l'identité du père et tous les noms des individus de sexe masculin habitant la résidence et âgés de quinze à soixante-quinze ans ont été présentés. Le secret n'a jamais été révélé. L'enfant, déclaré né de père inconnu, a été élevé en dehors de Paris. Personne de l'immeuble ne l'a jamais vu."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Dans les rues animées de **Paris**, une histoire d'ombre se tissait. Un **fils**, né dans l'an anodin de mille neuf cent trente-six, fut **discrètement** caché. Le **secret** entourant sa naissance était lourd, un murmure que personne n'osait entendre. Bien qu'il ait été élevé loin de la ville, l'identité de son **père inconnu** restait une énigme. L'enfant évoluait dans l'oubli, une présence silencieuse dans une vie autrement bruyante."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Un secret gardé,\nL'enfant loin de Paris dort,\nOmbre dans l'immeuble."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "fils, mille neuf cent trente-six, enceinte, père inconnu, immeuble\n\nCélia Crespi eut un **descendance**. Elle le mit discrètement au monde en **l'année** mille neuf cent trente-six. Presque personne ne s'était aperçu qu'elle avait été **gestée**. Tout l'**édifice** s'interrogea sur l'identité du père et tous les noms des individus de sexe mâle habitant la maison et âgés de quinze à soixante-quinze ans furent avancés. Le secret ne fut jamais dévoilé. L'enfant, déclaré né de **parent ignorer**, fut élevé en dehors de Paris. Personne de l'**habitation** ne le vit jamais."
+      },
+      "changement_lieu": {
+        "contexte": "Thaïlande",
+        "texte": "Célia Crespi avait un fils. Elle l'avait mis au monde discrètement en mille neuf cent trente-six. Presque personne ne s'était aperçu qu'elle était enceinte. Tout l'immeuble s'interrogeait sur l'identité du père, et tous les noms des individus de sexe masculin habitant la maison, âgés de quinze à soixante-quinze ans, furent avancés. Le secret ne fut jamais dévoilé. L'enfant, déclaré né de père inconnu, fut élevé loin de la ville de Bangkok. Personne de l'immeuble ne l'avait jamais vu."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "**SCÈNE 1 : L'IMMEUBLE, JOUR**\n\n(CÉLIA, l'air blasé, fait face à un spectateur imaginaire. Une voix off comique intervient.)\n\nVOIX OFF : Ah, Célia Crespi ! Mille neuf cent trente-six ! Un bébé, discret comme un chat ! Mais l'immeuble, lui, il s'est mis à se demander : \"Qui est le papa ?\" Tous les hommes entre quinze et soixante-quinze ans ont été convoqués ! Le secret ? Un silence radio total ! L'enfant, né de père inconnu, a pris la tangente, loin de Paris. Personne n'a jamais croisé son chemin !"
+      }
+    },
+    "25": {
+      "changement_epoque": {
+        "contexte": "Renaissance",
+        "texte": "Accompagné de quatre brigands armés, Jérémie arriva à bord d'une caisse à roues cabossée et crachant de la fumée. Avec toutes les précautions d'usage, ils inspectèrent les lieux et encerclèrent le pavillon numéro trente et un. La chambre n'était guère éclairée, juste assez pour que Jérémie puisse voir distinctement, à travers les rideaux de lin torsadé, sagement étendu sur l'un des lits jumeaux, les bras croisés, les yeux grands ouverts, son frère Ruben."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'atmosphère était lourde lorsque Jeremiah arriva. Il était entouré de **malfrats armés**, un spectacle inquiétant. Il s'installa dans le **bucket-seat** cabossé, l'odeur âcre de la fumée lui rappelant les dangers. Ils encerclèrent le **bungalow** numéro trente-et-un avec une prudence forcée. À l'intérieur, la lumière filtrait à travers les **rideaux de crochet**, illuminant la silhouette de son **frère Ruben**, qui attendait, les bras croisés, les yeux grands ouverts."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Ombre et fumée,\nRideaux de crochet, frère endormi,\nSilence attend."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "malfrats armés, bucket-seat, bungalow, chambre, frère\n\nAccompagné de quatre **individus malveillants dotés d'armes**, Jeremiah arriva à bord d'un **siège de type cabine endommagé et exhalant des fumées**. Avec toutes les précautions d'usage, ils inspectèrent les environs et encerclèrent le **logement numéro 31**. L'**espace de repos** n'était pas très éclairé, juste assez pour que Jeremiah voie bien, à travers les rideaux de crochet, sagement étendu sur l'un des lits jumeaux, les bras croisés, les yeux grands ouverts, son **frère Ruben**."
+      },
+      "changement_lieu": {
+        "contexte": "Thaïlande",
+        "texte": "Accompagné de quatre *khon* armés, Jeremiah arriva à bord d'un *long-tail boat* cabossé et fumant. Avec toutes les précautions d'usage, ils inspectèrent les environs et encerclèrent le *bungalow* numéro 31. La chambre n'était pas très éclairée, juste assez pour que Jeremiah voie bien, à travers les rideaux de *phaa* crochet, sagement étendu sur l'un des lits jumeaux, les bras croisés, les yeux grands ouverts, son frère Ruben."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "épistolaire",
+        "texte": "Mon cher [Nom du destinataire, à insérer si possible],\n\nJe t'écris de là où je ne sais plus comment me retrouver. J'ai fait une arrivée mouvementée, accompagné de quatre hommes mal intentionnés et armés. J'ai pris un vieux *bucket-seat* cabossé et fumant. Nous avons pris toutes les précautions nécessaires pour inspecter les lieux et nous avons encerclé le bungalow numéro 31. La chambre était sombre, juste assez pour que je voie bien à travers les rideaux de crochet. J'y ai trouvé Ruben, mon frère, sagement étendu sur l'un des lits jumeaux, les bras croisés, les yeux grands ouverts."
+      }
+    },
+    "26": {
+      "changement_epoque": {
+        "contexte": "Années Folles",
+        "texte": "La dame suisse, manifestement obsédée au dernier degré par les affaires de sécurité au sein du foyer, a exigé qu'on lui décrive le fonctionnement de tous les appareils ménagers et qu'on lui désigne l'emplacement des fusibles, des disjoncteurs et des interrupteurs de sécurité. L'inspection de la cuisine n'a pas posé trop de problèmes, mais dans la salle de bain, les choses ont très vite mal tourné."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'atmosphère était tendue. La **Suissesse**, **obsédée** par la **sécurité** de son foyer, réclamait une explication détaillée de chaque mécanisme. Elle insistait pour visualiser l'emplacement précis de chaque **coupe-circuit**. L'inspection de la cuisine fut un succès, mais lorsque l'attention se porta sur la **salle de bains**, une série de complications inattendues s'amorça, transformant une simple vérification en un véritable défi technique."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "L'ordre est si strict,\nL'eau fuit, le circuit lâche,\nLe désordre vient."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Suissesse, problèmes de sécurité domestique, appareils électro-ménagers, coupe-circuit, salle de bains\n\nLa **citoyenne suisse**, manifestement **passionnée au plus haut niveau** par les **difficultés de sûreté au sein du foyer**, a réclamé qu'on lui décrive le **mode de fonctionnement de tous les équipements ménagers** et qu'on lui indique la localisation des **interrupteurs de sécurité**, des **dispositifs de protection contre les surintensités** et des **régulateurs de courant**. L'examen de la cuisine n'a pas engendré trop d'obstacles, mais dans l'**espace sanitaire**, les choses ont très vite déraillé."
+      },
+      "changement_lieu": {
+        "contexte": "Brésil",
+        "texte": "La femme, manifestement obsédée au dernier degré par les problèmes de sécurité domestique, a exigé qu'on lui explique le fonctionnement de tous les appareils électro-ménagers et qu'on lui montre l'emplacement des coupe-circuit, des fusibles et des disjoncteurs. L'inspection de la cuisine, où l'on pouvait sentir l'odeur âcre du *feijão* mijoté, n'a pas posé trop de problèmes, mais dans la salle de bains, les choses ont très vite mal tourné."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "poétique",
+        "texte": "L'âme suisse, fièvre de l'ordre,\nexigea la danse des machines,\nle murmure des circuits,\nl'ombre des fusibles.\nLa cuisine, un calme maîtrisé,\nmais dans le sanctuaire de la salle de bains,\nle fil s'est rompu,\net l'orage s'est éveillé."
+      }
+    },
+    "27": {
+      "changement_epoque": {
+        "contexte": "Révolution Industrielle",
+        "texte": "Pendant trois mois, Beyssandre écrivit des missives, utilisait le télégraphe, et frappait à la porte en vain. Puis, le onze juillet, il rendit visite à Smautf dans sa chambre et le chargea de prévenir son maître qu'il lui déclarait la guerre : si l'art, pour Bartlebooth, consistait à démolir les créations qu'il avait conçues, l'art, pour lui, Beyssandre, consisterait à sauvegarder, coûte que coûte, une ou plusieurs de ces œuvres, et il défiait cet Anglais obstiné de l'en empêcher."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le silence s'abattit après que **Beyssandre** eut **téléphona** sans réponse. Il avait compris que la seule voie était de **détruire** les illusions passées. Pourtant, il choisit de **préserver** une seule mélodie oubliée. Face à l'adversité, il **défiait** l'ombre qui cherchait à effacer tout ce qui avait été créé. Cette lutte pour la beauté était son ultime acte de résistance."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "L'encre s'est tue,\nL'art, un acte de défense,\nŒuvre est sauvée."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Beyssandre, téléphona, sonna, juillet, maître\n\nDurant trois mois, **l'auteur** écrivit, **contacta**, et **signala** à l'entrée en totale défaillance. Ensuite, le onze juillet, il rendit visite à Smautf dans sa chambre et le chargea de prévenir son **patron** qu'il lui déclarait la guerre : si la **création**, pour Bartlebooth, consistait à détruire les créations qu'il avait élaborées, la **manifestation**, pour lui, Beyssandre, consisterait à sauvegarder, quoi qu'il en coûte, une ou plusieurs de ces créations, et il défiait cet Anglais obstiné de l'entraver."
+      },
+      "changement_lieu": {
+        "contexte": "Japon",
+        "texte": "Pendant trois mois, Beyssandre écrivit, téléphonait, et sonnait à la porte en vain. Puis, le onze juillet, il rendit visite à Smautf dans sa chambre et le chargea de prévenir son maître qu'il lui déclarait la guerre : si l'art, pour Bartlebooth, consistait à détruire les œuvres qu'il avait conçues, l'art, pour lui, Beyssandre, consisterait à préserver, coûte que coûte, une ou plusieurs de ces œuvres, et il défiait cet Anglais obstiné de l'en empêcher."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "**SCÈNE 1 : CHAMBRE DE SMAUTF**\n\n(Beyssandre frappe la porte avec une énergie débordante.)\n\nBEYSSANDRE : (À l'oreille de Smautf, chuchotant avec panache) Mon maître, une nouvelle explosive ! L'art de Bartlebooth ? Détruire ? Quelle blague !\n\nSMAUTF : (Lève un sourcil, l'air blasé) Et qu'est-ce que ton art, Beyssandre ?\n\nBEYSSANDRE : (S'affale dramatiquement) Mon art, c'est de sauver ! Je défie cet Anglais têtu ! Si l'art est de détruire, le mien, c'est de sauver une œuvre, quoi qu'il arrive ! Prépare-toi à la guerre esthétique !"
+      }
+    },
+    "28": {
+      "changement_epoque": {
+        "contexte": "Renaissance",
+        "texte": "Quelques semaines après, Blanche apprit qu'elle portait en son sein une vie et que l'accouchement de l'enfant coïnciderait à quelques jours près avec l'ouverture du grand festival. La seule voie envisageable était de mettre fin à cette grossesse ; mais lorsqu'elle révéla cette nouvelle à Ricetti, le danseur, dont le nom résonnait comme une mélodie enivrante, fut saisi d'une colère indescriptible, lui interdisant de sacrifier cet être irremplaçable qu'il allait lui offrir au seul bénéfice d'une nuit de gloire."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le secret de sa grossesse la menaçait, car l'arrivée de l'enfant coïncidait avec le grand **festival**. Face à cette réalité, l'idée d'**avorter** semblait la seule issue. Pourtant, lorsque Blanche révéla la vérité à Ricetti, le danseur exprima une **fureur** indescriptible. Il refusa catégoriquement de sacrifier cet être **irremplaçable**, refusant de le vendre pour une simple gloire éphémère."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "L'ombre du jour vient,\nUn amour refusé enfin,\nLe cœur se déchire."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Blanche, enceinte, naissance, festival, avorter\n\nQuelques semaines plus tard, Blanche découvrit qu'elle était **gestante** et que l'**accouchement** coïnciderait à quelques jours près avec l'ouverture du **rassemblement**. La seule solution était qu'elle se fasse **interrompre de la grossesse** ; mais lorsqu'elle l'annonça à Ricetti, le danseur entra dans une indescriptible fureur, et lui interdit de **mettre fin à la gestation** de l'être irremplaçable qu'il allait lui donner au seul profit d'une soirée de renommée."
+      },
+      "changement_lieu": {
+        "contexte": "Inde",
+        "texte": "Quelques semaines plus tard, Blanche comprit qu'elle était enceinte et que l'arrivée de l'enfant coïnciderait à quelques jours près avec l'ouverture du festival de Diwali. La seule issue était qu'elle choisisse de faire un *samskara* ; mais lorsqu'elle révéla cette nouvelle à Ricetti, le *nautch* entra dans une fureur indescriptible, lui interdisant de sacrifier l'être irremplaçable qu'il allait lui offrir au seul profit d'une soirée de *mela*."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "épistolaire",
+        "texte": "Mon cher Ricetti,\n\nJe t'écris avec un cœur lourd. Quelques semaines se sont écoulées depuis ma découverte : je suis enceinte. Le pire, c'est que l'accouchement coïncidera avec l'ouverture du festival. La seule issue semblait être l'avortement. Mais lorsque j'ai révélé cette nouvelle, ta fureur fut indescriptible. Tu m'as interdit de sacrifier cet être irremplaçable pour un simple soir de gloire."
+      }
+    },
+    "29": {
+      "changement_epoque": {
+        "contexte": "Révolution Industrielle",
+        "texte": "Adélaïde, après avoir atteint l'âge de dix ans le record de la France (catégorie des jeunes athlètes) sur la course de cent mètres, fut rapidement captée, dès l'âge de douze ans, par le maître du cirque et entraîna ses quatre sœurs dans une démonstration aérienne qui devint vite célèbre dans toute l'Europe : Les Filles du Feu passaient à travers des cerceaux chauffés à blanc, changeaient de trapèze tout en jonglant avec des torches ou exécutaient du houla-hoop sur un fil tendu à quatre mètres du sol."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'éclat des flammes illuminait la scène. **Adélaïde**, même jeune, avait établi un **record** impressionnant. Mais l'ombre du **démon du cirque** s'abattit ensuite, entraînant ses sœurs dans un spectacle de **voltige** vertigineux. Elles traversaient des cerceaux **enflammés**, créant une légende européenne où chaque mouvement était une danse dangereuse et magnifique."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Feu danse, envol vif,\nQuatre sœurs dans l'air ardent,\nLumière s'éteint."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "Adélaïde, après avoir battu à dix ans le record de France (catégorie minimes) du soixante mètres plat, fut saisie, dès douze ans, par l'entité du cirque et conduisit ses quatre sœurs dans une démonstration aérienne qui devint rapidement célèbre dans toute l'Europe : Les Filles du Feu effectuaient des passages à travers des anneaux ardents, modifiaient de la structure en hauteur tout en manipulant des braises ou exécutaient du jonglage avec des cerceaux sur un fil suspendu à quatre mètres du sol."
+      },
+      "changement_lieu": {
+        "contexte": "Égypte",
+        "texte": "Adélaïde, après avoir battu à dix ans le record de France (catégorie minimes) du soixante mètres plat, fut saisie, dès douze ans, par le démon du cirque et entraîna ses quatre sœurs dans un numéro de voltige qui fut bientôt fameux dans toute l'Europe : les Filles du Feu passaient à travers des cerceaux enflammés, changeaient de trapèze tout en jonglant avec des torches ou faisaient du houla-hoop sur un fil tendu à quatre mètres du sol, sous le soleil ardent du Nil."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "épistolaire",
+        "texte": "Ma chère Adélaïde,\n\nJe t'écris pour te raconter cette histoire incroyable. À dix ans, tu as battu le record de France du centimètre dans les soixante mètres plat. Mais l'aventure ne s'arrêtait pas là ! Dès douze ans, le démon du cirque t'a prise. Il a entraîné tes quatre sœurs dans un numéro qui est devenu célèbre en Europe : les Filles du Feu. Elles passaient à travers des cerceaux enflammés, changeaient de trapèze tout en jonglant avec des torches, ou encore faisaient du houla-hoop sur un fil à quatre mètres du sol. C'est une histoire fascinante."
+      }
+    },
+    "30": {
+      "changement_epoque": {
+        "contexte": "Moyen Âge",
+        "texte": "Sans se soucier du trouble qu'elle provoquait, Gertrude lança son tablier à la figure du seigneur en lui disant que les provisions qu'on lui fournissait étaient viciées et qu'il n'était point question qu'elle fasse sa cuisine avec. Seigneur Ashtray tenait d'autant plus à sa cuisinière qu'il n'avait pratiquement jamais goûté sa cuisine. Pour la conserver, il accepta sans hésitation qu'elle aille faire son marché elle-même, où elle voulait."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Le **trouble** dans la cuisine était palpable, mais Gertrude ignorait toute réticence. Elle lança son **tablier** à la figure du lord, dénonçant les produits qu'on lui fournissait comme étant absolument **dégueulasses**. Lord Ashtray, fasciné par cette audace, comprit qu'il devait faire confiance à sa **cuisinière**. Il accepta alors d'autoriser Gertrude à gérer elle-même son **marché**, lui laissant toute liberté dans ses choix d'ingrédients."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Le tablier s'envole,\nGoût amer, choix du marché,\nAmour et cuisine."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "trouble, tablier, produits, dégueulasses, cuisine\n\nSans se soucier du **agitation** qu'elle provoquait, Gertrude lança son **vêtement de protection** à la figure du lord en lui disant que les **matières** qu'on lui fournissait étaient **repoussantes** et qu'il n'était pas question qu'elle fasse son **préparation alimentaire** avec. Lord Ashtray tenait d'autant plus à sa **cuisinière** qu'il n'avait pratiquement jamais goûté sa **préparation alimentaire**. Pour la conserver, il accepta sans hésitation qu'elle aille faire son **achats** elle-même, où elle voulait."
+      },
+      "changement_lieu": {
+        "contexte": "Mexique",
+        "texte": "Sans se soucier du trouble qu'elle provoquait, Gertrude lança son tablier à la figure du *hacendado* en lui disant que les produits qu'on lui fournissait étaient dégueulasses et qu'il n'était pas question qu'elle fasse sa cuisine avec. Le *hacendado* tenait d'autant plus à sa cuisinière qu'il n'avait pratiquement jamais goûté sa cuisine, surtout pas les saveurs authentiques des *tamales* ou du *mole*. Pour la conserver, il accepta sans hésitation qu'elle aille faire son marché elle-même, là où elle voulait, au cœur du marché de Tlatelolco, où l'air sentait le *chile* et la terre humide."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "discours politique",
+        "texte": "Citoyens ! Nous ne tolérerons plus la médiocrité ! Face à des produits indignes, face à une cuisine qui ne mérite pas notre confiance, Gertrude a osé dénoncer l'inacceptable ! Et qu'a fait le Lord Ashtray ? Il a compris ! Il a saisi l'opportunité ! Il n'acceptera plus la médiocrité ! Il exigera la transparence ! Il prendra les rênes de son approvisionnement, il choisira lui-même les sources ! C'est la voie de la dignité, la voie de la qualité ! Agissons maintenant !"
+      }
+    },
+    "31": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Dans la zone de préparation alimentaire, c'est là que l'on aperçut la cohorte des convives, une douzaine à peu près, qui s'amusaient à une session de musique électronique expérimentale sous la houlette du chef. Celui-ci, drapé dans un peignoir à rayures anthracite et vert lime, les pieds dans des sandales de cuir synthétique, coiffé d'un abat-jour conique comme couvre-chef, était perché sur un siège rembourré et dictait le rythme."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "Dans la chaleur de la **cuisine**, une ambiance électrique prenait forme. Les **invités**, une douzaine de personnes, se rassemblaient autour de l'artiste. Le **concert** improvisé vibrait dans l'air, orchestré par le **maître de maison**. Son allure était excentrique : vêtue d'un peignoir, il portait un **abat-jour** conique, dominant la scène avec une présence inattendue."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Musique dans la cuisine,\nPeignoir, chapeau de lumière,\nL'instant s'éveille."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "invités, maître de maison, peignoir, chapeau, chaise\n\nC'est dans la cuisine que l'on découvrit le gros des **personnes conviées**, une douzaine environ, qui improvisaient un concert de musique contemporaine sous la direction du **hôte**, celui-ci, vêtu d'un **vêtement de maison à motifs** gris et verts, les pieds dans des babouches de cuir, un **luminaire conique servant de couvre-chef**, était juché sur un **siège rembourré** et donnait la mesure."
+      },
+      "changement_lieu": {
+        "contexte": "Kenya",
+        "texte": "C'est dans la *jiko*, la cuisine, que l'on découvrit le gros des invités, une douzaine environ, qui improvisaient un concert de musique contemporaine sous la direction du *mzee* de maison. Celui-ci, vêtu d'un *kanga* à rayures grises et vertes, les pieds dans des *chapesh* de cuir, un abat-jour conique en guise de chapeau, était juché sur une chaise paillée et donnait la mesure."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "administratif officiel",
+        "texte": "Observation : La réception a eu lieu dans l'espace cuisine. Une douzaine d'invités s'est rassemblée pour une prestation musicale de musique contemporaine, orchestrée par l'hôte. L'hôte était identifiable par un peignoir à rayures grises et vertes, des babouches en cuir, et un abat-jour conique utilisé comme couvre-chef. L'hôte était positionné sur une chaise paillée et assurait la direction de l'événement."
+      }
+    },
+    "32": {
+      "changement_epoque": {
+        "contexte": "Antiquité",
+        "texte": "Sans soutien, négligé, repoussé, Dinteville finit par quitter son lieu de soin et vint s'établir à Rome, résolu à n'être plus qu'un guérisseur de quartier dont les aspirations modestes n'iraient plus affronter le monde prestigieux mais redoutable des sages et des philosophes, mais se cantonneraient aux plaisirs domestiques de la musique et de la cuisine."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "L'ancienne vie de Dinteville fut un sentiment **délaissé**, un abandon silencieux de son ancienne vocation. Il choisit de s'installer à **Paris**, cherchant une nouvelle voie loin des ambitions grandioses. Il accepta de se concentrer sur des plaisirs plus simples, se consacrant à la **cuisine** raffinée et à la mélodie du **solfège**. Malgré la grandeur des **érudits**, il trouva sa paix dans ces activités domestiques, trouvant une satisfaction tranquille dans le quotidien."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Sol seul s'éteint,\nParis accueille le silence,\nRêves doux restent."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "1. appuis\n2. délaissé\n3. dégoûté\n4. cabinet\n5. univers\n\nSans **soutien**, **négligé**, **rejeté**, **bureau**, **monde** Dinteville finit par abandonner son **cabinet** et vint s'installer à Paris, résolu à n'être plus qu'un médecin de quartier dont les rêves inoffensifs n'iraient plus affronter l'**univers** prestigieux mais redoutable des érudits et des savants, mais se cantonneraient aux plaisirs domestiques du solfège et de la cuisine."
+      },
+      "changement_lieu": {
+        "contexte": "Inde",
+        "texte": "Sans appuis, abandonné, dégoûté, Dinteville finit par laisser son cabinet et vint s'établir à Mumbai, résolu à n'être plus qu'un *vaidya* de quartier dont les ambitions inoffensives n'iraient plus affronter l'univers prestigieux mais redoutable des *pandits* et des savants, mais se cantonneraient aux plaisirs domestiques du *rajasthani* et de la cuisine."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "épistolaire",
+        "texte": "Mon cher ami,\n\nJe t'écris pour te confier une nouvelle qui a marqué ma vie. Dinteville, ayant abandonné son cabinet sans aucun appui, et ayant été délaissé, se tourne désormais vers Paris. Il a décidé de devenir un simple médecin de quartier, car ses rêves inoffensifs ne pouvaient plus rivaliser avec l'univers prestigieux et redoutable des érudits et des savants. Il se contentera désormais des plaisirs domestiques du solfège et de la cuisine."
+      }
+    },
+    "33": {
+      "changement_epoque": {
+        "contexte": "Futur proche",
+        "texte": "Mademoiselle Yola avait la garde des deux blocs-notes du chef de secteur : l'un, un agenda compact, pour ses rencontres privées, l'autre, un calendrier hebdomadaire, pour ses missions professionnelles. L'une des tâches les plus critiques pour Yola consistait précisément à ne pas confondre les carnets et à ne jamais planifier deux engagements simultanés."
+      },
+      "forcage": {
+        "contexte": null,
+        "texte": "La **garde** des **carnets** était une responsabilité lourde pour Yolande. Chaque **rendez-vous**, qu'il soit personnel ou professionnel, exigeait une précision absolue. Il fallait éviter toute erreur, car la moindre **tromper**ie aurait pu engendrer des complications inattendues. Ces documents précieux représentaient l'équilibre entre sa vie privée et ses obligations professionnelles. Elle veillait à ce que cette gestion minutieuse reste impeccable."
+      },
+      "haiku": {
+        "contexte": null,
+        "texte": "Carnets secrets,\nUn seul chemin à suivre,\nPas d'erreur vue."
+      },
+      "homosemantique": {
+        "contexte": null,
+        "texte": "carnets de rendez-vous, agenda petit format, semainier de bureau, rendez-vous personnels, rendez-vous professionnels\n\nMademoiselle Yolande avait la garde des **registres d'échanges** du chef de service, l'un, un **planificateur réduit**, pour ses **affaires privées**, l'autre, un **calendrier hebdomadaire d'entreprise**, pour ses **interactions professionnelles**, et l'une des tâches les plus délicates de Mademoiselle Yolande consistait précisément à ne pas se tromper de **document** et à ne pas prendre deux **rencontres** en même temps."
+      },
+      "changement_lieu": {
+        "contexte": "Chine",
+        "texte": "Mademoiselle Yolande détenait la garde des deux registres de rencontres du chef de service : l'un, un agenda de petite taille, réservé à ses affaires personnelles, l'autre, un calendrier hebdomadaire pour les engagements professionnels. L'une des tâches les plus subtiles de Mademoiselle Yolande résidait précisément dans l'obligation de ne pas confondre les carnets et d'éviter de prendre deux réunions simultanées. L'air, lourd d'une odeur persistante de bois de santal et de fumée de thé, emplissait le bureau à Pékin."
+      },
+      "changement_genre_litteraire": {
+        "contexte": "théâtre comédie",
+        "texte": "**SCÈNE :** Un bureau exigu. Yolande, l'air paniqué, jongle avec deux carnets.\n\nYOLANDE\n(À voix haute, haletante)\nMon Dieu ! L'agenda personnel, le semainier pro... Quelle gymnastique !\n\n(Elle regarde nerveusement les deux carnets.)\n\nYOLANDE (suite)\nIl faut que je ne mélange pas les dates ! Un rendez-vous, deux rendez-vous... C'est la catastrophe ! Un seul carnet, c'est la mort !"
+      }
+    }
+  }
 }
