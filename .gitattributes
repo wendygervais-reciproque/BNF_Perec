@@ -1,0 +1,4 @@
+# Normalize line endings to LF in the repository, regardless of OS.
+# When files are checked out, they remain LF on all systems.
+# This prevents spurious diffs when switching between Windows and Unix.
+* text=auto eol=lf
