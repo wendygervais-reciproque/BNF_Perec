@@ -2,7 +2,7 @@ import { PARAMS, getStats } from '/scripts/algo_block.js';
 
 export class ControlPanel {
   constructor() {
-    this.isVisible = true;
+    this.isVisible = false; // masqué par défaut — touche "D" pour l'afficher
     this.frames = 0;
     this.lastTime = performance.now();
     this.fps = 0;
@@ -27,6 +27,8 @@ export class ControlPanel {
       backdrop-filter: blur(4px);
       transition: opacity 0.2s ease;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
     `;
 
     // 1. MONITORING
@@ -39,37 +41,23 @@ export class ControlPanel {
     `;
     this.panel.appendChild(this.monitorSection);
 
-    // Séparateur
-    let sep1 = document.createElement('div');
-    sep1.innerHTML = '<hr style="border-color:#444; margin: 15px 0;"><span style="color:#888; font-size:10px; font-weight:bold;">MOTEUR GRAPHIQUE</span>';
-    this.panel.appendChild(sep1);
-
-    // 2. CONTRÔLES (Générés automatiquement)
-    this.controlsContainer = document.createElement('div');
-    this.panel.appendChild(this.controlsContainer);
-
-    // Création des Sliders
+    // 2. CONTRÔLES — chaque rubrique ouvre son conteneur, dans lequel
+    // addSlider/addColor rangent les entrées suivantes
+    this.addSection('MOTEUR GRAPHIQUE');
     this.addSlider('Bruit (Errement)', 'NOISE_SCALE', 0.001, 0.05, 0.001);
     this.addSlider('Cône de Vision (°)', 'maxConeAngleDegrees', 10, 360, 10);
     this.addSlider('Inertie (Accélération)', 'accelerationSpeed', 0.1, 2.0, 0.1);
     this.addSlider('Quota Plasma (Lag)', 'maxPlasmaCells', 500, 10000, 100);
 
-    let sep2 = document.createElement('div');
-    sep2.innerHTML = '<hr style="border-color:#444; margin: 15px 0;"><span style="color:#888; font-size:10px; font-weight:bold;">ÉCOSYSTÈME (Défibrillateur)</span>';
-    this.panel.appendChild(sep2);
-
+    this.addSection('ÉCOSYSTÈME (Défibrillateur)');
     this.addSlider('Densité de Survie', 'defibDensity', 0.0, 1.0, 0.05);
     this.addSlider('Étincelles (Vide)', 'defibEphemeralSparks', 0.001, 0.05, 0.001);
     this.addSlider('Rayon d\'Action', 'defibRadius', 1, 15, 1);
 
-    let sep3 = document.createElement('div');
-    sep3.innerHTML = '<hr style="border-color:#444; margin: 15px 0;"><span style="color:#888; font-size:10px; font-weight:bold;">COULEURS & ESTHÉTIQUE</span>';
-    this.panel.appendChild(sep3);
-
+    this.addSection('COULEURS & ESTHÉTIQUE');
     this.addSlider('Opacité Plasma Max', 'alphaEphemeral', 0.1, 1.0, 0.1);
     this.addSlider('Disparition Plasma', 'plasmaFadeOutSpeed', 0.01, 0.2, 0.01);
     this.addSlider('Refroidissement Collision', 'collisionCoolingSpeed', 0.01, 0.2, 0.01);
-    
     this.addColor('Couleur Plasma', 'colorEphemeral');
     this.addColor('Couleur Collision', 'colorCollision');
 
@@ -89,6 +77,16 @@ export class ControlPanel {
     this.partEl = document.getElementById('cp-part');
     this.plasEl = document.getElementById('cp-plas');
     this.stateEl = document.getElementById('cp-state');
+  }
+
+  // Ouvre une rubrique : titre + nouveau conteneur pour les entrées suivantes
+  addSection(title) {
+    const sep = document.createElement('div');
+    sep.innerHTML = `<hr style="border-color:#444; margin: 15px 0;"><span style="color:#888; font-size:10px; font-weight:bold;">${title}</span>`;
+    this.panel.appendChild(sep);
+    this.controlsContainer = document.createElement('div');
+    this.controlsContainer.style.marginTop = '10px';
+    this.panel.appendChild(this.controlsContainer);
   }
 
   // Fonction utilitaire pour créer un Slider

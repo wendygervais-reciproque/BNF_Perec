@@ -97,6 +97,7 @@ function animate(timestamp) {
   } else if (currentState === STATE_FORMING) {
     if (Algo.isTextFullyFormed()) {
       currentState = STATE_IDLE;
+      setGeneratingButton(null); // le texte a fini d'apparaître : déverrouillage
     }
   }
 
@@ -262,9 +263,17 @@ function queueTextForDisplay(text, variable = null) {
   if (textIterationNumber) textIterationNumber.textContent = textIteration;
 }
 
+// Pendant une génération, seul le bouton de la contrainte en cours est
+// désactivé (inutile de renvoyer la même requête) ; les autres restent
+// cliquables pour pouvoir interrompre et repartir sur une autre contrainte.
+function setGeneratingButton(constraintId) {
+  constraintButtons.forEach(b => { b.disabled = b.dataset.id === constraintId; });
+}
+
 async function generate() {
   if (!activeConstraintId) return;
   const token = ++generationToken;
+  setGeneratingButton(activeConstraintId);
 
   // Retour au chaos : sert d'état de chargement pendant l'appel au LLM
   if (currentState !== STATE_CHAOS) {
@@ -296,7 +305,13 @@ async function generate() {
   }
 
   if (token !== generationToken) return; // une génération plus récente a pris la main
-  if (text) queueTextForDisplay(text, variable);
+  if (text) {
+    // Le déverrouillage attend la fin de l'apparition du texte sur le
+    // canvas (transition vers STATE_IDLE dans animate())
+    queueTextForDisplay(text, variable);
+  } else {
+    setGeneratingButton(null); // rien à afficher : déverrouillage immédiat
+  }
 }
 
 // ==========================================
@@ -322,14 +337,6 @@ const btnRenewExtract = document.getElementById('btn-renew-extract');
 if (btnRenewExtract) {
   btnRenewExtract.addEventListener('click', async () => {
     await loadRandomExtract();
-    if (activeConstraintId) generate();
-  });
-}
-
-// Nouvelle variante du même extrait avec la contrainte active
-const btnNewText = document.getElementById('btn-new-text');
-if (btnNewText) {
-  btnNewText.addEventListener('click', () => {
     if (activeConstraintId) generate();
   });
 }
