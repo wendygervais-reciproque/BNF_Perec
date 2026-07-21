@@ -96,7 +96,7 @@
     /* Grilles (lues par main.js pour le canvas) — la maquette ne les fait plus apparaître ; remonter l'alpha ici suffit à les réafficher. */
     --color-grid-canvas: rgba(252, 235, 219, 0);
 
-    /* ===== Moteur d'animation (défauts lus par js/engine/algo_block.js,
+    /* ===== Moteur d'animation (défauts lus par js/engine/params.js,
        réglables en direct via le panneau de contrôle) ===== */
     --color-anim-physical:  var(--color-text-on-dark);   /* particules physiques */
     --color-anim-highlight: var(--color-on-accent);      /* couleur du texte highlight */

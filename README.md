@@ -16,12 +16,27 @@ puis le texte généré se forme à l'écran via une animation procédurale.
     des variables CSS de `:root`, calées sur les variables des maquettes
     Figma (source unique, y compris pour le JS qui les relit)
   - `fonts/` — les webfonts (IBM Plex Sans, IBM Plex Mono)
-  - `js/main.js` — pilotage de l'interface et appels à l'API
-  - `js/engine/` — le moteur d'animation : `algo_block.js` (simulation),
-    `textManager.js` (composition), `bitmap_font.js` (police bitmap du
-    canvas, à ne pas confondre avec `fonts/`), `control_panel.js` (panneau
-    de réglages, touche « D »)
   - `data/textes_secours.json`
+  - `js/` — l'application :
+    - `main.js` — le chef d'orchestre : machine à états, boucle d'animation,
+      et déclenchement du reste
+    - `config.js` — toutes les constantes (géométrie, cadences) et le
+      lecteur de variables CSS
+    - `api.js` — appels serveur et repli sur les textes de secours
+    - `stage.js` — le canvas et ses couches de fond
+    - `ui.js` — la couche DOM autour du canvas
+    - `idle.js` — le mode inactif (voile et rebonds après un temps mort)
+  - `js/engine/` — le moteur d'animation :
+    - `simulation.js` — orchestre un pas ; `state.js` porte l'état partagé,
+      `params.js` les réglages (modifiables à chaud par le panneau de debug)
+    - `physics.js` — déplacement des particules et des blocs
+    - `plasma.js` — l'automate cellulaire et ses greffons
+    - `formation.js` — appariement particules / emplacements du texte
+    - `renderer.js` — le dessin ; `noise.js` — le champ de bruit
+    - `text_manager.js` — composition du texte sur la trame ;
+      `bitmap_font.js` — la police bitmap du canvas, à ne pas confondre
+      avec `fonts/`
+    - `control_panel.js` — panneau de réglages, touche « D »
 - `generate_secours.py` — script qui (re)génère les textes de secours via
   le LLM (voir plus bas)
 - `static/data/textes_secours.json` — textes de secours affichés si le LLM est

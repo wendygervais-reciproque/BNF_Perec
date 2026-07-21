@@ -12,7 +12,7 @@
 //   engine/     la simulation
 
 import * as Engine from '/js/engine/simulation.js';
-import * as TextManager from '/js/engine/textManager.js';
+import * as TextManager from '/js/engine/text_manager.js';
 import { ControlPanel } from '/js/engine/control_panel.js';
 
 import {
