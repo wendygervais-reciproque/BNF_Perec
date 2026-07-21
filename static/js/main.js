@@ -115,8 +115,8 @@ function animate(timestamp) {
   }
 
   if (currentState === STATE_FORMING || currentState === STATE_IDLE) {
-    if (currentHighlightBgPixels.length > 0 && Algo.crystallizationProgress > 0) {
-      ctx.globalAlpha = Algo.crystallizationProgress;
+    if (currentHighlightBgPixels.length > 0 && Algo.getCrystallization() > 0) {
+      ctx.globalAlpha = Algo.getCrystallization();
       ctx.fillStyle = colorHighlightBg;
       ctx.fill(highlightBgPath);
       ctx.globalAlpha = 1.0;

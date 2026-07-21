@@ -1,4 +1,5 @@
-import { PARAMS, getStats } from '/js/engine/algo_block.js';
+import { PARAMS } from '/js/engine/params.js';
+import { getStats } from '/js/engine/algo_block.js';
 
 export class ControlPanel {
   constructor() {
