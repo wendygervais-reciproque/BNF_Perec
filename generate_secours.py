@@ -1,7 +1,7 @@
 """Génère les textes de secours pour chaque couple (extrait, contrainte).
 
 Utilise le même LLM et les mêmes prompts que la route /generate de app.py,
-puis remplit static/textes_secours.json sous la clé "textes" :
+puis remplit static/data/textes_secours.json sous la clé "textes" :
 
     { "textes": { "01": { "forcage": { "contexte": ..., "texte": ... }, ... } } }
 
@@ -35,7 +35,7 @@ from app import (
     strip_leading_mention,
 )
 
-SECOURS_PATH = BASE_DIR / "static" / "textes_secours.json"
+SECOURS_PATH = BASE_DIR / "static" / "data" / "textes_secours.json"
 
 
 def load_secours() -> dict:

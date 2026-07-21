@@ -1,4 +1,4 @@
-import { PARAMS, getStats } from '/scripts/algo_block.js';
+import { PARAMS, getStats } from '/js/engine/algo_block.js';
 
 export class ControlPanel {
   constructor() {
@@ -37,7 +37,8 @@ export class ControlPanel {
       <div style="color:#00ffcc; font-weight:bold; font-size:14px; margin-bottom:10px" id="cp-fps">FPS: 0</div>
       <div style="color:#aaa; display:flex; justify-content:space-between;"><span>Particules:</span> <span id="cp-part">0</span></div>
       <div style="color:#aaa; display:flex; justify-content:space-between;"><span>Plasma Actif:</span> <span id="cp-plas">0</span></div>
-      <div style="color:#aaa; display:flex; justify-content:space-between; margin-bottom:15px"><span>État:</span> <span id="cp-state">CHAOS</span></div>
+      <div style="color:#aaa; display:flex; justify-content:space-between;"><span>État:</span> <span id="cp-state">CHAOS</span></div>
+      <div style="color:#aaa; display:flex; justify-content:space-between; margin-bottom:15px"><span>Inactivité:</span> <span id="cp-idle">—</span></div>
     `;
     this.panel.appendChild(this.monitorSection);
 
@@ -77,6 +78,7 @@ export class ControlPanel {
     this.partEl = document.getElementById('cp-part');
     this.plasEl = document.getElementById('cp-plas');
     this.stateEl = document.getElementById('cp-state');
+    this.idleEl = document.getElementById('cp-idle');
   }
 
   // Ouvre une rubrique : titre + nouveau conteneur pour les entrées suivantes
@@ -145,7 +147,9 @@ export class ControlPanel {
     this.controlsContainer.appendChild(row);
   }
 
-  update() {
+  // idleStatus vient de main.js — le compte à rebours d'inactivité n'est pas
+  // une affaire du moteur, le panneau se contente de l'afficher.
+  update(idleStatus = null) {
     this.frames++;
     const now = performance.now();
     const elapsed = now - this.lastTime;
@@ -165,6 +169,24 @@ export class ControlPanel {
       this.partEl.innerText = stats.particles;
       this.plasEl.innerText = stats.plasma;
       this.stateEl.innerText = stats.state;
+
+      // Compte à rebours d'inactivité : suspendu tant que le texte s'anime,
+      // il repart de zéro une fois l'écran stabilisé.
+      if (!idleStatus) {
+        this.idleEl.innerText = '—';
+        this.idleEl.style.color = '#aaa';
+      } else if (idleStatus.state === 'active') {
+        this.idleEl.innerText = 'mode inactif';
+        this.idleEl.style.color = '#00ffcc';
+      } else if (idleStatus.state === 'suspended') {
+        this.idleEl.innerText = 'suspendu (animation)';
+        this.idleEl.style.color = '#ffcc00';
+      } else {
+        const s = (idleStatus.elapsedMs / 1000).toFixed(1);
+        const total = (idleStatus.delayMs / 1000).toFixed(0);
+        this.idleEl.innerText = `${s} / ${total} s`;
+        this.idleEl.style.color = '#aaa';
+      }
 
       // Le texte du plasma devient rouge s'il approche de la limite (Quota)
       if (stats.plasma >= PARAMS.maxPlasmaCells * 0.9) this.plasEl.style.color = '#ff3333';

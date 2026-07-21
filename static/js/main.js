@@ -1,23 +1,33 @@
-import * as TextManager from '/scripts/textManager.js';
-import * as Algo from '/scripts/algo_block.js';
-import { ControlPanel } from '/scripts/control_panel.js';
+import * as TextManager from '/js/engine/textManager.js';
+import * as Algo from '/js/engine/algo_block.js';
+import { ControlPanel } from '/js/engine/control_panel.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const container = document.getElementById('right');
 
-canvas.width = container.clientWidth;
-canvas.height = container.clientHeight;
+// Géométrie de la maquette : l'application est calibrée pour un écran de
+// borne 1920×1080, la page générée en occupe la moitié droite.
+const DESIGN_WIDTH = 1920;
+const DESIGN_HEIGHT = 1080;
+
+// La mise en page n'est pas toujours établie quand ce module s'exécute — la
+// mesure retourne alors 0 et le moteur démarrerait sur un canvas vide, sans
+// jamais se redimensionner ensuite. D'où le repli sur la géométrie de la
+// maquette.
+const bounds = container.getBoundingClientRect();
+canvas.width = Math.round(bounds.width) || DESIGN_WIDTH / 2;
+canvas.height = Math.round(bounds.height) || DESIGN_HEIGHT;
 
 // ==========================================
 // 1. INVARIANTS ET PARAMÈTRES
 // ==========================================
-// Les couleurs sont définies dans static/style.css (:root) — source unique.
+// Les couleurs sont définies dans static/css/style.css (:root) — source unique.
 const rootStyles = getComputedStyle(document.documentElement);
 const cssColor = name => rootStyles.getPropertyValue(name).trim();
 
 const cellSize = 3;
-const colorHighlightBg = cssColor('--color-highlight-bg');   // exergue des mots sur le canvas
+const colorHighlightBg = cssColor('--color-anim-highlight-bg');   // exergue des mots sur le canvas
 let currentHighlightBgPixels = [];
 let highlightBgPath = new Path2D();
 
@@ -26,17 +36,16 @@ const maxClusterSize = 3;
 
 // ==========================================
 // CONFIGURATION DE LA GRILLE
-// Modifier ces 2 valeurs pour ajuster les deux grilles simultanément
-// (couleurs : --color-grid-page / --color-grid-canvas dans style.css).
+// La grille reste la trame de composition du texte du canvas ; la maquette
+// ne la donne plus à voir (--color-grid-canvas transparent dans style.css),
+// remonter son alpha suffit à la réafficher.
 // ==========================================
 const gridInterval   = 8;                                    // nombre de cellules entre chaque ligne de grille
 const lineGap        = 6;                                    // lignes de grille vides entre les lignes de texte (0, gridInterval, 2*gridInterval…)
 const gridColorRight = cssColor('--color-grid-canvas');      // couleur des lignes — canvas (page droite)
 
-// Propagation au CSS de l'espacement pour la grille de la page gauche
-document.documentElement.style.setProperty('--grid-spacing', `${cellSize * gridInterval}px`);
-
 let pendingText = null;
+let pendingVariable = null;   // paramètre du cartouche, gardé jusqu'à ce que le texte soit formé
 
 const controlPanel = new ControlPanel();
 
@@ -84,12 +93,13 @@ function animate(timestamp) {
   if (currentState === STATE_CHAOS) {
     if (pendingText !== null) {
       let dims = Algo.getGridDimensions(canvas.width, canvas.height, cellSize);
-      let coords = TextManager.getCoordinates(pendingText, dims.cols, dims.rows, gridInterval, lineGap);
+      let coords = TextManager.getCoordinates(pendingText, dims.cols, dims.rows, gridInterval, lineGap, textOffsetRows, textMarginCells);
       currentHighlightBgPixels = coords.highlightBgPixels;
       highlightBgPath = new Path2D();
       for (const bp of currentHighlightBgPixels) {
         highlightBgPath.rect(bp.x * cellSize, bp.y * cellSize, cellSize, cellSize);
       }
+      placeTextIteration(coords.textPixels);
       Algo.startFormation(coords.textPixels);
       pendingText = null;
       currentState = STATE_FORMING;
@@ -97,7 +107,10 @@ function animate(timestamp) {
   } else if (currentState === STATE_FORMING) {
     if (Algo.isTextFullyFormed()) {
       currentState = STATE_IDLE;
-      setGeneratingButton(null); // le texte a fini d'apparaître : déverrouillage
+      setGeneratingButton(null);             // le texte a fini d'apparaître : déverrouillage
+      showTextIteration();                   // sa signature revient en fondu
+      setConstraintBadge(pendingVariable);   // et le cartouche descend du haut de l'écran
+      resetIdleTimer();                      // l'écran est stabilisé : le compte à rebours peut courir
     }
   }
 
@@ -112,7 +125,7 @@ function animate(timestamp) {
 
   Algo.update(dt, formationSpeedMultiplier);
   Algo.draw(ctx);
-  controlPanel.update();
+  controlPanel.update(getIdleStatus());
 
   requestAnimationFrame(animate);
 }
@@ -138,7 +151,7 @@ let fallbackTextes = null;
 // en dernier recours si un couple manque.
 try {
   ({ contraintes: fallbackContraintes, textes: fallbackTextes } =
-    await (await fetch('/textes_secours.json')).json());
+    await (await fetch('/data/textes_secours.json')).json());
 } catch (e) {
   console.warn('Textes de secours indisponibles :', e);
 }
@@ -241,15 +254,64 @@ const constraintBadgeEl = document.getElementById('constraint-badge');
 const badgeLabelEl = document.getElementById('constraint-badge-label');
 const badgeValueEl = document.getElementById('constraint-badge-value');
 
+// Le cartouche entre et sort par le haut de l'écran (transition CSS sur
+// .visible). Le libellé n'est réécrit qu'à l'entrée : pendant la sortie, il
+// conserve l'ancienne valeur, qui s'échappe avec lui.
 function setConstraintBadge(variable) {
   if (!constraintBadgeEl) return;
   if (variable?.value) {
     badgeLabelEl.textContent = `${variable.label} :`;
     badgeValueEl.textContent = variable.value;
-    constraintBadgeEl.hidden = false;
+    constraintBadgeEl.classList.add('visible');
   } else {
-    constraintBadgeEl.hidden = true;
+    constraintBadgeEl.classList.remove('visible');
   }
+}
+
+// Signature « Texte généré par IA » — la maquette la place sous le texte du
+// canvas ; ce dernier étant centré verticalement, son bas dépend du nombre de
+// lignes, d'où le calcul à partir des pixels de la simulation.
+const TEXT_ITERATION_GAP = 82;      // écart maquette entre le bas du texte et la signature
+const TEXT_ITERATION_HEIGHT = 32;   // hauteur du picto, la ligne ne dépasse pas
+const ACTION_BAR_HEIGHT = 120;      // la signature ne passe pas sous la barre d'action
+const textIterationEl = document.getElementById('text-iteration');
+
+// La signature est posée hors du canvas : le moteur centre le texte seul,
+// sans rien savoir de ce qui pèse en dessous, d'où un ensemble qui paraît
+// trop bas. On remonte donc le texte de la moitié de la place occupée par
+// la signature, pour centrer le bloc « texte + signature ».
+// (Contrairement à la page de gauche, où la citation est dans le flux et
+// participe naturellement au centrage.)
+const textOffsetRows = -Math.round((TEXT_ITERATION_GAP + TEXT_ITERATION_HEIGHT) / 2 / cellSize);
+
+// Marge gauche du texte généré, calée sur celle de la page originale
+// (#left, padding 64px dans style.css). Le texte du canvas étant peint
+// cellule par cellule, il ne peut se poser que sur des multiples de
+// cellSize : 21 cellules = 63 px, à 1 px de la page de gauche. La mention
+// « généré par IA » utilise cette même valeur (--canvas-margin-x), pour
+// qu'elle et le texte soient alignés exactement l'un sur l'autre.
+const PAGE_MARGIN = 64;
+const textMarginCells = Math.round(PAGE_MARGIN / cellSize);
+document.documentElement.style.setProperty('--canvas-margin-x', `${textMarginCells * cellSize}px`);
+
+function placeTextIteration(textPixels) {
+  if (!textIterationEl || textPixels.length === 0) return;
+  let maxY = 0;
+  for (const p of textPixels) if (p.y > maxY) maxY = p.y;
+  const maxTop = canvas.height - ACTION_BAR_HEIGHT - TEXT_ITERATION_HEIGHT - 32;
+  const top = Math.min((maxY + 1) * cellSize + TEXT_ITERATION_GAP, maxTop);
+  textIterationEl.style.top = `${top}px`;
+}
+
+// La signature ne concerne que le texte achevé : elle s'efface dès que
+// celui-ci se dissout ou se reforme, et ne revient qu'une fois la
+// formation terminée (cf. transition vers STATE_IDLE dans animate()).
+function showTextIteration() {
+  textIterationEl?.classList.add('visible');
+}
+
+function hideTextIteration() {
+  textIterationEl?.classList.remove('visible');
 }
 
 function queueTextForDisplay(text, variable = null) {
@@ -257,8 +319,10 @@ function queueTextForDisplay(text, variable = null) {
     Algo.startChaos();
     currentState = STATE_CHAOS;
   }
+  hideTextIteration();   // le texte se reforme, sa signature n'a plus cours
+  resetIdleTimer();      // une animation démarre : sortie du mode inactif, minuteur suspendu
   pendingText = text;
-  setConstraintBadge(variable);
+  pendingVariable = variable;   // mis de côté : le cartouche n'entre qu'au texte formé
   textIteration += 1;
   if (textIterationNumber) textIterationNumber.textContent = textIteration;
 }
@@ -281,7 +345,10 @@ async function generate() {
     currentState = STATE_CHAOS;
   }
   pendingText = null;
-  setConstraintBadge(null); // l'ancien texte se dissout, sa mention avec
+  pendingVariable = null;
+  setConstraintBadge(null); // l'ancien texte se dissout, son cartouche remonte
+  hideTextIteration();
+  resetIdleTimer();         // la dissolution est une animation, pas une inaction
 
   let text = null;
   let variable = null;
@@ -319,6 +386,8 @@ async function generate() {
 // ==========================================
 const constraintButtons = document.querySelectorAll('.btn-contrainte');
 const textIterationNumber = document.getElementById('text-iteration-number');
+const textIterationYear = document.getElementById('text-iteration-year');
+if (textIterationYear) textIterationYear.textContent = new Date().getFullYear();
 let textIteration = 0;
 
 function activateConstraint(btn) {
@@ -342,13 +411,19 @@ if (btnRenewExtract) {
 }
 
 const btnHelp = document.getElementById('btn-help');
+const btnCloseHelp = document.getElementById('btn-close-help');
 const helpPanel = document.getElementById('help-panel');
 
 if (btnHelp && helpPanel) {
-  btnHelp.addEventListener('click', () => {
+  // La barre d'action reste visible par-dessus la notice : les contraintes
+  // y cèdent la place au libellé « Fermer la notice » (maquette A2)
+  const toggleHelp = () => {
     const isOpen = helpPanel.classList.toggle('open');
     btnHelp.classList.toggle('active', isOpen);
-  });
+    document.body.classList.toggle('help-open', isOpen);
+  };
+  btnHelp.addEventListener('click', toggleHelp);
+  if (btnCloseHelp) btnCloseHelp.addEventListener('click', toggleHelp);
 }
 
 // ==========================================
@@ -367,6 +442,17 @@ const idleVeil = document.getElementById('idle-veil');
 let idleTimer = null;
 let bounceTimer = null;
 let lastBouncedBtn = null;
+let idleArmedAt = null;        // date d'armement du minuteur — lue par le panneau de debug
+let idleModeActive = false;
+
+// État du compte à rebours pour le panneau de debug (touche « D ») : soit le
+// mode inactif est enclenché, soit le minuteur est suspendu par une
+// animation en cours, soit il court et on affiche le temps écoulé.
+function getIdleStatus() {
+  if (idleModeActive) return { state: 'active' };
+  if (idleArmedAt === null) return { state: 'suspended' };
+  return { state: 'counting', elapsedMs: performance.now() - idleArmedAt, delayMs: IDLE_DELAY_MS };
+}
 
 function bounceRandomButton() {
   const candidates = [...constraintButtons].filter(b => b !== lastBouncedBtn);
@@ -379,6 +465,7 @@ function bounceRandomButton() {
 }
 
 function startIdleMode() {
+  idleModeActive = true;
   if (idleVeil) idleVeil.classList.add('visible');
   bounceRandomButton();
 }
@@ -388,6 +475,16 @@ function resetIdleTimer() {
   clearTimeout(bounceTimer);
   if (idleVeil) idleVeil.classList.remove('visible');
   constraintButtons.forEach(b => b.classList.remove('jello'));
+  idleModeActive = false;
+  idleArmedAt = null;
+
+  // Un texte qui se dissout ou se reforme n'est pas de l'inactivité : le
+  // compte à rebours ne repart qu'une fois l'écran stabilisé. La fin de la
+  // formation (passage en STATE_IDLE dans animate()) rappelle cette
+  // fonction, qui arme alors le minuteur.
+  if (currentState !== STATE_IDLE) return;
+
+  idleArmedAt = performance.now();
   idleTimer = setTimeout(startIdleMode, IDLE_DELAY_MS);
 }
 

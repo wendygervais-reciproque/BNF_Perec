@@ -1,0 +1,586 @@
+/* ==========================================
+   Polices — servies depuis static/fonts/, la borne devant fonctionner
+   hors ligne. font-display: block évite d'afficher une fraction de seconde
+   la police de repli (fichiers locaux : le chargement est immédiat).
+   Les quatre graisses de la Mono sont déclarées, mais seules celles
+   réellement utilisées sont téléchargées par le navigateur : passer le
+   texte source en Regular ne coûte qu'un font-weight à changer.
+
+   La Sans est une variable : deux fichiers couvrent les quatre graisses
+   utilisées par l'interface (300 signature IA, 400 mentions légales et
+   corps des cartes, 600 boutons et titres, 700 titre de la notice).
+   Elle est déclarée sous le nom « IBM Plex Sans » plutôt que sous son nom
+   interne « IBM Plex Sans Var » : le rendu est ainsi identique partout, y
+   compris sur une machine où une IBM Plex Sans statique serait installée.
+   ========================================== */
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBMPlexSansVar-Roman.woff2') format('woff2');
+    font-weight: 100 700;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBMPlexSansVar-Italic.woff2') format('woff2');
+    font-weight: 100 700;
+    font-style: italic;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('../fonts/IBMPlexMono-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('../fonts/IBMPlexMono-LightItalic.woff2') format('woff2');
+    font-weight: 300;
+    font-style: italic;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('../fonts/IBMPlexMono-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('../fonts/IBMPlexMono-Italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: block;
+}
+
+:root {
+
+    /* ===== Surfaces ===== */
+    --color-app-bg:       #F7A359;                  /* fond de l'application, hors pages */
+    --color-page-bg:      #FCEBDB;                  /* page gauche — papier */
+    --color-canvas-bg:    #272935;                  /* page droite — canvas d'animation */
+    --color-help-bg:      #4F5A9D;                  /* panneau d'aide */
+    --color-idle-veil:    rgba(39, 41, 53, 0.4);    /* voile du mode inactif, dérivé de --color-canvas-bg */
+
+    /* ===== Textes ===== */
+    --color-text-on-help:   #FCEBDB;                     /* libellés et icônes sur fonds de la notice d'aide */
+    --color-text-on-dark:   #FCEBDB;                     /* libellés et icônes sur fonds sombres */
+    --color-text-on-light:  #272935;                     /* libellés et icônes sur fonds clairs */
+
+    /* ===== Composants ===== */
+    --color-btn-bg:           #FCF7F3;                   /* bouton contrainte sélectionné */
+    --color-btn-text:         #272935;
+    --color-btn-border:       #EFE4DB;
+
+    --color-btn-active-bg:    #4F5A9D;                   /* bouton contrainte actif */
+    --color-btn-active-text:  #A8F1F9;
+    --color-btn-active-border:rgba(239, 228, 219, 0.0);
+
+    --color-accent:           #A8F1F9;                   /* bouton aide,  */
+    --color-on-accent:        #272935;                   /* icon bouton aide */
+
+    --color-help-card-text:   #A8F1F9;                   /* texte des cards de la notice d'aide */
+    --color-help-card-border: #a8f1f966;                 /* contour des cards de la notice d'aide */
+
+    --shadow-btn:             0px 3px 2px rgba(39, 41, 53, 0.12);  /* effet « Button » Figma */
+
+
+    /* Grilles (lues par main.js pour le canvas) — la maquette ne les fait plus apparaître ; remonter l'alpha ici suffit à les réafficher. */
+    --color-grid-canvas: rgba(252, 235, 219, 0);
+
+    /* ===== Moteur d'animation (défauts lus par js/engine/algo_block.js,
+       réglables en direct via le panneau de contrôle) ===== */
+    --color-anim-physical:  var(--color-text-on-dark);   /* particules physiques */
+    --color-anim-highlight: var(--color-on-accent);      /* couleur du texte highlight */
+    --color-anim-highlight-bg:   var(--color-accent);    /* exergue des mots sur le canvas (lu par main.js) */
+
+    --color-anim-ephemeral: #6925e9;                   /* plasma / cellules éphémères */
+    --color-anim-collision: #00ffcc;                   /* étincelles de collision */
+
+    --color-canvas-vignette:  #1F2232;                 /* vignetage du canvas (ombre interne) */
+
+    /* === Polices === */
+    --font-ibm-plex-sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-ibm-plex-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+html
+{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+
+    background: var(--color-app-bg);
+    color: var(--color-text-on-light);
+    font-family: var(--font-ibm-plex-sans);
+    font-size: 24px;
+
+    display: flex;
+    width: 1920px;
+    height: 1080px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    background-color: var(--color-canvas-bg);
+}
+
+#ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: none;
+}
+
+/* Les pages occupent toute la hauteur : la barre d'action leur est
+   superposée (cf. calque « UI » de la maquette) */
+#content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.page {
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+#left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 54px;
+
+    padding: 0 64px 80px;
+
+    background-color: var(--color-page-bg);
+}
+#left { position: relative; overflow: hidden; }
+#right { position: relative; overflow: hidden;}
+#overlay
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
+    -webkit-box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
+    -moz-box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
+}
+
+.text-content-original {
+    position: relative;
+    display: block;
+    width: 100%;
+    font-family: var(--font-ibm-plex-mono);
+    font-weight: 300;                 /* Light — passer à 400 pour la Regular */
+    font-size: 28px;
+    line-height: 1.8;
+    letter-spacing: 0.56px;
+    color: var(--color-text-on-light);
+}
+
+.text-source {
+    display: block;
+    width: 100%;
+    font-family: var(--font-ibm-plex-mono);
+    font-weight: 300;                 /* Light — passer à 400 pour la Regular */
+    font-size: 18px;
+    line-height: 32px;
+    text-align: left;
+    color: var(--color-text-on-light);
+}
+
+#btn-help {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: var(--shadow-btn);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn-help .icon-question { display: flex; color: var(--color-on-accent); }
+#btn-help .icon-close { display: none; color: var(--color-on-accent); }
+
+#btn-help.active .icon-question { display: none; }
+#btn-help.active .icon-close { display: flex; }
+
+/* Libellé « Fermer la notice » — remplace les contraintes quand l'aide est
+   ouverte (cf. maquette « A2 - Modale d'aide ») */
+#btn-close-help {
+    display: none;
+    flex: 1;
+    margin-left: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: 0.288px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    cursor: pointer;
+}
+
+body.help-open #btn-close-help { display: block; }
+body.help-open #contraintes { display: none; }
+
+/* Barre d'action superposée aux pages, sans fond propre */
+#action-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: transparent;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 0 20px 64px;
+    box-sizing: border-box;
+    z-index: 30;   /* au-dessus du voile du mode inactif et du panneau d'aide */
+}
+
+#contraintes {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-left: 32px;
+}
+
+.btn-contrainte {
+    height: 64px;
+    padding: 10px 32px 12px 32px;
+    border: 1px solid var(--color-btn-border);
+    border-radius: 120px;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 600;
+    font-size: 24px;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.288px;
+    white-space: nowrap;
+    background: var(--color-btn-bg);
+    color: var(--color-btn-text);
+    box-shadow: var(--shadow-btn);
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.08s ease;
+}
+
+/* Retour visuel à l'appui, que le bouton soit déjà actif ou non */
+.btn-contrainte:active:not(:disabled) {
+    transform: scale(0.92);
+}
+
+.btn-contrainte.active {
+    background: var(--color-btn-active-bg);
+    color: var(--color-btn-active-text);
+    border-color: var(--color-btn-active-border);
+}
+
+/* Génération en cours : le bouton est désactivé (pas de double requête),
+   estompé en guise de feedback — sans animation, le texte qui se forme
+   dans le canvas suffit comme indicateur d'activité */
+.btn-contrainte:disabled {
+    cursor: default;
+    opacity: 0.55;
+}
+
+/* Rebond « jello » — appliqué à un bouton aléatoire, à cadence
+   légèrement irrégulière, une fois le mode inactif enclenché (main.js) */
+.btn-contrainte.jello {
+    animation: btn-idle-jello 0.8s both;
+}
+
+@keyframes btn-idle-jello {
+    0%   { transform: scale3d(1, 1, 1); }
+    30%  { transform: scale3d(0.75, 1.25, 1); }
+    40%  { transform: scale3d(1.25, 0.75, 1); }
+    50%  { transform: scale3d(0.85, 1.15, 1); }
+    65%  { transform: scale3d(1.05, 0.95, 1); }
+    75%  { transform: scale3d(0.95, 1.05, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+}
+
+/* Voile du mode inactif — assombrit tout sauf la barre d'action pour
+   mettre les boutons de contrainte en exergue (piloté par main.js) */
+#idle-veil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-idle-veil);
+    opacity: 0;
+    transition: opacity 0.5s ease;  /* disparition rapide au retour de l'utilisateur */
+    pointer-events: none;
+    z-index: 25;                    /* au-dessus des pages et du panneau d'aide */
+}
+
+#idle-veil.visible {
+    opacity: 1;
+    transition: opacity 1.6s ease;  /* apparition lente et douce */
+}
+
+#help-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-help-bg);
+    z-index: 20;
+    /* 120px en bas : la barre d'action est superposée au panneau, les
+       mentions légales ne doivent pas passer dessous */
+    padding: 56px 80px 120px;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap: 40px;
+}
+
+#help-panel.open {
+    display: flex;
+}
+
+.help-main {
+    display: flex;
+    flex-direction: column;
+    gap: 58px;
+}
+
+#help-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#help-intro h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-text-on-help);
+    line-height: normal;
+}
+
+#help-intro p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: var(--color-text-on-help);
+    line-height: 1.6;
+}
+
+#help-constraints-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+}
+
+.help-card {
+    padding: 44px 48px 48px;
+    border-top: 1px solid var(--color-help-card-border);
+    border-left: 1px solid var(--color-help-card-border);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--color-help-card-text);
+}
+
+.help-card:nth-child(3n) {
+    border-right: 1px solid var(--color-help-card-border);
+}
+
+.help-card:nth-child(n+4) {
+    border-bottom: 1px solid var(--color-help-card-border);
+}
+
+.help-card h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: inherit;
+    line-height: normal;
+}
+
+.help-card p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    color: inherit;
+    line-height: 1.6;
+}
+
+#help-legal {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-on-help);
+    font-weight: 400;
+    margin-top: 0;
+}
+
+#help-legal > div {
+    flex: 1;
+    margin: 0;
+}
+
+#help-legal p {
+    margin: 0;
+}
+
+/* Cartouche du paramètre de contrainte (lieu, époque, genre) — suspendu
+   en haut de la page générée, cf. maquette Figma « A2.2 Vue principale » */
+#constraint-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 32px 48px;
+    border-radius: 0 0 40px 40px;
+    background: var(--color-btn-active-bg);
+    color: var(--color-btn-active-text);
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    /* Au repos, le cartouche est remonté hors du cadre : #right étant en
+       overflow:hidden, il est réellement hors de l'écran. Il descend à sa
+       place quand la contrainte a un paramètre, et remonte quand elle n'en
+       a plus.
+       Le déplacement est seul en scène — pas de fondu : le cartouche garde
+       son opacité pleine et c'est le bord du cadre qui le fait disparaître,
+       comme un objet qui sort du champ.
+       visibility bascule à la fin de la sortie seulement, pour le retirer de
+       l'arbre d'accessibilité sans couper la transition. */
+    transform: translate(-50%, -100%);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        transform 0.9s cubic-bezier(0.55, 0, 0.85, 0.35),    /* sortie : s'échappe vers le haut */
+        visibility 0s linear 0.9s;
+}
+
+#constraint-badge.visible {
+    transform: translate(-50%, 0);
+    visibility: visible;
+    transition:
+        transform 1.1s cubic-bezier(0.22, 1.2, 0.36, 1),     /* entrée : arrive et se pose */
+        visibility 0s;
+}
+
+/* ==========================================
+   Actions sur les pages (renouveler / nouveau texte / itération)
+   ========================================== */
+
+/* Signature du texte généré — positionnée sous le texte du canvas par
+   main.js, qui connaît la hauteur réellement occupée par la simulation */
+#text-iteration {
+    position: absolute;
+    top: 228px;
+    /* Même marge que le texte du canvas — main.js la calcule à partir de
+       celle de la page originale et l'arrondit à la trame du canvas. */
+    left: var(--canvas-margin-x, 63px);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-ibm-plex-sans);
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 0.9px;
+    color: var(--color-text-on-dark);
+    text-transform: uppercase;
+
+    /* Masquée tant que le texte n'est pas formé (piloté par main.js) :
+       disparition franche au déclenchement, retour en fondu lent une fois
+       le texte stabilisé. */
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+#text-iteration.visible {
+    opacity: 1;
+    transition: opacity 1.4s ease;
+}
+
+#text-iteration .picto-robot {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    fill: currentColor;
+}
+
+/* Onglet « renouveler l'extrait » suspendu en haut de la page originale,
+   pendant du cartouche de contrainte de la page générée */
+.btn-page-action {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+    padding: 10px 48px 12px;
+    box-sizing: border-box;
+    border: 1px solid var(--color-btn-border);
+    border-top: none;
+    border-radius: 0 0 40px 40px;
+    background: var(--color-btn-bg);
+    box-shadow: var(--shadow-btn);
+    cursor: pointer;
+}
+
+#btn-renew-extract svg {
+    width: 29px;
+    height: 40px;
+    fill: var(--color-text-on-light);
+}
+
+.btn-page-action:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}

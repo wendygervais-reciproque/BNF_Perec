@@ -2,3 +2,10 @@
 # When files are checked out, they remain LF on all systems.
 # This prevents spurious diffs when switching between Windows and Unix.
 * text=auto eol=lf
+
+# Les polices sont binaires : aucune normalisation de fins de ligne, sous
+# peine de fichiers corrompus.
+*.woff2 binary
+*.woff  binary
+*.ttf   binary
+*.otf   binary
