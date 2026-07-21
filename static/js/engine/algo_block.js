@@ -1,7 +1,7 @@
 // ==========================================
 // 1. PARAMÈTRES DYNAMIQUES (DICTIONNAIRE)
 // ==========================================
-// Couleurs par défaut lues depuis static/style.css (:root) ; restent
+// Couleurs par défaut lues depuis static/css/style.css (:root) ; restent
 // modifiables en direct via le panneau de contrôle (control_panel.js).
 const cssColor = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 

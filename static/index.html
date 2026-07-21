@@ -6,15 +6,14 @@
     <title>Perec - Jeux d'écriture</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <div id="content">
         <div class="page" id="left">
-            <button id="btn-renew-extract" class="btn-page-action">
-                <svg viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.125 18.7092C0.708333 17.943 0.416667 17.1714 0.25 16.3945C0.0833333 15.6176 0 14.8248 0 14.016C0 11.2277 0.984375 8.82782 2.95312 6.81642C4.92188 4.80502 7.27083 3.79932 10 3.79932H11.3438L8.84375 1.24515L10.0625 0L14.7188 4.75713L10.0625 9.51425L8.8125 8.23717L11.2812 5.71494H10C7.77083 5.71494 5.85938 6.52908 4.26562 8.15735C2.67188 9.78563 1.875 11.7385 1.875 14.016C1.875 14.6332 1.93229 15.2185 2.04688 15.772C2.16146 16.3254 2.30208 16.8468 2.46875 17.3364L1.125 18.7092ZM9.875 28L5.21875 23.2429L9.875 18.4857L11.0938 19.7309L8.59375 22.2851H10C12.2292 22.2851 14.1406 21.4709 15.7344 19.8426C17.3281 18.2144 18.125 16.2615 18.125 13.984C18.125 13.3668 18.0729 12.7815 17.9688 12.2281C17.8646 11.6746 17.7083 11.1532 17.5 10.6636L18.8438 9.29076C19.2604 10.057 19.5573 10.8286 19.7344 11.6055C19.9115 12.3824 20 13.1752 20 13.984C20 16.7723 19.0156 19.1722 17.0469 21.1836C15.0781 23.195 12.7292 24.2007 10 24.2007H8.59375L11.0938 26.7548L9.875 28Z"/></svg>
-                Renouveler l'extrait
+            <button id="btn-renew-extract" class="btn-page-action" aria-label="Renouveler l'extrait" title="Renouveler l'extrait">
+                <svg viewBox="0 0 29 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.63125 26.7274C1.02708 25.6329 0.604167 24.5306 0.3625 23.4207C0.120833 22.3109 0 21.1783 0 20.0229C0 16.0396 1.42734 12.6112 4.28202 9.73774C7.13673 6.86431 10.5427 5.4276 14.5 5.4276H16.4485L12.8234 1.77879L14.5906 0L21.3423 6.7959L14.5906 13.5918L12.7781 11.7674L16.3577 8.1642H14.5C11.2677 8.1642 8.4961 9.32726 6.18515 11.6534C3.87423 13.9795 2.71875 16.7693 2.71875 20.0229C2.71875 20.9046 2.80182 21.7407 2.96798 22.5314C3.13412 23.322 3.33802 24.0669 3.57969 24.7663L1.63125 26.7274ZM14.3188 40L7.56719 33.2041L14.3188 26.4081L16.086 28.187L12.4609 31.8359H14.5C17.7323 31.8359 20.5039 30.6727 22.8149 28.3466C25.1257 26.0206 26.2813 23.2307 26.2813 19.9771C26.2813 19.0954 26.2057 18.2593 26.0548 17.4687C25.9037 16.678 25.677 15.9331 25.375 15.2337L27.3235 13.2725C27.9276 14.3671 28.3581 15.4694 28.6149 16.5793C28.8717 17.6891 29 18.8217 29 19.9771C29 23.9604 27.5726 27.3889 24.718 30.2623C21.8632 33.1357 18.4573 34.5724 14.5 34.5724H12.4609L16.086 38.2211L14.3188 40Z"/></svg>
             </button>
             <div class="text-content-original">L'année suivante, Grégoire Simpson obtint une bourse dont le montant,
                 bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail.
@@ -24,11 +23,14 @@
             <div class="text-source">Georges Perec, <em>La Vie mode d'emploi</em>, 1978</div>
         </div>
         <div class="page" id="right">
-            <div id="constraint-badge" hidden>
+            <div id="constraint-badge">
                 <span id="constraint-badge-label"></span>
                 <span id="constraint-badge-value"></span>
             </div>
-            <div id="text-iteration">Texte n° <span id="text-iteration-number">1</span></div>
+            <div id="text-iteration">
+                <svg class="picto-robot" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.464 18.4153C5.77178 18.4153 5.188 18.1754 4.71267 17.6957C4.23756 17.2159 4 16.6344 4 15.9513C4 15.2682 4.23989 14.6868 4.71967 14.207C5.19967 13.7272 5.78111 13.4873 6.464 13.4873V9.64367C6.464 9.15256 6.649 8.72211 7.019 8.35233C7.38878 7.98233 7.81922 7.79733 8.31033 7.79733H13.536C13.536 7.10511 13.7736 6.52133 14.2487 6.046C14.724 5.57089 15.3078 5.33333 16 5.33333C16.6922 5.33333 17.276 5.57322 17.7513 6.053C18.2264 6.533 18.464 7.11444 18.464 7.79733H23.6897C24.1808 7.79733 24.6112 7.98233 24.981 8.35233C25.351 8.72211 25.536 9.15256 25.536 9.64367V13.4873C26.2282 13.4873 26.812 13.7272 27.2873 14.207C27.7624 14.6868 28 15.2682 28 15.9513C28 16.6344 27.7601 17.2159 27.2803 17.6957C26.8003 18.1754 26.2189 18.4153 25.536 18.4153V24.8207C25.536 25.3116 25.351 25.742 24.981 26.112C24.6112 26.4818 24.1808 26.6667 23.6897 26.6667H8.31033C7.81922 26.6667 7.38878 26.4818 7.019 26.112C6.649 25.742 6.464 25.3116 6.464 24.8207V18.4153ZM12.473 15.8063C12.6688 15.6052 12.7667 15.3612 12.7667 15.0743C12.7667 14.7872 12.6662 14.5458 12.4653 14.35C12.2642 14.1542 12.0202 14.0563 11.7333 14.0563C11.4462 14.0563 11.2048 14.1569 11.009 14.358C10.8132 14.5589 10.7153 14.8029 10.7153 15.09C10.7153 15.3771 10.8158 15.6184 11.0167 15.814C11.2178 16.0098 11.4619 16.1077 11.749 16.1077C12.0359 16.1077 12.2772 16.0072 12.473 15.8063ZM20.991 15.8063C21.1868 15.6052 21.2847 15.3612 21.2847 15.0743C21.2847 14.7872 21.1842 14.5458 20.9833 14.35C20.7822 14.1542 20.5381 14.0563 20.251 14.0563C19.9641 14.0563 19.7228 14.1569 19.527 14.358C19.3312 14.5589 19.2333 14.8029 19.2333 15.09C19.2333 15.3771 19.3338 15.6184 19.5347 15.814C19.7358 16.0098 19.9798 16.1077 20.2667 16.1077C20.5538 16.1077 20.7952 16.0072 20.991 15.8063ZM11.2207 21.9103H20.7793V20.8847H11.2207V21.9103ZM8.31033 25.641H23.6897C23.9119 25.641 24.1042 25.5641 24.2667 25.4103C24.4291 25.2563 24.5103 25.0598 24.5103 24.8207V9.64367C24.5103 9.42144 24.4291 9.22911 24.2667 9.06667C24.1042 8.90422 23.9119 8.823 23.6897 8.823H8.31033C8.08811 8.823 7.89578 8.90422 7.73333 9.06667C7.57089 9.22911 7.48967 9.42144 7.48967 9.64367V24.8207C7.48967 25.0598 7.57089 25.2563 7.73333 25.4103C7.89578 25.5641 8.08811 25.641 8.31033 25.641Z"/></svg>
+                <span>Texte généré par IA n° <span id="text-iteration-number">1</span>, <span id="text-iteration-year"></span></span>
+            </div>
             <div id="overlay"></div>
             <canvas id="gameCanvas"></canvas>
         </div>
@@ -37,8 +39,8 @@
     <div id="help-panel">
         <div class="help-main">
             <div id="help-intro">
-                <h1>Perec — Jeux d'écriture</h1>
-                <p>À partir d'un extrait de <em>La Vie mode d'emploi</em> de Georges Perec, six contraintes d'écriture — inspirées des pratiques oulipistes — transforment le texte source. Explorez comment la forme modifie le sens, et comment une même matière narrative peut donner naissance à des textes radicalement différents.</p>
+                <h1>Jeux d'écriture</h1>
+                <p>À partir d'un extrait de <em>La Vie mode d'emploi</em> de Georges Perec, six contraintes d'écriture — inspirées des pratiques oulipistes — transforment le texte source.<br>Explorez comment la forme modifie le sens, et comment une même matière narrative peut donner naissance à des textes radicalement différents.</p>
             </div>
             <div id="help-constraints-grid">
                 <div class="help-card">
@@ -84,6 +86,7 @@
             <svg class="icon-question" viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="32"><path d="M9.52382 32C11.1018 32 12.381 30.7359 12.381 29.1765C12.381 27.6171 11.1018 26.3529 9.52382 26.3529C7.94587 26.3529 6.66668 27.6171 6.66668 29.1765C6.66668 30.7359 7.94587 32 9.52382 32Z" fill="currentColor"/><path d="M11.4286 2.10102e-05H8.57144C7.44512 -0.00246076 6.3294 0.214944 5.28833 0.639752C4.24727 1.06456 3.30136 1.6884 2.50493 2.47546C1.7085 3.26252 1.07723 4.1973 0.647367 5.22612C0.217502 6.25494 -0.00249005 7.35753 2.12605e-05 8.4706V9.41178H3.80954V8.4706C3.80954 7.22253 4.31124 6.02557 5.20427 5.14304C6.0973 4.26052 7.30851 3.76472 8.57144 3.76472H11.4286C12.6915 3.76472 13.9027 4.26052 14.7958 5.14304C15.6888 6.02557 16.1905 7.22253 16.1905 8.4706C16.1905 9.71868 15.6888 10.9156 14.7958 11.7982C13.9027 12.6807 12.6915 13.1765 11.4286 13.1765H7.61906V21.6471H11.4286V16.9412C13.7019 16.9412 15.882 16.0487 17.4895 14.4602C19.0969 12.8717 20 10.7171 20 8.4706C20 6.22406 19.0969 4.06954 17.4895 2.481C15.882 0.892455 13.7019 2.10102e-05 11.4286 2.10102e-05Z" fill="currentColor"/></svg>
             <svg class="icon-close" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M28.3429 32L16 19.6571L3.65714 32L0 28.3429L12.3429 16L0 3.65714L3.65714 0L16 12.3429L28.3429 0L32 3.65714L19.6571 16L32 28.3429L28.3429 32Z" fill="currentColor"/></svg>
         </button>
+        <button id="btn-close-help">Fermer la notice</button>
         <div id="contraintes">
             <button class="btn-contrainte" data-id="changement_epoque">Changement d'époque</button>
             <button class="btn-contrainte" data-id="forcage">Mots imposés</button>
@@ -94,7 +97,7 @@
         </div>
     </div>
 
-    <script type="module" src="main.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

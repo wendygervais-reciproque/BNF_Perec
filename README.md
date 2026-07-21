@@ -11,11 +11,20 @@ puis le texte généré se forme à l'écran via une animation procédurale.
 - `data/` — les 33 extraits sources (`01.txt`–`33.txt`), les prompts des
   6 contraintes (`prompt_*.txt`) et les listes de variables aléatoires
   (`pays.txt`, `epoques.txt`, `formes.txt`)
-- `static/` — le front : interface, moteur d'animation (`scripts/`) et
-  `textes_secours.json`
+- `static/` — le front :
+  - `index.html`, `css/style.css` — l'interface ; toutes les couleurs sont
+    des variables CSS de `:root`, calées sur les variables des maquettes
+    Figma (source unique, y compris pour le JS qui les relit)
+  - `fonts/` — les webfonts (IBM Plex Sans, IBM Plex Mono)
+  - `js/main.js` — pilotage de l'interface et appels à l'API
+  - `js/engine/` — le moteur d'animation : `algo_block.js` (simulation),
+    `textManager.js` (composition), `bitmap_font.js` (police bitmap du
+    canvas, à ne pas confondre avec `fonts/`), `control_panel.js` (panneau
+    de réglages, touche « D »)
+  - `data/textes_secours.json`
 - `generate_secours.py` — script qui (re)génère les textes de secours via
   le LLM (voir plus bas)
-- `static/textes_secours.json` — textes de secours affichés si le LLM est
+- `static/data/textes_secours.json` — textes de secours affichés si le LLM est
   injoignable ou trop lent. Deux clés : `textes`, un texte par couple
   extrait × contrainte (33 × 6 = 198), rempli par `generate_secours.py` ;
   `contraintes`, les anciens textes génériques (un par contrainte), gardés
