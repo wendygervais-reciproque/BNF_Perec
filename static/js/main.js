@@ -1,5 +1,5 @@
 import * as TextManager from '/js/engine/textManager.js';
-import * as Algo from '/js/engine/algo_block.js';
+import * as Algo from '/js/engine/simulation.js';
 import { ControlPanel } from '/js/engine/control_panel.js';
 
 const canvas = document.getElementById('gameCanvas');
