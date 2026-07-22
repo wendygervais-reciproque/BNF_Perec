@@ -4,6 +4,9 @@ import random
 import re
 from pathlib import Path
 
+import csv
+from datetime import datetime
+
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from openai import OpenAI
@@ -336,6 +339,47 @@ def increment_counter():
             f.write(str(count + 1))
             f.truncate()
         return jsonify({'count': count + 1})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+# Route pour enregistrer un log dans logs/logs.csv
+@app.route('/api/log', methods=['POST'])
+def log_generation():
+    logs_file = os.path.join(os.path.dirname(__file__), 'logs', 'logs.csv')
+    print(f"Chemin du fichier logs.csv : {logs_file}")  # Debug
+    data = request.get_json()
+    if not data or 'text_id' not in data or 'constraint_id' not in data:
+        return jsonify({'error': 'Missing text_id or constraint_id'}), 400
+
+    text_id = data['text_id']
+    constraint_id = data['constraint_id']
+
+    try:
+        # Lit le compteur actuel
+        with open(COUNTER_FILE, 'r') as f:
+            count = int(f.read().strip())
+
+        # Prépare les données du log
+        log_entry = {
+            'counter': count,
+            'text_id': text_id,
+            'timestamp': datetime.now().isoformat(),
+            'constraint_id': constraint_id
+        }
+
+        # Écrit dans logs/logs.csv
+        logs_file = os.path.join(os.path.dirname(__file__), 'logs', 'logs.csv')
+        file_exists = os.path.exists(logs_file)
+
+        with open(logs_file, 'a', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=['counter', 'text_id', 'timestamp', 'constraint_id'])
+            if not file_exists:
+                writer.writeheader()  # Écrit l'en-tête si le fichier n'existe pas
+            writer.writerow(log_entry)
+
+        return jsonify({'success': True, 'log': log_entry}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

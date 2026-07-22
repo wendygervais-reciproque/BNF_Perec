@@ -131,7 +131,7 @@ async function generate() {
   dissolve();
   pendingText = text;
   pendingVariable = variable;
-  UI.bumpTextIteration();
+  UI.bumpTextIteration(currentTextId, activeConstraintId);
 }
 
 async function loadRandomExtract() {

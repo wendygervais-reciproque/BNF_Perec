@@ -65,7 +65,7 @@ export function hideTextIteration() {
 }
 
 // Incrémente le compteur local ET le compteur serveur
-export async function bumpTextIteration() {
+export async function bumpTextIteration(textId, constraintId) {
   textIteration += 1;
   if (textIterationNumber) {
     textIterationNumber.textContent = textIteration;
@@ -79,6 +79,22 @@ export async function bumpTextIteration() {
     await fetch('/api/counter/increment', { method: 'POST' });
   } catch (e) {
     console.warn('Impossible de synchroniser le compteur avec le serveur :', e);
+  }
+
+  // Envoie le log au serveur (si currentTextId et activeConstraintId sont disponibles)
+  if (textId && constraintId) {
+    try {
+      await fetch('/api/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text_id: textId,
+          constraint_id: constraintId
+        })
+      });
+    } catch (e) {
+      console.warn('Impossible d\'enregistrer le log :', e);
+    }
   }
 }
 

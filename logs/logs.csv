@@ -1,0 +1,6 @@
+counter,text_id,timestamp,constraint_id
+26,07,2026-07-22T15:16:03.193966,changement_genre_litteraire
+27,07,2026-07-22T15:16:17.259723,changement_epoque
+28,02,2026-07-22T15:16:33.834551,changement_epoque
+29,02,2026-07-22T15:16:43.218852,haiku
+30,23,2026-07-22T15:17:00.834582,haiku
