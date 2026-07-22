@@ -26,7 +26,9 @@ export const CELL_SIZE = 3;
 // apparaître la grille (--color-grid-canvas transparent dans style.css), mais
 // elle reste la base sur laquelle le texte s'aligne.
 export const GRID_INTERVAL = 8;   // cellules entre deux lignes de grille
-export const LINE_GAP = 6;        // lignes de grille vides entre deux lignes de texte
+export const LINE_GAP = 4;        // cellules vides entre deux lignes de texte
+                                  // (matrice passée à 12 lignes : 12+4 conserve
+                                  // l'avance de 16 d'avant, quand elle valait 10+6)
 
 // Marge des pages, reprise de #left dans style.css.
 export const PAGE_MARGIN = 64;

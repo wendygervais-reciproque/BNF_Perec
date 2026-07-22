@@ -23,6 +23,11 @@ const bounds = container.getBoundingClientRect();
 canvas.width = Math.round(bounds.width) || DESIGN_WIDTH / 2;
 canvas.height = Math.round(bounds.height) || DESIGN_HEIGHT;
 
+// Hauteur du cadre visible : le canvas peut ensuite être agrandi au-delà pour
+// contenir un texte trop long (il défile alors dans #canvas-scroll), et
+// revenir à cette hauteur quand le texte suivant tient à l'écran.
+export const viewportHeight = canvas.height;
+
 // La marge du texte du canvas est arrondie à la trame ; la signature, qui est
 // en HTML, doit s'y aligner exactement. On publie donc la valeur calculée en
 // variable CSS plutôt que de la répéter dans la feuille de style.
@@ -33,10 +38,12 @@ document.documentElement.style.setProperty(
 // ==========================================
 // GRILLE DE FOND
 // ==========================================
-// Pré-rendue une seule fois hors écran : la redessiner à chaque image
-// coûterait un tracé de plusieurs centaines de lignes pour un fond immobile.
-const gridCanvas = new OffscreenCanvas(canvas.width, canvas.height);
-(function drawGrid() {
+// Pré-rendue hors écran : la redessiner à chaque image coûterait un tracé de
+// plusieurs centaines de lignes pour un fond immobile. Re-rendue seulement
+// quand le canvas change de hauteur (cf. setCanvasHeight).
+let gridCanvas = new OffscreenCanvas(canvas.width, canvas.height);
+function renderGrid() {
+  gridCanvas = new OffscreenCanvas(canvas.width, canvas.height);
   const gctx = gridCanvas.getContext('2d');
   const spacing = CELL_SIZE * GRID_INTERVAL;
   gctx.beginPath();
@@ -51,7 +58,17 @@ const gridCanvas = new OffscreenCanvas(canvas.width, canvas.height);
     gctx.lineTo(canvas.width, y + 0.5);
   }
   gctx.stroke();
-}());
+}
+renderGrid();
+
+// Ajuste la hauteur du canvas à celle qu'exige le texte courant (main.js), et
+// remet la grille de fond à cette taille. Sans effet si la hauteur ne change
+// pas — inutile de réallouer la grille hors écran à chaque génération.
+export function setCanvasHeight(height) {
+  if (height === canvas.height) return;
+  canvas.height = height;
+  renderGrid();
+}
 
 // ==========================================
 // FOND D'EXERGUE

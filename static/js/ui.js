@@ -8,7 +8,6 @@ import {
   CELL_SIZE, GRID_INTERVAL, ACTION_BAR_HEIGHT,
   TEXT_ITERATION_GAP, TEXT_ITERATION_HEIGHT
 } from './config.js';
-import { canvas } from './stage.js';
 
 // ==========================================
 // CARTOUCHE DU PARAMÈTRE (lieu, époque, genre)
@@ -34,6 +33,7 @@ export function setConstraintBadge(variable) {
 // ==========================================
 // SIGNATURE « TEXTE GÉNÉRÉ PAR IA »
 // ==========================================
+const canvasScrollEl = document.getElementById('canvas-scroll');
 const textIterationEl = document.getElementById('text-iteration');
 const textIterationNumber = document.getElementById('text-iteration-number');
 const textIterationYear = document.getElementById('text-iteration-year');
@@ -41,17 +41,40 @@ if (textIterationYear) textIterationYear.textContent = new Date().getFullYear();
 
 let textIteration = 0;
 
+// Marge sous la signature, une fois la barre d'action dégagée : évite qu'elle
+// ne colle au bas du défilement.
+const SCROLL_BOTTOM_MARGIN = 32;
+
+// Bas de l'encre du texte, en pixels du canvas.
+function textInkBottom(textPixels) {
+  let maxY = 0;
+  for (const p of textPixels) if (p.y > maxY) maxY = p.y;
+  return (maxY + 1) * CELL_SIZE;
+}
+
 // La maquette place la signature sous le texte du canvas. Ce dernier étant
 // centré verticalement, son bas dépend du nombre de lignes : la position se
 // calcule donc à partir des pixels réellement occupés par la simulation.
+// Plus de plafond ici : quand le texte est long, le canvas est agrandi en
+// conséquence (cf. contentHeight) et la signature défile au bout du texte.
 export function placeTextIteration(textPixels) {
   if (!textIterationEl || textPixels.length === 0) return;
-  let maxY = 0;
-  for (const p of textPixels) if (p.y > maxY) maxY = p.y;
-  // Garde-fou : la signature ne passe pas sous la barre d'action
-  const maxTop = canvas.height - ACTION_BAR_HEIGHT - TEXT_ITERATION_HEIGHT - 32;
-  const top = Math.min((maxY + 1) * CELL_SIZE + TEXT_ITERATION_GAP, maxTop);
-  textIterationEl.style.top = `${top}px`;
+  textIterationEl.style.top = `${textInkBottom(textPixels) + TEXT_ITERATION_GAP}px`;
+}
+
+// Hauteur totale que le canvas doit atteindre pour ce texte : bas de l'encre +
+// signature + un dégagement égal à la barre d'action (qui recouvre le bas du
+// cadre), pour que la signature puisse défiler au-dessus d'elle quand le texte
+// déborde. Sous la hauteur du cadre, main.js garde le canvas à sa taille.
+export function contentHeight(textPixels) {
+  if (textPixels.length === 0) return 0;
+  return textInkBottom(textPixels) + TEXT_ITERATION_GAP + TEXT_ITERATION_HEIGHT
+       + ACTION_BAR_HEIGHT + SCROLL_BOTTOM_MARGIN;
+}
+
+// Remet le défilement en haut au moment où un nouveau texte se pose.
+export function resetScroll() {
+  if (canvasScrollEl) canvasScrollEl.scrollTop = 0;
 }
 
 // Affiche la signature (appelée quand le texte est achevé)

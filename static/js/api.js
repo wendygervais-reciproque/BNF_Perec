@@ -55,26 +55,45 @@ export async function fetchRandomExtract(currentTextId) {
   }
 }
 
+// Une seule génération en vol à la fois : quand une nouvelle est demandée (on
+// enchaîne les extraits, par exemple), la précédente encore en cours est
+// annulée au lieu d'être laissée à s'empiler. Sinon les requêtes s'accumulent,
+// le navigateur sature ses connexions simultanées, et les suivantes finissent
+// par expirer — d'où lenteur et « operation aborted » en cascade.
+let inFlight = null;   // { controller, superseded }
+
 // Demande une réécriture au modèle, avec repli automatique sur le texte de
 // secours du couple (extrait, contrainte). Renvoie toujours { text, variable },
 // text valant null si même le secours est introuvable.
 export async function requestGeneration(textId, constraintId) {
+  if (inFlight) {
+    inFlight.superseded = true;
+    inFlight.controller.abort();
+  }
+  const current = { controller: new AbortController(), superseded: false };
+  inFlight = current;
+  const timer = setTimeout(() => current.controller.abort(), GENERATION_TIMEOUT_MS);
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), GENERATION_TIMEOUT_MS);
     const r = await fetch('/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text_id: textId, constraint_id: constraintId }),
-      signal: controller.signal,
+      signal: current.controller.signal,
     });
     clearTimeout(timer);
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Erreur serveur');
     return { text: formatForConstraint(data.answer, constraintId), variable: data.variable };
   } catch (e) {
+    clearTimeout(timer);
+    // Annulée parce qu'une génération plus récente l'a supplantée : son résultat
+    // serait de toute façon écarté (jeton périmé, cf. main.js). On sort en
+    // silence, sans basculer sur le secours ni alarmer la console.
+    if (current.superseded) return { text: null, variable: null };
     console.warn('Génération IA indisponible, texte de secours utilisé :', e);
     return getFallback(constraintId, textId) ?? { text: null, variable: null };
+  } finally {
+    if (inFlight === current) inFlight = null;
   }
 }
 
