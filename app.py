@@ -311,10 +311,13 @@ def generate():
     })
 
 
-# COUNTER_FILE = os.path.join(os.path.dirname(__file__), 'logs', 'total.txt')
-COUNTER_FILE = "/tmp/logs/counter.txt"
+COUNTER_FILE = os.path.join(os.path.dirname(__file__), 'logs', 'total.txt')
+
+IS_VERCEL = os.environ.get("VERCEL") == "1"
 
 def init_counter():
+    if IS_VERCEL:
+        return  # skip file logging entirely in production
     os.makedirs(os.path.dirname(COUNTER_FILE), exist_ok=True)
     if not os.path.exists(COUNTER_FILE):
         with open(COUNTER_FILE, 'w') as f:
@@ -348,6 +351,8 @@ def increment_counter():
 # Route pour enregistrer un log dans logs/logs.csv
 @app.route('/api/log', methods=['POST'])
 def log_generation():
+    if IS_VERCEL:
+        return
     logs_file = os.path.join(os.path.dirname(__file__), 'logs', 'logs.csv')
     print(f"Chemin du fichier logs.csv : {logs_file}")  # Debug
     data = request.get_json()
