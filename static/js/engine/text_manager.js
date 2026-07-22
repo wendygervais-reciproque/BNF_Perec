@@ -3,7 +3,7 @@ import { getLetterBitmap } from './bitmap_font.js';
 const letterSpacing = 1;
 const wordSpacing = 3;
 const paddingTop = 40;   // garde verticale : le texte ne colle jamais au haut du canvas
-const fontHeight = 10;
+const fontHeight = 12;
 
 function getLetterBounds(matrix) {
   let minX = matrix[0].length;
@@ -50,9 +50,9 @@ export function getCoordinates(text, cols, rows, gridInterval = 10, lineGap = 0,
   let highlightBgPixels = [];
 
   const lineSpacing = lineGap;
-  // Ligne de base à l'index 8 du bitmap (cf. bitmap_font.js : "Ligne 8 = Ligne de base")
-  // Les 2 lignes vides du bas (indices 8-9) créent l'écart sous l'encre.
-  const baselineRow = 8;
+  // Ligne de base à l'index 9 du bitmap (matrice 7×12 ; cf. bitmap_font.js).
+  // Sous elle, les indices 10-11 portent les jambages inférieurs (descentes).
+  const baselineRow = 9;
 
   const maxWidth = cols - (marginX * 2);
   let lines = [];

@@ -20,7 +20,10 @@ import {
   FORMATION_SPEED, TEXT_OFFSET_ROWS, TEXT_MARGIN_CELLS
 } from './config.js';
 import { initApi, fetchRandomExtract, requestGeneration } from './api.js';
-import { canvas, ctx, beginFrame, setHighlightPixels, paintHighlight } from './stage.js';
+import {
+  canvas, ctx, beginFrame, setHighlightPixels, paintHighlight,
+  setCanvasHeight, viewportHeight
+} from './stage.js';
 import * as UI from './ui.js';
 import { initIdleMode, resetIdleTimer, getIdleStatus } from './idle.js';
 
@@ -77,13 +80,25 @@ function animate(timestamp) {
 }
 
 // Compose le texte sur la trame, puis confie les pixels obtenus au moteur.
+// Le texte est d'abord composé pour la hauteur du cadre visible : s'il tient,
+// il reste centré ; s'il déborde, la composition le cale en haut et on agrandit
+// le canvas à la hauteur qu'il réclame — il défile alors dans #canvas-scroll.
 function startFormation(text) {
-  const dims = Engine.getGridDimensions(canvas.width, canvas.height, CELL_SIZE);
+  const cols = Math.floor(canvas.width / CELL_SIZE);
+  const viewportRows = Math.floor(viewportHeight / CELL_SIZE);
   const coords = TextManager.getCoordinates(
-    text, dims.cols, dims.rows, GRID_INTERVAL, LINE_GAP, TEXT_OFFSET_ROWS, TEXT_MARGIN_CELLS
+    text, cols, viewportRows, GRID_INTERVAL, LINE_GAP, TEXT_OFFSET_ROWS, TEXT_MARGIN_CELLS
   );
+
+  // Le canvas prend la hauteur du texte (signature et dégagement compris), sans
+  // jamais descendre sous celle du cadre. La grille du moteur est ensuite
+  // (ré)allouée à cette taille définitive.
+  setCanvasHeight(Math.max(viewportHeight, UI.contentHeight(coords.textPixels)));
+  Engine.getGridDimensions(canvas.width, canvas.height, CELL_SIZE);
+
   setHighlightPixels(coords.highlightBgPixels);
   UI.placeTextIteration(coords.textPixels);
+  UI.resetScroll();
   Engine.startFormation(coords.textPixels);
 }
 
@@ -147,16 +162,62 @@ function activateConstraint(btn) {
   generate();
 }
 
+// Regroupe les rafales de clics : n'agit qu'une fois les clics arrêtés, pour ne
+// pas émettre une action par clic quand on enchaîne (cf. bouton « renouveler »).
+function debounce(fn, delay) {
+  let timer = null;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+// ==========================================
+// OUTIL DE DÉVELOPPEMENT
+// ==========================================
+// Texte de test exerçant toute la police — majuscules, minuscules, accents,
+// ligatures (œ Œ), diacritiques rares (ō ā ã ø ḥ), chiffres, ponctuation et
+// signes spéciaux ([ ] < > = _ ° « » — …). Affiché sans passer par le modèle
+// (touche « t »), pour valider d'un coup d'œil le rendu des glyphes en itérant
+// sur bitmap_font.js. Prose réaliste, les signes rares regroupés en fin.
+const TEST_TEXT = [
+  `PORTEZ CE VIEUX WHISKY AU JUGE BLOND QUI FUME.`,
+  `Prénoms : LOÏC, ANAÏS, ÈVE ; villes : NÎMES, ANGERS. OÙ donc ?`,
+  `Voyez : l’écrivain rêva d'un drôle d'été où quelque garçon goûtait un maïs brûlé, âcre et âpre, près de l'île.`,
+  `Ô temps ! Être, ou n'être pas ? À l'Âme d'Étienne, l'Église, l'Èbre : Ça, c'est vrai.`,
+  `Le 24 juin 1975 (à 18 h 30), il lut « La Vie mode d'emploi » — pages 380–967, n° 12, à 20°.`,
+  `Un cœur, des œufs, l'Œuvre ; le kōdō, un feijão, le mørkhet, l'ḥarāf, un ā long.`,
+  `Réf. " test " : y = [x_1] < 9 > 0 ; kilo-watt, peut-être, va–t–il jouer ?`,
+].join('\n');
+
+// Pose un texte local comme s'il venait d'une génération, mais sans requête :
+// invalide toute génération en vol, puis suit le même chemin (dissolution →
+// formation) que generate().
+function showLocalText(text) {
+  ++generationToken;               // une génération en cours ne l'écrasera pas
+  UI.setGeneratingButton(null);
+  UI.setConstraintBadge(null);
+  dissolve();
+  pendingText = text;
+  pendingVariable = null;
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key !== 't' || e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.target.tagName === 'INPUT' || e.target.isContentEditable) return;
+  showLocalText(TEST_TEXT);
+});
+
 // ==========================================
 // AMORÇAGE
 // ==========================================
 await initApi();
 
 UI.initConstraints(activateConstraint);
-UI.initRenewButton(async () => {
+UI.initRenewButton(debounce(async () => {
   await loadRandomExtract();
   if (activeConstraintId) generate();
-});
+}, 200));
 UI.initHelpPanel();
 initIdleMode(() => currentState === STATE_STABLE);
 
