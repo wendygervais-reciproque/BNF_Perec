@@ -27,6 +27,7 @@ from app import (
     BASE_DIR,
     CONSTRAINTS,
     DATA_DIR,
+    SOURCE_HIGHLIGHT_CONSTRAINTS,
     badge_value,
     build_prompt,
     generate_answer,
@@ -58,14 +59,18 @@ def generate_one(client: OpenAI, model: str, text_id: str, constraint_id: str) -
 
     # Même fabrication de prompt que la route /generate (source unique dans app.py).
     prompt, contexte = build_prompt(constraint_id, source_text)
-    _, answer = generate_answer(
+    _, answer, source_words = generate_answer(
         client, model, prompt, constraint.get("check_french", False)
     )
     if contexte is not None:
         # Mention affichée par le cartouche du front, pas par le canvas
         answer = strip_leading_mention(answer)
         contexte = badge_value(contexte)
-    return {"contexte": contexte, "texte": answer}
+    entry = {"contexte": contexte, "texte": answer}
+    if constraint_id in SOURCE_HIGHLIGHT_CONSTRAINTS:
+        # Mots-clés du texte source, pour les surligner en écho à l'exergue.
+        entry["source_words"] = source_words
+    return entry
 
 
 def main() -> int:

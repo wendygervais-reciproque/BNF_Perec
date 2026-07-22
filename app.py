@@ -114,6 +114,11 @@ CONSTRAINTS = {
     },
 }
 
+# Contraintes qui réutilisent des mots-clés du texte source : le modèle les
+# annonce en tête de réponse (« mots choisis »), on les renvoie pour surligner
+# ces mots dans le texte source, en écho à leur mise en exergue sur le canvas.
+SOURCE_HIGHLIGHT_CONSTRAINTS = frozenset({"forcage", "homosemantique"})
+
 # Les prompts à variable demandent au modèle d'annoncer le paramètre choisi
 # (lieu, époque, forme) en première ligne de sa réponse. Cette mention est
 # désormais affichée par le front dans un cartouche HTML : on la retire donc
@@ -129,8 +134,14 @@ def strip_leading_mention(answer: str) -> str:
     return answer
 
 
-def strip_leading_word_list(answer: str) -> str:
-    """Retire une éventuelle liste de mots en tête de réponse (cf. LIST_LABEL_RE).
+def split_leading_word_list(answer: str) -> tuple[list[str] | None, str]:
+    """Sépare une éventuelle liste de mots en tête de réponse du corps du texte.
+
+    Les contraintes forçage / homosémantique demandent au modèle d'annoncer
+    « les mots choisis » (les mots-clés du texte source) avant le texte
+    transformé. On les récupère — pour pouvoir surligner ces mots dans le texte
+    source — tout en les retirant du corps destiné au canvas. Renvoie
+    (mots | None, corps).
 
     On ne coupe que si le premier bloc, séparé du reste par un saut de ligne,
     est une énumération courte (≥ 3 items brefs) et dépourvue de ponctuation de
@@ -150,8 +161,8 @@ def strip_leading_word_list(answer: str) -> str:
         items = [s.strip() for s in re.split(r"[;,]", candidate) if s.strip()]
         if (len(candidate) <= 150 and len(items) >= 3
                 and all(len(s.split()) <= 6 for s in items)):
-            return tail.lstrip()
-    return answer
+            return items, tail.lstrip()
+    return None, answer
 
 
 def badge_value(selected: str) -> str:
@@ -175,14 +186,18 @@ def pick_choice(constraint_id: str, constraint: dict) -> str:
 
 
 def generate_answer(client: OpenAI, model: str, prompt: str,
-                    check_french: bool = False) -> tuple[str, str]:
-    """Appelle le LLM et renvoie (réponse brute, réponse nettoyée).
+                    check_french: bool = False) -> tuple[str, str, list[str] | None]:
+    """Appelle le LLM et renvoie (réponse brute, réponse nettoyée, mots choisis).
+
+    Les « mots choisis » sont la liste de mots-clés que le modèle annonce en
+    tête (forçage / homosémantique) ; None sinon. Cf. split_leading_word_list.
 
     Si check_french est actif et que la réponse ne semble pas française,
     on réessaie (conversation vierge, rappel en tête de prompt) : renvoyer
     la mauvaise réponse dans l'historique ancre le modèle dans sa langue.
     """
     raw_answer = answer = ""
+    word_list = None
     for attempt in (1, 2, 3):
         content = prompt if attempt == 1 else RETRY_FRENCH_PREFIX + prompt
         response = client.chat.completions.create(
@@ -195,14 +210,15 @@ def generate_answer(client: OpenAI, model: str, prompt: str,
         )
         raw_answer = response.choices[0].message.content or ""
         answer = THINK_RE.sub("", raw_answer).strip()
-        answer = strip_leading_word_list(answer).strip()
+        word_list, answer = split_leading_word_list(answer)
+        answer = answer.strip()
         if not check_french or french_ratio(answer) >= FRENCH_RATIO_MIN:
             break
         logging.warning(
             "Réponse non française (ratio %.0f%%, tentative %d) : %.60r",
             french_ratio(answer) * 100, attempt, answer,
         )
-    return raw_answer, answer
+    return raw_answer, answer, word_list
 
 
 def build_prompt(constraint_id: str, source_text: str) -> tuple[str, str | None]:
@@ -288,7 +304,7 @@ def generate():
     client = OpenAI(base_url=base_url, api_key=api_key)
 
     try:
-        raw_answer, answer = generate_answer(
+        raw_answer, answer, source_words = generate_answer(
             client, model, prompt, constraint.get("check_french", False)
         )
     except Exception as exc:
@@ -308,6 +324,7 @@ def generate():
         "raw_answer": raw_answer,
         "thinking": thinking,
         "variable": variable,
+        "source_words": source_words if constraint_id in SOURCE_HIGHLIGHT_CONSTRAINTS else None,
     })
 
 

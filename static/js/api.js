@@ -83,15 +83,19 @@ export async function requestGeneration(textId, constraintId) {
     clearTimeout(timer);
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Erreur serveur');
-    return { text: formatForConstraint(data.answer, constraintId), variable: data.variable };
+    return {
+      text: formatForConstraint(data.answer, constraintId),
+      variable: data.variable,
+      sourceWords: data.source_words ?? null,   // mots à surligner dans la source
+    };
   } catch (e) {
     clearTimeout(timer);
     // Annulée parce qu'une génération plus récente l'a supplantée : son résultat
     // serait de toute façon écarté (jeton périmé, cf. main.js). On sort en
     // silence, sans basculer sur le secours ni alarmer la console.
-    if (current.superseded) return { text: null, variable: null };
+    if (current.superseded) return { text: null, variable: null, sourceWords: null };
     console.warn('Génération IA indisponible, texte de secours utilisé :', e);
-    return getFallback(constraintId, textId) ?? { text: null, variable: null };
+    return getFallback(constraintId, textId) ?? { text: null, variable: null, sourceWords: null };
   } finally {
     if (inFlight === current) inFlight = null;
   }
@@ -156,6 +160,9 @@ function getFallback(constraintId, textId) {
     return {
       text: formatForConstraint(entry.texte, constraintId),
       variable: badgeLabel ? { label: badgeLabel, value: entry.contexte } : null,
+      // Présent seulement si les secours ont été (re)générés après l'ajout du
+      // surlignage source ; sinon null → pas de surlignage source (dégradation).
+      sourceWords: entry.source_words ?? null,
     };
   }
 
@@ -171,5 +178,6 @@ function getFallback(constraintId, textId) {
   return {
     text,
     variable: badgeLabel ? { label: badgeLabel, value: contrainte.contexte } : null,
+    sourceWords: null,   // texte générique : sans lien avec l'extrait affiché
   };
 }

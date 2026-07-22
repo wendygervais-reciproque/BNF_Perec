@@ -219,9 +219,46 @@ export function setGeneratingButton(constraintId) {
 const originalTextEl = document.querySelector('.text-content-original');
 const leftPageEl = document.getElementById('left');
 
+let sourcePlain = '';   // texte source brut, base du (dé)surlignage
+
 export function setExtractText(content) {
   if (!originalTextEl) return;
+  sourcePlain = content;
   originalTextEl.textContent = content;
+  snapLeftText();
+}
+
+const escapeHtml = s =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+// Surligne dans la page source les mots-clés réutilisés par la contrainte
+// (forçage : mots imposés ; homosémantique : mots remplacés par des synonymes),
+// en écho à leur mise en exergue sur le canvas. Sans effet si la liste est vide
+// ou si aucun mot ne figure tel quel dans le texte source.
+export function highlightSource(words) {
+  if (!originalTextEl) return;
+  const terms = (words || []).map(w => w.trim()).filter(Boolean);
+  if (terms.length === 0) { clearSourceHighlight(); return; }
+  // Du plus long au plus court : évite qu'un mot court n'entame une expression.
+  const pattern = terms
+    .sort((a, b) => b.length - a.length)
+    .map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('|');
+  const re = new RegExp(`(${pattern})`, 'gi');
+  let html = '', last = 0;
+  for (const m of sourcePlain.matchAll(re)) {
+    html += escapeHtml(sourcePlain.slice(last, m.index));
+    html += `<span class="source-highlight">${escapeHtml(m[0])}</span>`;
+    last = m.index + m[0].length;
+  }
+  html += escapeHtml(sourcePlain.slice(last));
+  originalTextEl.innerHTML = html;
+  snapLeftText();
+}
+
+export function clearSourceHighlight() {
+  if (!originalTextEl) return;
+  originalTextEl.textContent = sourcePlain;
   snapLeftText();
 }
 

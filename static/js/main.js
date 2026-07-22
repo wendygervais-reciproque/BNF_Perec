@@ -42,7 +42,8 @@ let currentState = STATE_CHAOS;
 let lastTime = 0;
 
 let pendingText = null;
-let pendingVariable = null;   // cartouche mis de côté : il n'entre qu'au texte formé
+let pendingVariable = null;      // cartouche mis de côté : il n'entre qu'au texte formé
+let pendingSourceWords = null;   // mots-clés à surligner dans la page source, idem
 
 let currentTextId = null;     // extrait affiché page gauche
 let activeConstraintId = null;
@@ -104,10 +105,11 @@ function startFormation(text) {
 
 // Le texte vient de se poser : tout ce qui l'accompagne apparaît d'un coup.
 function onTextFormed() {
-  UI.setGeneratingButton(null);           // déverrouillage des contraintes
-  UI.showTextIteration();                 // la signature revient en fondu
-  UI.setConstraintBadge(pendingVariable); // le cartouche descend du haut
-  resetIdleTimer();                       // écran stabilisé : le minuteur peut courir
+  UI.setGeneratingButton(null);              // déverrouillage des contraintes
+  UI.showTextIteration();                    // la signature revient en fondu
+  UI.setConstraintBadge(pendingVariable);    // le cartouche descend du haut
+  UI.highlightSource(pendingSourceWords);    // mots source en écho à l'exergue
+  resetIdleTimer();                          // écran stabilisé : le minuteur peut courir
 }
 
 // ==========================================
@@ -121,6 +123,7 @@ function dissolve() {
     currentState = STATE_CHAOS;
   }
   UI.hideTextIteration();
+  UI.clearSourceHighlight();   // le surlignage source disparaît avec le texte
   resetIdleTimer();   // une animation démarre : le minuteur reste suspendu
 }
 
@@ -134,7 +137,7 @@ async function generate() {
   UI.setConstraintBadge(null);   // l'ancien texte se dissout, son cartouche remonte
   dissolve();
 
-  const { text, variable } = await requestGeneration(currentTextId, activeConstraintId);
+  const { text, variable, sourceWords } = await requestGeneration(currentTextId, activeConstraintId);
 
   if (token !== generationToken) return;  // une génération plus récente a pris la main
   if (!text) {
@@ -146,6 +149,7 @@ async function generate() {
   dissolve();
   pendingText = text;
   pendingVariable = variable;
+  pendingSourceWords = sourceWords;
   UI.bumpTextIteration(currentTextId, activeConstraintId);
 }
 
@@ -200,6 +204,7 @@ function showLocalText(text) {
   dissolve();
   pendingText = text;
   pendingVariable = null;
+  pendingSourceWords = null;
 }
 
 window.addEventListener('keydown', (e) => {

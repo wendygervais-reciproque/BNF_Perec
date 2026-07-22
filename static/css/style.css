@@ -219,6 +219,17 @@ canvas {
     color: var(--color-text-on-light);
 }
 
+/* Mots du texte source réutilisés par la contrainte (forçage / homosémantique),
+   surlignés en écho à leur mise en exergue sur le canvas (cf. ui.js →
+   highlightSource). Même aplat que l'exergue du canvas pour lier les deux. */
+.source-highlight {
+    background-color: var(--color-anim-highlight-bg);
+    color: var(--color-on-accent);
+    border-radius: 3px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
 .text-source {
     display: block;
     width: 100%;
