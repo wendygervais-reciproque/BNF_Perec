@@ -3,4 +3,3 @@ __pycache__/
 .venv/
 .claude/
 .DS_Store
-logs
