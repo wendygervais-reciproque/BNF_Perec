@@ -311,7 +311,8 @@ def generate():
     })
 
 
-COUNTER_FILE = os.path.join(os.path.dirname(__file__), 'logs', 'total.txt')
+# COUNTER_FILE = os.path.join(os.path.dirname(__file__), 'logs', 'total.txt')
+COUNTER_FILE = "/tmp/logs/counter.txt"
 
 def init_counter():
     os.makedirs(os.path.dirname(COUNTER_FILE), exist_ok=True)
