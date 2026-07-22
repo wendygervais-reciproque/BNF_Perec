@@ -236,11 +236,25 @@ export function initHelpPanel() {
   const helpPanel = document.getElementById('help-panel');
   if (!btnHelp || !helpPanel) return;
 
-  const toggleHelp = () => {
-    const isOpen = helpPanel.classList.toggle('open');
+  const setHelpOpen = (isOpen) => {
+    helpPanel.classList.toggle('open', isOpen);
     btnHelp.classList.toggle('active', isOpen);
     document.body.classList.toggle('help-open', isOpen);
   };
+
+  const toggleHelp = () => setHelpOpen(!helpPanel.classList.contains('open'));
+
   btnHelp.addEventListener('click', toggleHelp);
+  helpPanel.addEventListener('click', toggleHelp);
   if (btnCloseHelp) btnCloseHelp.addEventListener('click', toggleHelp);
+}
+
+export function closeHelpPanel() {
+  const btnHelp = document.getElementById('btn-help');
+  const helpPanel = document.getElementById('help-panel');
+  if (!helpPanel || !helpPanel.classList.contains('open')) return;
+
+  helpPanel.classList.remove('open');
+  if (btnHelp) btnHelp.classList.remove('active');
+  document.body.classList.remove('help-open');
 }

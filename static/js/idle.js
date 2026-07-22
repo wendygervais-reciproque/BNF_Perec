@@ -10,7 +10,7 @@
 // module n'ait pas à connaître la machine à états.
 
 import { IDLE_DELAY_MS, IDLE_BOUNCE_MIN_MS, IDLE_BOUNCE_JITTER_MS } from './config.js';
-import { constraintButtons } from './ui.js';
+import { constraintButtons, closeHelpPanel } from './ui.js';
 
 const idleVeil = document.getElementById('idle-veil');
 
@@ -40,6 +40,7 @@ function bounceRandomButton() {
 }
 
 function startIdleMode() {
+  closeHelpPanel();
   idleModeActive = true;
   if (idleVeil) idleVeil.classList.add('visible');
   bounceRandomButton();
