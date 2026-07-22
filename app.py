@@ -14,12 +14,19 @@ THINK_RE = re.compile(
     r"<think>(.*?)(?:</think>|\Z)\s*", re.DOTALL | re.IGNORECASE
 )
 
-# Liste de mots en gras que le modèle place en tête de réponse (contraintes
-# forçage / homosémantique) avant le texte transformé. On la retire de la
-# réponse affichée ; les mots restent en gras dans le corps du texte.
-# NB : demander au modèle d'omettre cette liste le fait aussi renoncer au
-# gras dans le texte, d'où ce nettoyage a posteriori.
-WORD_LIST_RE = re.compile(r"^(?:\s*\*\*[^*\n]+\*\*\s*[,;.:]?[ \t]*)+\n+")
+# Le modèle place parfois en tête de réponse la liste des mots à réutiliser
+# (contraintes forçage / homosémantique) avant le texte transformé : une
+# énumération courte, isolée du récit par un saut de ligne, dont les items
+# peuvent être en gras, non balisés, ou précédés d'une étiquette ("mots
+# imposés :"). On la retire de la réponse affichée ; les mots restent en gras
+# dans le corps du texte. NB : demander au modèle d'omettre cette liste le fait
+# aussi renoncer au gras dans le texte, d'où ce nettoyage a posteriori.
+# Étiquette optionnelle en tête de liste ("Mots imposés :", "mots choisis :"…).
+LIST_LABEL_RE = re.compile(
+    r"^(?:mots?(?:\s+(?:choisis|imposés|clés|à réutiliser))?|liste|contrainte|"
+    r"éléments?)\s*:\s*",
+    re.IGNORECASE,
+)
 
 # Garde-fou de langue : le modèle bascule parfois dans la langue du pays
 # (contrainte changement_lieu, surtout avec l'espagnol). On mesure la densité
@@ -119,6 +126,31 @@ def strip_leading_mention(answer: str) -> str:
     return answer
 
 
+def strip_leading_word_list(answer: str) -> str:
+    """Retire une éventuelle liste de mots en tête de réponse (cf. LIST_LABEL_RE).
+
+    On ne coupe que si le premier bloc, séparé du reste par un saut de ligne,
+    est une énumération courte (≥ 3 items brefs) et dépourvue de ponctuation de
+    phrase interne : garde-fous pour ne jamais entamer une vraie ouverture (une
+    didascalie « Scène : une taverne animée. Untel… » n'a ni la brièveté ni la
+    ponctuation d'une liste).
+    """
+    for sep in ("\n\n", "\n"):
+        head, found, tail = answer.partition(sep)
+        if not found or not tail.strip():
+            continue
+        candidate = LIST_LABEL_RE.sub("", head.replace("**", "").strip())
+        # Une ponctuation de phrase suivie de texte (« . D », « : U ») trahit
+        # de la prose, jamais une énumération de mots.
+        if re.search(r"[.!?:]\s+\S", candidate):
+            continue
+        items = [s.strip() for s in re.split(r"[;,]", candidate) if s.strip()]
+        if (len(candidate) <= 150 and len(items) >= 3
+                and all(len(s.split()) <= 6 for s in items)):
+            return tail.lstrip()
+    return answer
+
+
 def badge_value(selected: str) -> str:
     """Libellé court pour le cartouche : les formes littéraires sont décrites
     ("théâtre tragédie : ton solennel, …"), on ne garde que le nom."""
@@ -160,7 +192,7 @@ def generate_answer(client: OpenAI, model: str, prompt: str,
         )
         raw_answer = response.choices[0].message.content or ""
         answer = THINK_RE.sub("", raw_answer).strip()
-        answer = WORD_LIST_RE.sub("", answer).strip()
+        answer = strip_leading_word_list(answer).strip()
         if not check_french or french_ratio(answer) >= FRENCH_RATIO_MIN:
             break
         logging.warning(
@@ -168,6 +200,32 @@ def generate_answer(client: OpenAI, model: str, prompt: str,
             french_ratio(answer) * 100, attempt, answer,
         )
     return raw_answer, answer
+
+
+def build_prompt(constraint_id: str, source_text: str) -> tuple[str, str | None]:
+    """Assemble le prompt envoyé au modèle pour une contrainte donnée.
+
+    Source unique partagée par la route /generate et le script de génération
+    des textes de secours (generate_secours.py) : les deux doivent produire des
+    textes selon exactement la même consigne. Tire aussi la variable aléatoire
+    éventuelle (époque / lieu / genre) et l'injecte à la place du placeholder.
+    Renvoie (prompt, selected) ; selected vaut None sans variable.
+    """
+    constraint = CONSTRAINTS[constraint_id]
+    constraint_text = read_file(DATA_DIR / constraint["file"])
+    selected = None
+    if "placeholder" in constraint:
+        selected = pick_choice(constraint_id, constraint)
+        logging.info(
+            "Variable '%s' pour la contrainte '%s' : %s",
+            constraint["placeholder"], constraint_id, selected,
+        )
+        constraint_text = constraint_text.replace(constraint["placeholder"], selected)
+    prompt = (
+        f"{constraint_text}\n\n"
+        f"Voici le texte à transformer :\n\n{source_text}"
+    )
+    return prompt, selected
 
 
 app = Flask(__name__, static_folder="static", static_url_path="")
@@ -221,22 +279,8 @@ def generate():
             "error": "LLM non configuré (LLM_BASE_URL / LLM_API_KEY manquants dans .env)"
         }), 503
 
-    constraint_text = read_file(DATA_DIR / constraint["file"])
     source_text = read_file(text_path)
-
-    selected = None
-    if "placeholder" in constraint:
-        selected = pick_choice(constraint_id, constraint)
-        logging.info(
-            "Variable '%s' pour la contrainte '%s' : %s",
-            constraint["placeholder"], constraint_id, selected,
-        )
-        constraint_text = constraint_text.replace(constraint["placeholder"], selected)
-
-    prompt = (
-        f"{constraint_text}\n\n"
-        f"Voici le texte à transformer :\n\n{source_text}"
-    )
+    prompt, selected = build_prompt(constraint_id, source_text)
 
     client = OpenAI(base_url=base_url, api_key=api_key)
 

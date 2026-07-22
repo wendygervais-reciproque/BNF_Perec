@@ -71,7 +71,7 @@ export async function requestGeneration(textId, constraintId) {
     clearTimeout(timer);
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Erreur serveur');
-    return { text: markdownBoldToHighlight(data.answer), variable: data.variable };
+    return { text: formatForConstraint(data.answer, constraintId), variable: data.variable };
   } catch (e) {
     console.warn('Génération IA indisponible, texte de secours utilisé :', e);
     return getFallback(constraintId, textId) ?? { text: null, variable: null };
@@ -81,10 +81,33 @@ export async function requestGeneration(textId, constraintId) {
 // ==========================================
 // MISE EN EXERGUE
 // ==========================================
+// Seules les contraintes forçage et homosémantique désignent des mots à mettre
+// en exergue (cf. prompts : « Mets les mots… en gras »). Pour les autres
+// (époque, lieu, genre, haïku), un éventuel gras est du balisage incident — les
+// didascalies de théâtre « **SCÈNE :** » notamment — qu'il faut retirer sans
+// créer d'exergue.
+const HIGHLIGHT_CONSTRAINTS = new Set(['forcage', 'homosemantique']);
+
+// Prépare le texte pour le moteur d'animation selon la contrainte : conversion
+// du gras markdown en exergue là où c'est attendu, simple nettoyage du balisage
+// ailleurs.
+function formatForConstraint(text, constraintId) {
+  return HIGHLIGHT_CONSTRAINTS.has(constraintId)
+    ? markdownBoldToHighlight(text)
+    : stripEmphasis(text);
+}
+
 // Le moteur d'animation attend les mots à mettre en exergue entre astérisques
 // simples ; le modèle les renvoie en gras markdown.
 function markdownBoldToHighlight(text) {
   return text.replace(/\*\*([^*]+)\*\*/g, '*$1*');
+}
+
+// Retire tout astérisque de balisage : le moteur traite chaque « * » comme une
+// bascule d'exergue, donc un markdown résiduel (gras ou italique) créerait une
+// exergue parasite là où la contrainte n'en attend aucune.
+function stripEmphasis(text) {
+  return text.replace(/\*+/g, '');
 }
 
 // Pour les textes de secours génériques, où les mots imposés ne sont pas
@@ -112,7 +135,7 @@ function getFallback(constraintId, textId) {
   const badgeLabel = BADGE_LABELS[constraintId];
   if (entry?.texte) {
     return {
-      text: markdownBoldToHighlight(entry.texte),
+      text: formatForConstraint(entry.texte, constraintId),
       variable: badgeLabel ? { label: badgeLabel, value: entry.contexte } : null,
     };
   }
@@ -121,8 +144,10 @@ function getFallback(constraintId, textId) {
   const contrainte = fallbackContraintes?.find(c => c.id === constraintId);
   if (!contrainte) return null;
   let text = contrainte.texte;
-  if (constraintId === 'forcage' || constraintId === 'homosemantique') {
+  if (HIGHLIGHT_CONSTRAINTS.has(constraintId)) {
     text = applyKeywordHighlighting(text, contrainte.contexte);
+  } else {
+    text = stripEmphasis(text);
   }
   return {
     text,

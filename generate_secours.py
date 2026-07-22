@@ -28,9 +28,9 @@ from app import (
     CONSTRAINTS,
     DATA_DIR,
     badge_value,
+    build_prompt,
     generate_answer,
     list_texts,
-    pick_choice,
     read_file,
     strip_leading_mention,
 )
@@ -54,18 +54,10 @@ def save_secours(data: dict) -> None:
 
 def generate_one(client: OpenAI, model: str, text_id: str, constraint_id: str) -> dict:
     constraint = CONSTRAINTS[constraint_id]
-    constraint_text = read_file(DATA_DIR / constraint["file"])
     source_text = read_file(DATA_DIR / f"{text_id}.txt")
 
-    contexte = None
-    if "placeholder" in constraint:
-        contexte = pick_choice(constraint_id, constraint)
-        constraint_text = constraint_text.replace(constraint["placeholder"], contexte)
-
-    prompt = (
-        f"{constraint_text}\n\n"
-        f"Voici le texte à transformer :\n\n{source_text}"
-    )
+    # Même fabrication de prompt que la route /generate (source unique dans app.py).
+    prompt, contexte = build_prompt(constraint_id, source_text)
     _, answer = generate_answer(
         client, model, prompt, constraint.get("check_french", False)
     )
