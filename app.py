@@ -308,5 +308,36 @@ def generate():
     })
 
 
+COUNTER_FILE = os.path.join(os.path.dirname(__file__), 'logs', 'total.txt')
+
+def init_counter():
+    os.makedirs(os.path.dirname(COUNTER_FILE), exist_ok=True)
+    if not os.path.exists(COUNTER_FILE):
+        with open(COUNTER_FILE, 'w') as f:
+            f.write('0')
+
+init_counter()
+
+@app.route('/api/counter', methods=['GET'])
+def get_counter():
+    try:
+        with open(COUNTER_FILE, 'r') as f:
+            count = int(f.read().strip())
+        return jsonify({'count': count})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/counter/increment', methods=['POST'])
+def increment_counter():
+    try:
+        with open(COUNTER_FILE, 'r+') as f:
+            count = int(f.read().strip())
+            f.seek(0)
+            f.write(str(count + 1))
+            f.truncate()
+        return jsonify({'count': count + 1})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == "__main__":
     app.run(debug=True, port=int(os.environ.get("PORT", 5001)))
