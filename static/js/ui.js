@@ -54,20 +54,58 @@ export function placeTextIteration(textPixels) {
   textIterationEl.style.top = `${top}px`;
 }
 
-// La signature ne concerne que le texte achevé : elle s'efface dès qu'il se
-// dissout ou se reforme, et ne revient qu'une fois la formation terminée.
+// Affiche la signature (appelée quand le texte est achevé)
 export function showTextIteration() {
   textIterationEl?.classList.add('visible');
 }
 
+// Cache la signature (appelée quand le texte se dissout ou se reforme)
 export function hideTextIteration() {
   textIterationEl?.classList.remove('visible');
 }
 
-export function bumpTextIteration() {
+// Incrémente le compteur local ET le compteur serveur
+export async function bumpTextIteration() {
   textIteration += 1;
-  if (textIterationNumber) textIterationNumber.textContent = textIteration;
+  if (textIterationNumber) {
+    textIterationNumber.textContent = textIteration;
+  }
+  if (textIterationYear) {
+    textIterationYear.textContent = new Date().getFullYear();
+  }
+
+  // Synchronise avec le serveur
+  try {
+    await fetch('/api/counter/increment', { method: 'POST' });
+  } catch (e) {
+    console.warn('Impossible de synchroniser le compteur avec le serveur :', e);
+  }
 }
+
+// Charge le compteur depuis le serveur au chargement de la page
+async function initTextIteration() {
+  try {
+    const response = await fetch('/api/counter');
+    const { count } = await response.json();
+    textIteration = count;
+    if (textIterationNumber) {
+      textIterationNumber.textContent = textIteration;
+    }
+    if (textIterationYear) {
+      textIterationYear.textContent = new Date().getFullYear();
+    }
+  } catch (e) {
+    console.warn('Impossible de charger le compteur depuis le serveur :', e);
+    // En cas d'échec, on garde le compteur local à 0 ou on utilise une valeur par défaut
+    textIteration = 0;
+    if (textIterationNumber) {
+      textIterationNumber.textContent = textIteration;
+    }
+  }
+}
+
+// Appelle l'initialisation au chargement de la page
+document.addEventListener('DOMContentLoaded', initTextIteration);
 
 // ==========================================
 // BOUTONS DE CONTRAINTE
