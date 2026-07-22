@@ -128,11 +128,39 @@ document.addEventListener('DOMContentLoaded', initTextIteration);
 // ==========================================
 export const constraintButtons = document.querySelectorAll('.btn-contrainte');
 
-export function initConstraints(onActivate) {
+export function initConstraints(onClick) {
   constraintButtons.forEach(btn => {
-    btn.addEventListener('click', () => onActivate(btn));
+    // Stocke le texte et la largeur d'origine
+    btn.dataset.originalLabel = btn.textContent.trim();
+    btn.dataset.originalWidth = `${btn.offsetWidth}px`;
+
+    // Applique la largeur minimale
+    btn.style.minWidth = btn.dataset.originalWidth;
+
+    btn.addEventListener('click', () => onClick(btn));
   });
 }
+let generatingSVG = `                
+<svg width="60" height="20" viewBox="0 0 60 20" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .dot {
+      fill: var(--color-btn-active-text); /* Dot color (change as needed) */
+      opacity: 0.2;
+      animation: pulse 1.4s infinite ease-in-out;
+    }
+    .dot:nth-child(1) { animation-delay: 0s; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes pulse {
+      0%, 60%, 100% { opacity: 0.2s; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-5px); }
+    }
+  </style>
+  <circle class="dot" cx="30" cy="10" r="4" />
+  <circle class="dot" cx="50" cy="10" r="4" />
+  <circle class="dot" cx="10" cy="10" r="4" />
+</svg>`;
 
 export function markActiveConstraint(btn) {
   constraintButtons.forEach(b => b.classList.remove('active'));
@@ -146,8 +174,20 @@ export function randomConstraintButton() {
 // Pendant une génération, seul le bouton de la contrainte en cours est
 // désactivé — inutile de renvoyer la même requête. Les autres restent
 // cliquables, pour pouvoir interrompre et repartir sur une autre contrainte.
+
 export function setGeneratingButton(constraintId) {
-  constraintButtons.forEach(b => { b.disabled = b.dataset.id === constraintId; });
+  constraintButtons.forEach(btn => {
+    const isActive = btn.dataset.id === constraintId;
+    btn.disabled = isActive;
+
+    if (isActive) {
+      // Remplace le texte par le SVG animé
+      btn.innerHTML = generatingSVG;
+    } else {
+      // Restaure le label d'origine
+      btn.innerHTML = btn.dataset.originalLabel;
+    }
+  });
 }
 
 // ==========================================
