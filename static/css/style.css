@@ -347,7 +347,7 @@ body.help-open #contraintes { display: none; }
    dans le canvas suffit comme indicateur d'activité */
 .btn-contrainte:disabled {
     cursor: default;
-    opacity: 1;
+    opacity: 0.55;
 }
 
 /* Rebond « jello » — appliqué à un bouton aléatoire, à cadence

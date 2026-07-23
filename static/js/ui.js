@@ -37,7 +37,24 @@ const canvasScrollEl = document.getElementById('canvas-scroll');
 const textIterationEl = document.getElementById('text-iteration');
 const textIterationNumber = document.getElementById('text-iteration-number');
 const textIterationYear = document.getElementById('text-iteration-year');
-if (textIterationYear) textIterationYear.textContent = new Date().getFullYear();
+
+// Date et heure sous une forme élégante, ex. « 23 juillet 2026, 14:32 »
+function formatElegantDate(date = new Date()) {
+  const datePart = new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
+  const timePart = new Intl.DateTimeFormat('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+  return `${datePart}, ${timePart}`;
+}
+
+if (textIterationYear) {
+  textIterationYear.textContent = formatElegantDate();
+}
 
 let textIteration = 0;
 
@@ -94,7 +111,7 @@ export async function bumpTextIteration(textId, constraintId) {
     textIterationNumber.textContent = textIteration;
   }
   if (textIterationYear) {
-    textIterationYear.textContent = new Date().getFullYear();
+    textIterationYear.textContent = formatElegantDate();
   }
 
   // Synchronise avec le serveur
@@ -131,7 +148,7 @@ async function initTextIteration() {
       textIterationNumber.textContent = textIteration;
     }
     if (textIterationYear) {
-      textIterationYear.textContent = new Date().getFullYear();
+      textIterationYear.textContent = formatElegantDate();
     }
   } catch (e) {
     console.warn('Impossible de charger le compteur depuis le serveur :', e);
@@ -194,20 +211,17 @@ export function randomConstraintButton() {
   return constraintButtons[Math.floor(Math.random() * constraintButtons.length)];
 }
 
-// Pendant une génération, seul le bouton de la contrainte en cours est
-// désactivé — inutile de renvoyer la même requête. Les autres restent
-// cliquables, pour pouvoir interrompre et repartir sur une autre contrainte.
-
+// Pendant une génération, tous les boutons sont désactivés : il faut attendre
+// la fin pour choisir une nouvelle contrainte (le serveur ne traite qu'une
+// requête à la fois).
 export function setGeneratingButton(constraintId) {
   constraintButtons.forEach(btn => {
     const isActive = btn.dataset.id === constraintId;
-    btn.disabled = isActive;
+    btn.disabled = constraintId !== null; // tous désactivés dès qu'une génération est en cours
 
     if (isActive) {
-      // Remplace le texte par le SVG animé
       btn.innerHTML = generatingSVG;
     } else {
-      // Restaure le label d'origine
       btn.innerHTML = btn.dataset.originalLabel;
     }
   });

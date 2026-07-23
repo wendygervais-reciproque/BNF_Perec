@@ -218,7 +218,7 @@ window.addEventListener('keydown', (e) => {
 // ==========================================
 await initApi();
 
-UI.initConstraints(activateConstraint);
+UI.initConstraints(debounce(activateConstraint, 600));
 UI.initRenewButton(debounce(async () => {
   await loadRandomExtract();
   if (activeConstraintId) generate();
