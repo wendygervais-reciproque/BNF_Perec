@@ -340,6 +340,7 @@ body.help-open #contraintes { display: none; }
     color: var(--color-btn-active-text);
     border-color: var(--color-btn-active-border);
     box-shadow: none;
+    opacity: 1;
 }
 
 /* Génération en cours : le bouton est désactivé (pas de double requête),
@@ -348,6 +349,10 @@ body.help-open #contraintes { display: none; }
 .btn-contrainte:disabled {
     cursor: default;
     opacity: 0.55;
+}
+
+.btn-contrainte.active:disabled {
+    opacity: 1;
 }
 
 /* Rebond « jello » — appliqué à un bouton aléatoire, à cadence
@@ -611,6 +616,11 @@ body.help-open #contraintes { display: none; }
     width: 29px;
     height: 40px;
     fill: var(--color-text-on-light);
+}
+
+#btn-renew-extract:disabled {
+    opacity: 0.5;
+    cursor: default;
 }
 
 .btn-page-action:focus-visible {

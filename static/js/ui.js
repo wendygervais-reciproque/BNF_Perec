@@ -42,7 +42,7 @@ const textIterationYear = document.getElementById('text-iteration-year');
 function formatElegantDate(date = new Date()) {
   const datePart = new Intl.DateTimeFormat('fr-FR', {
     day: 'numeric',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   }).format(date);
   const timePart = new Intl.DateTimeFormat('fr-FR', {
@@ -211,13 +211,13 @@ export function randomConstraintButton() {
   return constraintButtons[Math.floor(Math.random() * constraintButtons.length)];
 }
 
-// Pendant une génération, tous les boutons sont désactivés : il faut attendre
-// la fin pour choisir une nouvelle contrainte (le serveur ne traite qu'une
-// requête à la fois).
+// Pendant une génération, tous les boutons sont désactivés (contraintes et
+// renouveler) : il faut attendre la fin avant d'en déclencher une autre — le
+// serveur ne traite qu'une requête à la fois.
 export function setGeneratingButton(constraintId) {
   constraintButtons.forEach(btn => {
     const isActive = btn.dataset.id === constraintId;
-    btn.disabled = constraintId !== null; // tous désactivés dès qu'une génération est en cours
+    btn.disabled = constraintId !== null;
 
     if (isActive) {
       btn.innerHTML = generatingSVG;
@@ -225,8 +225,10 @@ export function setGeneratingButton(constraintId) {
       btn.innerHTML = btn.dataset.originalLabel;
     }
   });
-}
 
+  const renewBtn = document.getElementById('btn-renew-extract');
+  if (renewBtn) renewBtn.disabled = constraintId !== null;
+}
 // ==========================================
 // PAGE ORIGINALE
 // ==========================================
