@@ -124,7 +124,7 @@ body {
     overflow: hidden;
     position: relative;
 
-    background: var(--color-app-bg);
+    background: var(--color-canvas-bg);
     color: var(--color-text-on-light);
     font-family: var(--font-ibm-plex-sans);
     font-size: 24px;
@@ -616,4 +616,12 @@ body.help-open #contraintes { display: none; }
 .btn-page-action:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 4px;
+}
+
+#btn-renew-extract svg:active {
+    transform: scale(0.85);
+}
+
+#btn-help svg:active {
+    transform: scale(0.85);
 }
