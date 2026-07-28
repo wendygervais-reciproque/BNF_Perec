@@ -8,8 +8,31 @@ import csv
 from datetime import datetime
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,Response
 from openai import OpenAI
+
+from functools import wraps
+
+def check_auth(username, password):
+    return (
+        username == os.environ.get('SITE_USER', 'reciproque') and
+        password == os.environ.get('SITE_PASSWORD', 'perec2026')
+    )
+
+def authenticate():
+    return Response(
+        'Accès refusé.', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
 
 logging.basicConfig(level=logging.INFO)
 
@@ -248,6 +271,12 @@ def build_prompt(constraint_id: str, source_text: str) -> tuple[str, str | None]
 
 
 app = Flask(__name__, static_folder="static", static_url_path="")
+
+@app.before_request
+def global_auth():
+    auth = request.authorization
+    if not auth or not check_auth(auth.username, auth.password):
+        return authenticate()
 
 
 def list_texts():
