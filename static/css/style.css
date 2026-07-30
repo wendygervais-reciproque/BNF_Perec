@@ -599,6 +599,9 @@ body.help-open #contraintes { display: none; }
     transform: translateX(-50%);
     z-index: 10;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--font-ibm-plex-sans);
     align-items: center;
     justify-content: center;
     height: 90px;
@@ -634,4 +637,13 @@ body.help-open #contraintes { display: none; }
 
 #btn-help svg:active {
     transform: scale(0.85);
+}
+
+.no-version {
+    color: #FFFFFF05;
+    cursor: pointer;
+}
+
+.no-version:hover {
+    color:var(--color-text-on-dark) 
 }
