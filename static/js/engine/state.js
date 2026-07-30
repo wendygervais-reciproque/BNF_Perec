@@ -68,7 +68,7 @@ export function allocateGrids(canvasWidth, canvasHeight, mainCellSize) {
   S.nextEphemeralOpacity = new Float32Array(size);
   S.nextEphemeralHeat = new Float32Array(size);
   S.aliveGrid = new Uint8Array(size);
-  S.visibleCells = [];
+  S.visibleCells.length = 0;
 
   S.activeBox = { minX: 0, maxX: S.cols - 1, minY: 0, maxY: S.rows - 1 };
   return { cols: S.cols, rows: S.rows };
@@ -91,5 +91,5 @@ export function resetState() {
   S.nextEphemeralState.fill(0);
   S.nextEphemeralOpacity.fill(0);
   S.nextEphemeralHeat.fill(0);
-  S.visibleCells = [];
+  S.visibleCells.length = 0;
 }

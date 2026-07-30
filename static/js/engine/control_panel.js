@@ -48,7 +48,7 @@ export class ControlPanel {
     this.addSection('MOTEUR GRAPHIQUE');
     this.addSlider('Bruit (Errement)', 'NOISE_SCALE', 0.001, 0.05, 0.001);
     this.addSlider('Cône de Vision (°)', 'maxConeAngleDegrees', 10, 360, 10);
-    this.addSlider('Inertie (Accélération)', 'accelerationSpeed', 0.1, 2.0, 0.1);
+    this.addSlider('Inertie (Accélération)', 'accelerationSpeed', 0.1, 200, 1);
     this.addSlider('Quota Plasma (Lag)', 'maxPlasmaCells', 500, 10000, 100);
 
     this.addSection('ÉCOSYSTÈME (Défibrillateur)');

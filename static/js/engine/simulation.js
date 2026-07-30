@@ -81,16 +81,21 @@ export function update(dt, speedMultiplier = 1.0) {
 
 // Fondus d'entrée et de sortie, puis retrait des particules éteintes.
 function applyFades(particles, dt, speedMultiplier) {
-  for (let p of particles) {
+  const fadeIn = dt * speedMultiplier * PARAMS.fadeInSpeed;
+  const fadeOut = dt * speedMultiplier * PARAMS.fadeOutSpeed;
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
     if (p.state === 'BORN') {
-      p.alpha += (dt * speedMultiplier) * PARAMS.fadeInSpeed;
+      p.alpha += fadeIn;
       if (p.alpha >= 1.0) { p.alpha = 1.0; p.state = 'ALIVE'; }
     } else if (p.state === 'DYING') {
-      p.alpha -= (dt * speedMultiplier) * PARAMS.fadeOutSpeed;
+      p.alpha -= fadeOut;
     }
   }
-  // Suppression en place, pour ne pas réallouer un tableau à chaque image
   for (let i = particles.length - 1; i >= 0; i--) {
-    if (particles[i].state === 'DYING' && particles[i].alpha <= 0.0) particles.splice(i, 1);
+    if (particles[i].state === 'DYING' && particles[i].alpha <= 0.0) {
+      particles[i] = particles[particles.length - 1];
+      particles.pop();
+    }
   }
 }

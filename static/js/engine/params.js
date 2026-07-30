@@ -24,7 +24,7 @@ export const PARAMS = {
   // Transitions Physiques
   fadeInSpeed: 0.8,
   fadeOutSpeed: 0.4,
-  accelerationSpeed: 1.6,
+  accelerationSpeed: 20,
 
   // Transitions du Plasma
   plasmaFadeInSpeed: 0.5,
