@@ -60,9 +60,8 @@ export const TEXT_OFFSET_ROWS =
 // ==========================================
 // CADENCES
 // ==========================================
-// Vitesse de la formation. Fractionnaire : le moteur exécute un pas cette
-// proportion des images, plutôt qu'une fraction de pas à chaque image.
-export const FORMATION_SPEED = 0.4;
+// Vitesse de la formation : PARAMS.FORMATION_SPEED (engine/params.js),
+// réglable en direct dans le panneau de debug.
 
 // Au-delà, la génération est abandonnée et un texte de secours prend le relais.
 export const GENERATION_TIMEOUT_MS = 60000;

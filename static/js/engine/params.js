@@ -10,27 +10,31 @@ const cssColor = name =>
 
 export const PARAMS = {
   // Le Limier
-  NOISE_SCALE: 0.008,
+  NOISE_SCALE: 0.08,
   maxConeAngleDegrees: 35,
 
   // Le Défibrillateur
-  defibDensity: 0.25,
-  defibEphemeralSparks: 0.025,
-  defibRadius: 9,
+  defibDensity: 0.65,
+  defibEphemeralSparks: 0.042,
+  defibRadius: 3,
 
   // Quota
-  maxPlasmaCells: 3500,
+  maxPlasmaCells: 4300,
 
   // Transitions Physiques
   fadeInSpeed: 0.8,
-  fadeOutSpeed: 0.4,
-  accelerationSpeed: 170,
+  fadeOutSpeed: 0.2,
+  accelerationSpeed: 2,
+  // Pas de simulation par image de référence (60 Hz) : pilote la vitesse
+  // globale de la formation du texte, indépendamment du taux de
+  // rafraîchissement réel (cf. l'accumulateur dans simulation.js).
+  FORMATION_SPEED: 0.85,
 
   // Transitions du Plasma
-  plasmaFadeInSpeed: 0.5,
-  plasmaFadeOutSpeed: 0.03,
-  plasmaExtinctionSpeed: 0.02,
-  collisionCoolingSpeed: 0.04,
+  plasmaFadeInSpeed: 0.8,
+  plasmaFadeOutSpeed: 0.02,
+  plasmaExtinctionSpeed: 0.03,
+  collisionCoolingSpeed: 0.05,
 
   // Esthétique & Couleurs
   // Valeurs par défaut lues dans static/css/style.css (:root) — source unique

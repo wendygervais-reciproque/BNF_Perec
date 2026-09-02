@@ -72,3 +72,5 @@ counter,text_id,timestamp,constraint_id
 97,05,2026-07-23T18:17:28.835188,changement_epoque
 98,05,2026-07-23T18:18:01.500532,forcage
 99,09,2026-07-23T18:21:32.423382,forcage
+332,29,2026-09-02T16:56:06.601470,changement_epoque
+354,23,2026-09-02T17:31:12.628492,changement_lieu

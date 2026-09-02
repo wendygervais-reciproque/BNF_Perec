@@ -39,6 +39,7 @@ export class ControlPanel {
       <div style="color:#aaa; display:flex; justify-content:space-between;"><span>Particules:</span> <span id="cp-part">0</span></div>
       <div style="color:#aaa; display:flex; justify-content:space-between;"><span>Plasma Actif:</span> <span id="cp-plas">0</span></div>
       <div style="color:#aaa; display:flex; justify-content:space-between;"><span>État:</span> <span id="cp-state">CHAOS</span></div>
+      <div style="color:#aaa; display:flex; justify-content:space-between;"><span>Durée formation:</span> <span id="cp-duration">—</span></div>
       <div style="color:#aaa; display:flex; justify-content:space-between; margin-bottom:15px"><span>Inactivité:</span> <span id="cp-idle">—</span></div>
     `;
     this.panel.appendChild(this.monitorSection);
@@ -48,7 +49,8 @@ export class ControlPanel {
     this.addSection('MOTEUR GRAPHIQUE');
     this.addSlider('Bruit (Errement)', 'NOISE_SCALE', 0.001, 0.05, 0.001);
     this.addSlider('Cône de Vision (°)', 'maxConeAngleDegrees', 10, 360, 10);
-    this.addSlider('Inertie (Accélération)', 'accelerationSpeed', 0.1, 200, 1);
+    this.addSlider('Inertie (Accélération)', 'accelerationSpeed', 0.2, 8, 0.1);
+    this.addSlider('Vitesse Formation', 'FORMATION_SPEED', 0.05, 2.0, 0.05);
     this.addSlider('Quota Plasma (Lag)', 'maxPlasmaCells', 500, 10000, 100);
 
     this.addSection('ÉCOSYSTÈME (Défibrillateur)');
@@ -79,6 +81,7 @@ export class ControlPanel {
     this.partEl = document.getElementById('cp-part');
     this.plasEl = document.getElementById('cp-plas');
     this.stateEl = document.getElementById('cp-state');
+    this.durEl = document.getElementById('cp-duration');
     this.idleEl = document.getElementById('cp-idle');
   }
 
@@ -150,7 +153,11 @@ export class ControlPanel {
 
   // idleStatus vient de main.js — le compte à rebours d'inactivité n'est pas
   // une affaire du moteur, le panneau se contente de l'afficher.
-  update(idleStatus = null) {
+  update(idleStatus = null, formationDuration = null) {
+    if (formationDuration !== null) {
+      this.durEl.innerText = `${formationDuration.toFixed(2)} s`;
+    }
+
     this.frames++;
     const now = performance.now();
     const elapsed = now - this.lastTime;

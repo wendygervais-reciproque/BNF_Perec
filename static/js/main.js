@@ -17,7 +17,7 @@ import { ControlPanel } from '/js/engine/control_panel.js';
 
 import {
   CELL_SIZE, GRID_INTERVAL, LINE_GAP,
-  FORMATION_SPEED, TEXT_OFFSET_ROWS, TEXT_MARGIN_CELLS
+  TEXT_OFFSET_ROWS, TEXT_MARGIN_CELLS
 } from './config.js';
 import { initApi, fetchRandomExtract, requestGeneration } from './api.js';
 import {
@@ -40,6 +40,11 @@ const STATE_STABLE = 2;
 
 let currentState = STATE_CHAOS;
 let lastTime = 0;
+
+// Chronométrage de la formation du texte — diagnostic de perf inter-navigateurs,
+// lisible sans devtools (verrouillés en mode kiosque) via le panneau "D".
+let formationStartTime = 0;
+let lastFormationDuration = null;
 
 let pendingText = null;
 let pendingVariable = null;      // cartouche mis de côté : il n'entre qu'au texte formé
@@ -66,16 +71,18 @@ function animate(timestamp) {
     startFormation(pendingText);
     pendingText = null;
     currentState = STATE_FORMING;
+    formationStartTime = performance.now();
   } else if (currentState === STATE_FORMING && Engine.isTextFullyFormed()) {
     currentState = STATE_STABLE;
+    lastFormationDuration = (performance.now() - formationStartTime) / 1000;
     onTextFormed();
   }
 
   if (currentState !== STATE_CHAOS) paintHighlight(Engine.getCrystallization());
 
-  Engine.update(dt, FORMATION_SPEED);
+  Engine.update(dt, Engine.PARAMS.FORMATION_SPEED);
   Engine.draw(ctx);
-  controlPanel.update(getIdleStatus());
+  controlPanel.update(getIdleStatus(), lastFormationDuration);
 
   requestAnimationFrame(animate);
 }

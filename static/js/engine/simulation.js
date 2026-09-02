@@ -62,9 +62,18 @@ export function update(dt, speedMultiplier = 1.0) {
 
   applyFades(particles, dt, speedMultiplier);
 
-  // Le multiplicateur fractionnaire est réparti aléatoirement : à 0,4 on
-  // exécute un pas 40 % des images, plutôt que 0,4 pas à chaque image.
-  const steps = Math.floor(speedMultiplier) + (Math.random() < (speedMultiplier % 1) ? 1 : 0);
+  // speedMultiplier est calibré pour ~60 images/seconde ; on le ramène ici au
+  // temps réellement écoulé (dt) pour que le nombre de pas par seconde — donc
+  // la vitesse de l'animation — ne dépende plus du taux de rafraîchissement
+  // réel (60 Hz, 120 Hz...), qui varie selon l'écran et le navigateur.
+  // Le multiplicateur fractionnaire (0,4 pas par image de référence) est
+  // reporté d'une image sur l'autre plutôt que tiré au sort : un pas exécuté
+  // une fois sur deux ou trois, à intervalle régulier, plutôt qu'une suite de
+  // « coups de dés » qui produit des paquets de pas puis des trous — la cause
+  // du cadencement saccadé observé.
+  S.stepAccumulator += speedMultiplier * dt * 60;
+  const steps = Math.floor(S.stepAccumulator);
+  S.stepAccumulator -= steps;
   const textIsFormed = isTextFullyFormed();
 
   if (textIsFormed) {

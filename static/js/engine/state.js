@@ -51,6 +51,11 @@ export const S = {
 
   // 0 → 1 une fois le texte formé : éteint le plasma et révèle l'exergue
   crystallizationProgress: 0.0,
+
+  // Report fractionnaire des pas de simulation d'une image à l'autre (cf.
+  // update() dans simulation.js) : accumule dt * vitesse plutôt que de tirer
+  // au sort un pas par image, pour un cadencement régulier plutôt que saccadé.
+  stepAccumulator: 0,
 };
 
 // Alloue les grilles pour une taille de canvas donnée. Appelée au démarrage et
@@ -85,6 +90,7 @@ export function resetState() {
   S.framePlasmaCount = 0;
   S.plasmaHealth = 1.0;
   S.crystallizationProgress = 0.0;
+  S.stepAccumulator = 0;
   S.ephemeralState.fill(0);
   S.ephemeralOpacity.fill(0);
   S.ephemeralHeat.fill(0);
