@@ -11,10 +11,13 @@ const cssColor = name =>
 export const PARAMS = {
   // Le Limier
   NOISE_SCALE: 0.08,
-  maxConeAngleDegrees: 35,
+  maxConeAngleDegrees: 60,
+  // Cône minimal, même tout près de la cible : évite une approche finale en
+  // ligne parfaitement droite (cf. getHoundMove dans physics.js).
+  minConeAngleDegrees: 2,
 
   // Le Défibrillateur
-  defibDensity: 0.65,
+  defibDensity: 0.8,
   defibEphemeralSparks: 0.042,
   defibRadius: 3,
 
@@ -24,11 +27,11 @@ export const PARAMS = {
   // Transitions Physiques
   fadeInSpeed: 0.8,
   fadeOutSpeed: 0.2,
-  accelerationSpeed: 2,
+  accelerationSpeed: 6,
   // Pas de simulation par image de référence (60 Hz) : pilote la vitesse
   // globale de la formation du texte, indépendamment du taux de
   // rafraîchissement réel (cf. l'accumulateur dans simulation.js).
-  FORMATION_SPEED: 0.85,
+  FORMATION_SPEED: 1.3,
 
   // Transitions du Plasma
   plasmaFadeInSpeed: 0.8,

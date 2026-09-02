@@ -28,7 +28,12 @@ function getHoundMove(currentX, currentY, targetX, targetY, identityOffset) {
 
   const dist = Math.abs(dx) + Math.abs(dy);
   const maxConeAngleRadians = PARAMS.maxConeAngleDegrees * (Math.PI / 180);
-  const coneWidth = Math.min(maxConeAngleRadians, (dist / 100.0) * maxConeAngleRadians);
+  const minConeAngleRadians = PARAMS.minConeAngleDegrees * (Math.PI / 180);
+  // Sans plancher, le cône s'annule tout près de la cible : l'approche finale
+  // — la plus visible — devient une ligne parfaitement droite. Le plancher
+  // garde un peu de flottement organique jusqu'au bout.
+  const coneWidth = Math.max(minConeAngleRadians,
+    Math.min(maxConeAngleRadians, (dist / 100.0) * maxConeAngleRadians));
   const n = noise(currentX * PARAMS.NOISE_SCALE, currentY * PARAMS.NOISE_SCALE, S.time + identityOffset);
   const delta = (n - 0.5) * coneWidth;
 
@@ -37,8 +42,15 @@ function getHoundMove(currentX, currentY, targetX, targetY, identityOffset) {
   const rx = dx * cosD - dy * sinD;
   const ry = dx * sinD + dy * cosD;
 
-  if (Math.abs(rx) > Math.abs(ry)) { _move.moveX = rx > 0 ? 1 : -1; _move.moveY = 0; }
-  else { _move.moveX = 0; _move.moveY = ry > 0 ? 1 : -1; }
+  // L'axe de déplacement est tiré au sort au prorata de |rx| et |ry|, plutôt
+  // que de toujours prendre le plus grand : sinon la trajectoire est un
+  // "L" strict (tout en X puis tout en Y), et comme les particules d'un même
+  // bloc partagent une géométrie proche, elles basculent d'axe en même temps
+  // — l'effet de mur qui converge de front plutôt que de s'entrelacer.
+  const absRx = Math.abs(rx), absRy = Math.abs(ry);
+  const pickX = Math.random() * (absRx + absRy) < absRx;
+  if (pickX) { _move.moveX = rx >= 0 ? 1 : -1; _move.moveY = 0; }
+  else { _move.moveX = 0; _move.moveY = ry >= 0 ? 1 : -1; }
   return _move;
 }
 

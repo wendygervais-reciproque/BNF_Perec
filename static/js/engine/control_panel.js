@@ -49,6 +49,7 @@ export class ControlPanel {
     this.addSection('MOTEUR GRAPHIQUE');
     this.addSlider('Bruit (Errement)', 'NOISE_SCALE', 0.001, 0.05, 0.001);
     this.addSlider('Cône de Vision (°)', 'maxConeAngleDegrees', 10, 360, 10);
+    this.addSlider('Cône Minimal (°)', 'minConeAngleDegrees', 0, 60, 1);
     this.addSlider('Inertie (Accélération)', 'accelerationSpeed', 0.2, 8, 0.1);
     this.addSlider('Vitesse Formation', 'FORMATION_SPEED', 0.05, 2.0, 0.05);
     this.addSlider('Quota Plasma (Lag)', 'maxPlasmaCells', 500, 10000, 100);
