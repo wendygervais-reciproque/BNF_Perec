@@ -78,6 +78,7 @@
     /* ===== Composants ===== */
     --color-btn-bg:           #FCF7F3;                   /* bouton contrainte sélectionné */
     --color-btn-text:         #272935;
+    --color-btn-text-disabled:#A1A2A9;
     --color-btn-border:       #EFE4DB;
 
     --color-btn-active-bg:    #4F5A9D;                   /* bouton contrainte actif */
@@ -343,15 +344,19 @@ body.help-open #contraintes { display: none; }
     opacity: 1;
 }
 
-/* Génération en cours : le bouton est désactivé (pas de double requête),
-   estompé en guise de feedback — sans animation, le texte qui se forme
-   dans le canvas suffit comme indicateur d'activité */
+/* Génération en cours : le bouton est désactivé (pas de double requête).
+   Le texte passe au style « disabled » et l'élévation (shadow) disparaît
+   pour signifier que le bouton est moins « proche » — sans animation,
+   le texte qui se forme dans le canvas suffit comme indicateur d'activité */
 .btn-contrainte:disabled {
     cursor: default;
-    opacity: 0.55;
+    color: var(--color-btn-text-disabled);
+    box-shadow: none;
 }
 
 .btn-contrainte.active:disabled {
+    color: var(--color-btn-active-text);
+    box-shadow: none;
     opacity: 1;
 }
 
@@ -622,8 +627,13 @@ body.help-open #contraintes { display: none; }
 }
 
 #btn-renew-extract:disabled {
-    opacity: 0.5;
     cursor: default;
+    color: var(--color-btn-text-disabled);
+    box-shadow: none;
+}
+
+#btn-renew-extract:disabled svg {
+    fill: var(--color-btn-text-disabled);
 }
 
 .btn-page-action:focus-visible {

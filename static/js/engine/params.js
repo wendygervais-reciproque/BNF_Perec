@@ -11,20 +11,20 @@ const cssColor = name =>
 export const PARAMS = {
   // Le Limier
   NOISE_SCALE: 0.008,
-  maxConeAngleDegrees: 40,
+  maxConeAngleDegrees: 35,
 
   // Le Défibrillateur
   defibDensity: 0.25,
-  defibEphemeralSparks: 0.005,
-  defibRadius: 8,
+  defibEphemeralSparks: 0.025,
+  defibRadius: 9,
 
   // Quota
-  maxPlasmaCells: 2500,
+  maxPlasmaCells: 3500,
 
   // Transitions Physiques
   fadeInSpeed: 0.8,
   fadeOutSpeed: 0.4,
-  accelerationSpeed: 20,
+  accelerationSpeed: 170,
 
   // Transitions du Plasma
   plasmaFadeInSpeed: 0.5,
