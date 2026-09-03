@@ -319,14 +319,15 @@ def generate():
 
     # LLM_* prioritaires ; UNSLOTH_URL / GEMMA_API acceptés pour compatibilité
     # avec la config d'origine du serveur teklia.
-    base_url = os.environ.get("LLM_BASE_URL") or os.environ.get("UNSLOTH_URL")
-    api_key = os.environ.get("LLM_API_KEY") or os.environ.get("GEMMA_API")
-    model = os.environ.get("LLM_MODEL", "gemma-4-26B-A4B-it")
+    base_url=os.environ["LLM_BASE_URL"]
+    api_key=os.environ["LLM_API_KEY"]
+    model = os.environ["LLM_MODEL"]
     if not base_url or not api_key:
         return jsonify({
             "error": "LLM non configuré (LLM_BASE_URL / LLM_API_KEY manquants dans .env)"
         }), 503
 
+    print(base_url)
     source_text = read_file(text_path)
     prompt, selected = build_prompt(constraint_id, source_text)
 
