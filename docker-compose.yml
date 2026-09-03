@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: wendy-perec
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_DEBUG=${FLASK_DEBUG}
+      - UNSLOTH_URL=${UNSLOTH_URL}
+      - GEMMA_API=${GEMMA_API}
+    volumes:
+      - .:/app
+      - /app/.venv

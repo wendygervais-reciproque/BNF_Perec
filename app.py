@@ -272,11 +272,11 @@ def build_prompt(constraint_id: str, source_text: str) -> tuple[str, str | None]
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
-@app.before_request
-def global_auth():
-    auth = request.authorization
-    if not auth or not check_auth(auth.username, auth.password):
-        return authenticate()
+# @app.before_request
+# def global_auth():
+#     auth = request.authorization
+#     if not auth or not check_auth(auth.username, auth.password):
+#         return authenticate()
 
 
 def list_texts():

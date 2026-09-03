@@ -12,4 +12,4 @@ FROM python:3.12.13-slim
 WORKDIR /app
 COPY --from=builder /app/.venv .venv/
 COPY . .
-CMD ["/app/.venv/bin/flask", "run", "--host=0.0.0.0", "--port=8080"]
+CMD ["/app/.venv/bin/flask", "run", "--host=0.0.0.0", "--port=5000"]
