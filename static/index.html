@@ -17,12 +17,14 @@
                 <svg viewBox="0 0 29 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.63125 26.7274C1.02708 25.6329 0.604167 24.5306 0.3625 23.4207C0.120833 22.3109 0 21.1783 0 20.0229C0 16.0396 1.42734 12.6112 4.28202 9.73774C7.13673 6.86431 10.5427 5.4276 14.5 5.4276H16.4485L12.8234 1.77879L14.5906 0L21.3423 6.7959L14.5906 13.5918L12.7781 11.7674L16.3577 8.1642H14.5C11.2677 8.1642 8.4961 9.32726 6.18515 11.6534C3.87423 13.9795 2.71875 16.7693 2.71875 20.0229C2.71875 20.9046 2.80182 21.7407 2.96798 22.5314C3.13412 23.322 3.33802 24.0669 3.57969 24.7663L1.63125 26.7274ZM14.3188 40L7.56719 33.2041L14.3188 26.4081L16.086 28.187L12.4609 31.8359H14.5C17.7323 31.8359 20.5039 30.6727 22.8149 28.3466C25.1257 26.0206 26.2813 23.2307 26.2813 19.9771C26.2813 19.0954 26.2057 18.2593 26.0548 17.4687C25.9037 16.678 25.677 15.9331 25.375 15.2337L27.3235 13.2725C27.9276 14.3671 28.3581 15.4694 28.6149 16.5793C28.8717 17.6891 29 18.8217 29 19.9771C29 23.9604 27.5726 27.3889 24.718 30.2623C21.8632 33.1357 18.4573 34.5724 14.5 34.5724H12.4609L16.086 38.2211L14.3188 40Z"/></svg>
                 <span>Nouvel extrait</span>
             </button>
-            <div class="text-content-original">L'année suivante, Grégoire Simpson obtint une bourse dont le montant,
-                bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail.
-                Mais au lieu de se consacrer à ses études et de finir sa licence, il tomba alors dans une sorte de neurasthénie ;
-                une léthargie singulière dont apparemment rien ne parvint à le réveiller.
+            <div id="left-content" class="left-text-block">
+                <div class="text-content-original">L'année suivante, Grégoire Simpson obtint une bourse dont le montant,
+                    bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail.
+                    Mais au lieu de se consacrer à ses études et de finir sa licence, il tomba alors dans une sorte de neurasthénie ;
+                    une léthargie singulière dont apparemment rien ne parvint à le réveiller.
+                </div>
+                <div class="text-source">Georges Perec, <em>La Vie mode d'emploi</em>, 1978</div>
             </div>
-            <div class="text-source">Georges Perec, <em>La Vie mode d'emploi</em>, 1978</div>
         </div>
         <div class="page" id="right">
             <div id="constraint-badge">
@@ -37,6 +39,24 @@
                 <canvas id="gameCanvas"></canvas>
             </div>
             <div id="overlay"></div>
+        </div>
+
+        <div id="left-page-shadow"></div>
+
+        <div id="page-flap">
+            <div class="flap-face front">
+                <div class="flap-face-inner">
+                    <div id="flap-front"></div>
+                    <div class="shade"></div>
+                </div>
+            </div>
+            <div class="flap-face back">
+                <div class="flap-face-inner left-text-block">
+                    <div class="text-content-original" id="flap-back-text"></div>
+                    <div class="text-source">Georges Perec, <em>La Vie mode d'emploi</em>, 1978</div>
+                    <div class="shade"></div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -8,6 +8,7 @@ import {
   CELL_SIZE, GRID_INTERVAL, ACTION_BAR_HEIGHT,
   TEXT_ITERATION_GAP, TEXT_ITERATION_HEIGHT
 } from './config.js';
+import { canvas, viewportHeight } from './stage.js';
 
 // ==========================================
 // CARTOUCHE DU PARAMÈTRE (lieu, époque, genre)
@@ -299,6 +300,81 @@ export function snapLeftText() {
 export function initRenewButton(onRenew) {
   const btn = document.getElementById('btn-renew-extract');
   if (btn) btn.addEventListener('click', onRenew);
+}
+
+// ==========================================
+// TOURNE-PAGE (transition au clic sur « Nouvel extrait »)
+// ==========================================
+// Le rabat pivote depuis la reliure : sa face avant montre la page droite
+// telle qu'elle était (canvas + calques HTML superposés, capturés ensemble —
+// les cloner séparément les recentrerait chacun différemment, cf. le bug
+// observé sur le prototype), sa face arrière la nouvelle page gauche.
+const pageFlapEl = document.getElementById('page-flap');
+const flapFrontEl = document.getElementById('flap-front');
+const flapBackTextEl = document.getElementById('flap-back-text');
+const leftPageShadowEl = document.getElementById('left-page-shadow');
+const overlayEl = document.getElementById('overlay');
+
+const FLIP_DURATION_MS = 2000;
+
+// Rogne le canvas à la tranche actuellement visible (le texte généré peut
+// déborder et défiler dans #canvas-scroll), puis copie par-dessus les
+// calques HTML qui l'accompagnent — cartouche de contrainte (hors défilement,
+// même repère que le rognage) et signature (dans le défilement : son offset
+// est corrigé pour retomber dans le même repère que l'image).
+function captureRightFace() {
+  const scrollTop = canvasScrollEl ? canvasScrollEl.scrollTop : 0;
+  const w = canvas.width;
+  const h = viewportHeight;
+
+  const off = document.createElement('canvas');
+  off.width = w;
+  off.height = h;
+  off.getContext('2d').drawImage(canvas, 0, scrollTop, w, h, 0, 0, w, h);
+
+  const img = document.createElement('img');
+  img.src = off.toDataURL('image/png');
+  img.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; display:block;';
+
+  const nodes = [img];
+
+  if (constraintBadgeEl) nodes.push(constraintBadgeEl.cloneNode(true));
+
+  if (textIterationEl) {
+    const iterationClone = textIterationEl.cloneNode(true);
+    const originalTop = parseFloat(textIterationEl.style.top) || 0;
+    iterationClone.style.top = `${originalTop - scrollTop}px`;
+    nodes.push(iterationClone);
+  }
+
+  if (overlayEl) nodes.push(overlayEl.cloneNode(true));
+
+  return nodes;
+}
+
+// Joue la transition, puis appelle onSettle une fois le rabat posé à plat —
+// c'est à ce moment, et seulement à ce moment, que le vrai contenu doit
+// basculer (cf. commentaire sur #page-flap dans style.css).
+export function playPageFlip(newExtractText, onSettle) {
+  if (!pageFlapEl || !flapFrontEl || !flapBackTextEl) { onSettle(); return; }
+
+  flapFrontEl.replaceChildren(...captureRightFace());
+  flapBackTextEl.textContent = newExtractText;
+
+  document.documentElement.style.setProperty('--flip-duration', `${FLIP_DURATION_MS}ms`);
+
+  void pageFlapEl.offsetWidth;   // relance l'animation depuis zéro si elle vient de tourner
+  pageFlapEl.classList.add('flipping');
+  if (leftPageShadowEl) leftPageShadowEl.classList.add('casting');
+
+  pageFlapEl.addEventListener('animationend', function onEnd() {
+    pageFlapEl.removeEventListener('animationend', onEnd);
+    onSettle();
+    pageFlapEl.classList.remove('flipping');
+    if (leftPageShadowEl) leftPageShadowEl.classList.remove('casting');
+    flapFrontEl.replaceChildren();
+    flapBackTextEl.textContent = '';
+  }, { once: true });
 }
 
 // ==========================================

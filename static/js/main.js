@@ -167,6 +167,31 @@ async function loadRandomExtract() {
   UI.setExtractText(extract.content);
 }
 
+// Renouvellement depuis le bouton « Nouvel extrait » : contrairement à
+// loadRandomExtract (amorçage, bascule instantanée), le vrai texte n'est posé
+// qu'une fois le tourne-page reposé à plat (cf. UI.playPageFlip) — jusque-là,
+// currentTextId et l'affichage restent sur l'ancien extrait.
+async function renewExtract() {
+  UI.setGeneratingButton('__renewing__');   // verrouille contraintes + renouveler, sans en éclairer une
+  const extract = await fetchRandomExtract(currentTextId);
+  if (!extract) { UI.setGeneratingButton(null); return; }
+
+  UI.playPageFlip(extract.content, () => {
+    currentTextId = extract.id;
+    UI.setExtractText(extract.content);
+    if (activeConstraintId) generate();     // reprend la main sur l'état des boutons
+    else UI.setGeneratingButton(null);
+  });
+
+  // Dissolution lancée juste après la capture du rabat (donc sur l'ancien
+  // texte encore intact) : le canevas réel se met à se dissoudre tout de
+  // suite, caché derrière le rabat. Sans ça, la rotation finit par exposer
+  // la page droite avant que le rabat ne soit reposé (sa projection ne
+  // recouvre le rectangle des pages qu'à 0° et à 180°) — on y verrait
+  // l'ancien texte encore figé, identique à celui qui vient de tourner.
+  dissolve();
+}
+
 function activateConstraint(btn) {
   UI.markActiveConstraint(btn);
   activeConstraintId = btn.dataset.id;
@@ -226,10 +251,7 @@ window.addEventListener('keydown', (e) => {
 await initApi();
 
 UI.initConstraints(debounce(activateConstraint, 600));
-UI.initRenewButton(debounce(async () => {
-  await loadRandomExtract();
-  if (activeConstraintId) generate();
-}, 200));
+UI.initRenewButton(debounce(renewExtract, 200));
 UI.initHelpPanel();
 initIdleMode(() => currentState === STATE_STABLE);
 
