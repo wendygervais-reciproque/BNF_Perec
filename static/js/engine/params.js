@@ -22,7 +22,7 @@ export const PARAMS = {
   defibRadius: 3,
 
   // Quota
-  maxPlasmaCells: 22000,
+  maxPlasmaCells: 12000,
 
   // Transitions Physiques
   fadeInSpeed: 0.85,
