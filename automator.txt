@@ -1,0 +1,20 @@
+# Lancer l'application Docker Desktop en arrière-plan
+tell application "Docker" to activate
+
+# Attente pour s'assurer que le moteur Docker est bien démarré (ajustez le délai si nécessaire)
+delay 10
+
+# Lancement d'Unsloth en arrière-plan (sans bloquer le script)
+do shell script "/Users/administrateur1/.local/bin/unsloth run --model unsloth/gemma-4-26B-A4B-it > /dev/null 2>&1 &"
+
+# Attente de 15 secondes pour laisser le modèle charger sur le M3
+delay 15
+
+# Lancement de l'application de demo
+do shell script "cd '/Users/administrateur1/Perec/BNF_PEREC' && /usr/local/bin/docker-compose up -d"
+
+# 4. Attente pour que Flask démarre à son tour
+delay 3
+
+# 5. Lance  Chrome sur la bonne URL
+do shell script "/Users/administrateur1/Perec/BNF_PEREC/start-chrome.command"

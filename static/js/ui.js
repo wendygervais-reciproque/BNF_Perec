@@ -312,6 +312,7 @@ export function initRenewButton(onRenew) {
 const pageFlapEl = document.getElementById('page-flap');
 const flapFrontEl = document.getElementById('flap-front');
 const flapBackTextEl = document.getElementById('flap-back-text');
+const flapBackExtractIdEl = document.getElementById('flap-back-extract-id');
 const leftPageShadowEl = document.getElementById('left-page-shadow');
 const overlayEl = document.getElementById('overlay');
 
@@ -355,11 +356,12 @@ function captureRightFace() {
 // Joue la transition, puis appelle onSettle une fois le rabat posé à plat —
 // c'est à ce moment, et seulement à ce moment, que le vrai contenu doit
 // basculer (cf. commentaire sur #page-flap dans style.css).
-export function playPageFlip(newExtractText, onSettle) {
+export function playPageFlip(newExtractText, newExtractId, onSettle) {
   if (!pageFlapEl || !flapFrontEl || !flapBackTextEl) { onSettle(); return; }
 
   flapFrontEl.replaceChildren(...captureRightFace());
   flapBackTextEl.textContent = newExtractText;
+  if (flapBackExtractIdEl) flapBackExtractIdEl.textContent = newExtractId;
 
   document.documentElement.style.setProperty('--flip-duration', `${FLIP_DURATION_MS}ms`);
 

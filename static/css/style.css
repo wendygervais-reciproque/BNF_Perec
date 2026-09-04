@@ -65,14 +65,14 @@
 
     /* ===== Surfaces ===== */
     --color-app-bg:       #F7A359;                  /* fond de l'application, hors pages */
-    --color-page-bg:      #FCEBDB;                  /* page gauche — papier */
+    --color-page-bg:      #FDF4E2;                  /* page gauche — papier */
     --color-canvas-bg:    #272935;                  /* page droite — canvas d'animation */
     --color-help-bg:      #4F5A9D;                  /* panneau d'aide */
     --color-idle-veil:    rgba(39, 41, 53, 0.4);    /* voile du mode inactif, dérivé de --color-canvas-bg */
 
     /* ===== Textes ===== */
-    --color-text-on-help:   #FCEBDB;                     /* libellés et icônes sur fonds de la notice d'aide */
-    --color-text-on-dark:   #FCEBDB;                     /* libellés et icônes sur fonds sombres */
+    --color-text-on-help:   #FDF4E2;                     /* libellés et icônes sur fonds de la notice d'aide */
+    --color-text-on-dark:   #FDF4E2;                     /* libellés et icônes sur fonds sombres */
     --color-text-on-light:  #272935;                     /* libellés et icônes sur fonds clairs */
 
     /* ===== Composants ===== */
@@ -131,8 +131,8 @@ body {
     font-size: 24px;
 
     display: flex;
-    width: 1920px;
-    height: 1080px;
+    width: 100vw;
+    height: 100vh;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -361,6 +361,7 @@ body.help-open #contraintes { display: none; }
     cursor: default;
     color: var(--color-btn-text-disabled);
     box-shadow: none;
+    border: none;
 }
 
 .btn-contrainte.active:disabled {
@@ -639,6 +640,7 @@ body.help-open #contraintes { display: none; }
     cursor: default;
     color: var(--color-btn-text-disabled);
     box-shadow: none;
+    border: none;
 }
 
 #btn-renew-extract:disabled svg {
@@ -657,6 +659,11 @@ body.help-open #contraintes { display: none; }
 #btn-help svg:active {
     transform: scale(0.85);
 }
+
+#btn-renew-extract:disabled:active svg {
+    transform: scale(1);
+}
+
 
 .no-version {
     color: #FFFFFF05;
@@ -818,4 +825,8 @@ body.help-open #contraintes { display: none; }
 @media (prefers-reduced-motion: reduce) {
     #page-flap.flipping, #left-page-shadow.casting,
     .front .shade, .back .shade { animation-duration: 1ms !important; }
+}
+
+.text-source-italic {
+    font-style: italic;
 }

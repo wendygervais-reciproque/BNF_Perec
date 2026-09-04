@@ -1,6 +1,8 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+source .venv/bin/activate
+
 # Lance le serveur Python en arrière-plan
 python3 app.py &
 

@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: wendy-perec
+    ports:
+      - "8080:8080"
+    environment:
+      - LLM_BASE_URL=${LLM_BASE_URL}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_MODEL=${LLM_MODEL}
+    volumes:
+      - .:/app
+      - /app/.venv

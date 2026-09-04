@@ -164,6 +164,7 @@ async function loadRandomExtract() {
   const extract = await fetchRandomExtract(currentTextId);
   if (!extract) return;
   currentTextId = extract.id;
+  document.getElementById('current-extract-id').innerHTML = currentTextId;
   UI.setExtractText(extract.content);
 }
 
@@ -176,8 +177,9 @@ async function renewExtract() {
   const extract = await fetchRandomExtract(currentTextId);
   if (!extract) { UI.setGeneratingButton(null); return; }
 
-  UI.playPageFlip(extract.content, () => {
+  UI.playPageFlip(extract.content, extract.id, () => {
     currentTextId = extract.id;
+    document.getElementById('current-extract-id').innerHTML = currentTextId;
     UI.setExtractText(extract.content);
     if (activeConstraintId) generate();     // reprend la main sur l'état des boutons
     else UI.setGeneratingButton(null);
