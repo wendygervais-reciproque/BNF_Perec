@@ -22,10 +22,10 @@ export const PARAMS = {
   defibRadius: 3,
 
   // Quota
-  maxPlasmaCells: 4300,
+  maxPlasmaCells: 22000,
 
   // Transitions Physiques
-  fadeInSpeed: 0.8,
+  fadeInSpeed: 0.85,
   fadeOutSpeed: 0.2,
   accelerationSpeed: 6,
   // Pas de simulation par image de référence (60 Hz) : pilote la vitesse
@@ -36,7 +36,7 @@ export const PARAMS = {
   // Transitions du Plasma
   plasmaFadeInSpeed: 0.8,
   plasmaFadeOutSpeed: 0.02,
-  plasmaExtinctionSpeed: 0.03,
+  plasmaExtinctionSpeed: 0.02,
   collisionCoolingSpeed: 0.05,
 
   // Esthétique & Couleurs
