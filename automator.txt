@@ -10,7 +10,7 @@ do shell script "/Users/administrateur1/.local/bin/unsloth run --model unsloth/g
 # Attente de 15 secondes pour laisser le modèle charger sur le M3
 delay 15
 
-# Lancement de l'application de demo
+# Lancement de l'application
 do shell script "cd '/Users/administrateur1/Perec/BNF_PEREC' && /usr/local/bin/docker-compose up -d"
 
 # 4. Attente pour que Flask démarre à son tour
