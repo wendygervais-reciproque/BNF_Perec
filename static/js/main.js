@@ -164,6 +164,7 @@ async function loadRandomExtract() {
   const extract = await fetchRandomExtract(currentTextId);
   if (!extract) return;
   currentTextId = extract.id;
+  document.getElementById('current-extract-id').innerHTML = currentTextId;
   UI.setExtractText(extract.content);
 }
 
