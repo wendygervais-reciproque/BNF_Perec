@@ -54,6 +54,19 @@ LIST_LABEL_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Marqueur de puce ou de numérotation en tête de ligne ("- mot", "• mot",
+# "1. mot", "(1) mot"...) : à dépouiller avant de traiter la ligne comme un
+# item, sans quoi son propre marqueur fausse le test anti-prose ci-dessous
+# (un point après un chiffre se lit comme une ponctuation de phrase) et
+# reste, pour les puces, un caractère que la police matricielle ne sait pas
+# dessiner (cf. bitmap_font.js) — visible à l'écran comme un glyphe manquant.
+LEADING_MARKER_RE = re.compile(r"^\s*(?:[-*•‣▪·]|\(?\d{1,2}[.)])\s*")
+
+# Séparateur entre deux items d'une énumération tenant sur une seule ligne.
+# Le modèle n'utilise pas toujours la virgule ; quelques puces inline
+# fréquentes sont couvertes en plus du point-virgule.
+ITEM_SEP_RE = re.compile(r"[,;•‣▪·|]")
+
 # Garde-fou de langue : le modèle bascule parfois dans la langue du pays
 # (contrainte changement_lieu, surtout avec l'espagnol). On mesure la densité
 # de mots-outils typiquement français ; un texte français en contient ≥ 14 %,
@@ -171,17 +184,33 @@ def split_leading_word_list(answer: str) -> tuple[list[str] | None, str]:
     phrase interne : garde-fous pour ne jamais entamer une vraie ouverture (une
     didascalie « Scène : une taverne animée. Untel… » n'a ni la brièveté ni la
     ponctuation d'une liste).
+
+    La forme de l'énumération n'est pas garantie (le modèle varie : une seule
+    ligne à virgules, une puce ou un numéro par ligne, un autre séparateur
+    inline...) — un item par ligne est essayé en premier ; à défaut, la ligne
+    unique est découpée sur les séparateurs usuels (cf. ITEM_SEP_RE). Une
+    forme non reconnue laisse la liste telle quelle dans le texte affiché,
+    d'où l'intérêt d'élargir la couverture plutôt que de se fier à un seul
+    format.
     """
     for sep in ("\n\n", "\n"):
         head, found, tail = answer.partition(sep)
         if not found or not tail.strip():
             continue
-        candidate = LIST_LABEL_RE.sub("", head.replace("**", "").strip())
+        head_clean = LIST_LABEL_RE.sub("", head.replace("**", "").strip())
+
+        lines = [LEADING_MARKER_RE.sub("", l).strip() for l in head_clean.splitlines()]
+        lines = [l for l in lines if l]
+        if len(lines) >= 3:
+            items = lines
+        else:
+            items = [s.strip() for s in ITEM_SEP_RE.split(head_clean) if s.strip()]
+
+        candidate = ", ".join(items)
         # Une ponctuation de phrase suivie de texte (« . D », « : U ») trahit
         # de la prose, jamais une énumération de mots.
         if re.search(r"[.!?:]\s+\S", candidate):
             continue
-        items = [s.strip() for s in re.split(r"[;,]", candidate) if s.strip()]
         if (len(candidate) <= 150 and len(items) >= 3
                 and all(len(s.split()) <= 6 for s in items)):
             return items, tail.lstrip()
