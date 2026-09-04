@@ -279,22 +279,30 @@ export function clearSourceHighlight() {
   snapLeftText();
 }
 
-// Aligne le haut de l'em box de l'extrait sur la trame, pour que les deux
-// pages partagent la même ligne de base optique.
-export function snapLeftText() {
-  if (!originalTextEl || !leftPageEl) return;
+// Aligne le haut de l'em box d'un bloc de texte sur la trame, pour que les
+// deux pages partagent la même ligne de base optique. Partagée par la vraie
+// page gauche et par la face arrière du rabat (cf. playPageFlip) : sans ce
+// second appel, le texte apparaîtrait sans le calage, puis sauterait de
+// quelques pixels au moment où le rabat se retire et où la vraie page
+// (calée, elle) devient visible.
+function snapTextToGrid(textEl, containerEl) {
+  if (!textEl || !containerEl) return;
 
   const spacing = CELL_SIZE * GRID_INTERVAL;
-  const cs = getComputedStyle(originalTextEl);
+  const cs = getComputedStyle(textEl);
   // Demi-interlignage : espace vide entre le haut de la line box et celui de l'em box
   const halfLeading = Math.max(0, (parseFloat(cs.lineHeight) - parseFloat(cs.fontSize)) / 2);
 
-  originalTextEl.style.transform = '';
-  const delta = originalTextEl.getBoundingClientRect().top - leftPageEl.getBoundingClientRect().top;
+  textEl.style.transform = '';
+  const delta = textEl.getBoundingClientRect().top - containerEl.getBoundingClientRect().top;
   const inkTop = delta + halfLeading;
   const remainder = ((inkTop % spacing) + spacing) % spacing;
   const snap = remainder < spacing / 2 ? -remainder : spacing - remainder;
-  originalTextEl.style.transform = `translateY(${snap}px)`;
+  textEl.style.transform = `translateY(${snap}px)`;
+}
+
+export function snapLeftText() {
+  snapTextToGrid(originalTextEl, leftPageEl);
 }
 
 export function initRenewButton(onRenew) {
@@ -313,6 +321,7 @@ const pageFlapEl = document.getElementById('page-flap');
 const flapFrontEl = document.getElementById('flap-front');
 const flapBackTextEl = document.getElementById('flap-back-text');
 const flapBackExtractIdEl = document.getElementById('flap-back-extract-id');
+const flapBackFaceEl = document.querySelector('.flap-face.back');
 const leftPageShadowEl = document.getElementById('left-page-shadow');
 const overlayEl = document.getElementById('overlay');
 
@@ -328,18 +337,30 @@ function captureRightFace() {
   const w = canvas.width;
   const h = viewportHeight;
 
-  const off = document.createElement('canvas');
-  off.width = w;
-  off.height = h;
-  off.getContext('2d').drawImage(canvas, 0, scrollTop, w, h, 0, 0, w, h);
+  // Le rognage lui-même sert directement de visuel — inutile de le convertir
+  // en <img> via toDataURL(), un encodage PNG synchrone assez lourd pour
+  // bloquer le thread principal un instant et laisser un clignotement de la
+  // page droite juste avant que le pli ne démarre.
+  const snapshot = document.createElement('canvas');
+  snapshot.width = w;
+  snapshot.height = h;
+  snapshot.getContext('2d').drawImage(canvas, 0, scrollTop, w, h, 0, 0, w, h);
+  snapshot.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; display:block;';
 
-  const img = document.createElement('img');
-  img.src = off.toDataURL('image/png');
-  img.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; display:block;';
+  const nodes = [snapshot];
 
-  const nodes = [img];
-
-  if (constraintBadgeEl) nodes.push(constraintBadgeEl.cloneNode(true));
+  if (constraintBadgeEl) {
+    const badgeClone = constraintBadgeEl.cloneNode(true);
+    // #constraint-badge (et .visible) fixent leur propre `visibility` en
+    // dur, jamais héritée : sur le clone, ça court-circuite le basculement de
+    // visibility qui masque toute la face passé 90° (cf. .flap-face plus
+    // bas) — seul backface-visibility resterait pour le cacher, ce qui l'a
+    // laissé filtrer en mirroir (lieu / époque / genre littéraire, les seules
+    // contraintes qui posent un cartouche). L'inline gagne sur la règle de la
+    // feuille de style : on force l'héritage depuis la face.
+    badgeClone.style.visibility = 'inherit';
+    nodes.push(badgeClone);
+  }
 
   if (textIterationEl) {
     const iterationClone = textIterationEl.cloneNode(true);
@@ -366,7 +387,17 @@ export function playPageFlip(newExtractText, newExtractId, onSettle) {
   document.documentElement.style.setProperty('--flip-duration', `${FLIP_DURATION_MS}ms`);
 
   void pageFlapEl.offsetWidth;   // relance l'animation depuis zéro si elle vient de tourner
-  pageFlapEl.classList.add('flipping');
+  pageFlapEl.classList.add('flipping');   // display:block dès cette ligne : la face devient mesurable
+
+  // Calé sur la même trame que la vraie page gauche (cf. snapLeftText) :
+  // sans ça, le texte de la face arrière apparaît quelques pixels plus haut
+  // ou plus bas que ne le sera la vraie page une fois révélée, et on voit un
+  // saut au moment où le rabat se retire. Mesuré ici (juste après la mise à
+  // plat à 0° du rabat, avant tout autre changement) car la rotation à 180°
+  // de la face arrière ne fausse pas sa hauteur — seule sa lecture est
+  // mirroir, ce qui ne joue pas sur l'axe vertical.
+  snapTextToGrid(flapBackTextEl, flapBackFaceEl);
+
   if (leftPageShadowEl) leftPageShadowEl.classList.add('casting');
 
   pageFlapEl.addEventListener('animationend', function onEnd() {
