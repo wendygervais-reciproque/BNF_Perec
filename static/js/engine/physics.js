@@ -1,25 +1,14 @@
 // Déplacement des particules et des blocs — phase A d'un pas de simulation.
 //
-// Deux régimes :
-//   · CHAOS      tout erre dans le champ de bruit, avec enroulement aux bords ;
-//   · FORMATION  chaque bloc rassemble ses particules (ASSEMBLING), puis
-//                convoie l'ensemble jusqu'à sa cible (MIGRATING) avant de s'y
-//                figer (DOCKED).
+// === OPTIMISATION SAFARI ===
+// Remplacement des boucles for...of par des boucles for indexées dans les
+// chemins chauds (stepMigrating). Le reste est inchangé : les perfs Safari
+// sont dominées par le rendu (renderer.js), pas par la physique.
 
 import { S } from './state.js';
 import { PARAMS } from './params.js';
 import { noise } from './noise.js';
 
-// ==========================================
-// LE LIMIER
-// ==========================================
-// Le déplacement n'est jamais direct : l'angle vers la cible est dévié par le
-// champ de bruit, dans un cône d'autant plus large que la cible est loin.
-// D'où une approche sinueuse de loin, qui se redresse à mesure qu'on arrive.
-// identityOffset décale le champ par entité : deux particules voisines visant
-// la même cible ne suivent pas la même trajectoire.
-// Réutilisé pour éviter une allocation à chaque appel — sinon un objet
-// jetable par particule et par frame, donc de la pression GC continue.
 const _move = { moveX: 0, moveY: 0 };
 
 function getHoundMove(currentX, currentY, targetX, targetY, identityOffset) {
@@ -29,24 +18,15 @@ function getHoundMove(currentX, currentY, targetX, targetY, identityOffset) {
   const dist = Math.abs(dx) + Math.abs(dy);
   const maxConeAngleRadians = PARAMS.maxConeAngleDegrees * (Math.PI / 180);
   const minConeAngleRadians = PARAMS.minConeAngleDegrees * (Math.PI / 180);
-  // Sans plancher, le cône s'annule tout près de la cible : l'approche finale
-  // — la plus visible — devient une ligne parfaitement droite. Le plancher
-  // garde un peu de flottement organique jusqu'au bout.
   const coneWidth = Math.max(minConeAngleRadians,
     Math.min(maxConeAngleRadians, (dist / 100.0) * maxConeAngleRadians));
   const n = noise(currentX * PARAMS.NOISE_SCALE, currentY * PARAMS.NOISE_SCALE, S.time + identityOffset);
   const delta = (n - 0.5) * coneWidth;
 
-  // Rotation de (dx, dy) par delta — évite atan2 entièrement.
   const cosD = Math.cos(delta), sinD = Math.sin(delta);
   const rx = dx * cosD - dy * sinD;
   const ry = dx * sinD + dy * cosD;
 
-  // L'axe de déplacement est tiré au sort au prorata de |rx| et |ry|, plutôt
-  // que de toujours prendre le plus grand : sinon la trajectoire est un
-  // "L" strict (tout en X puis tout en Y), et comme les particules d'un même
-  // bloc partagent une géométrie proche, elles basculent d'axe en même temps
-  // — l'effet de mur qui converge de front plutôt que de s'entrelacer.
   const absRx = Math.abs(rx), absRy = Math.abs(ry);
   const pickX = Math.random() * (absRx + absRy) < absRx;
   if (pickX) { _move.moveX = rx >= 0 ? 1 : -1; _move.moveY = 0; }
@@ -54,8 +34,6 @@ function getHoundMove(currentX, currentY, targetX, targetY, identityOffset) {
   return _move;
 }
 
-// Errance libre d'un point dans le champ de bruit, avec enroulement aux bords.
-// Le déplacement est toujours d'une case, en X ou en Y : la trame reste nette.
 function wander(entity, cols, rows, offset) {
   const n = noise(entity.x * PARAMS.NOISE_SCALE, entity.y * PARAMS.NOISE_SCALE, S.time + offset);
   const angle = n * Math.PI * 4;
@@ -91,7 +69,8 @@ export function stepMovement() {
     return;
   }
 
-  for (let i = 0; i < particles.length; i++) {
+  const nParticles = particles.length;
+  for (let i = 0; i < nParticles; i++) {
     const p = particles[i];
     if (p.state === 'DYING') wander(p, cols, rows, 0);
   }
@@ -103,9 +82,7 @@ export function stepMovement() {
     else if (b.state === 'MIGRATING') stepMigrating(b);
   }
 }
-// Le bloc rassemble ses particules. globalInertia, qui monte de 0 à 1 pendant
-// la formation, dose la proportion autorisée à bouger : le démarrage est lent,
-// puis l'ensemble s'anime.
+
 function stepAssembling(b) {
   if (b.uncollectedCount === undefined) {
     let u = 0, c = 0;
@@ -117,7 +94,8 @@ function stepAssembling(b) {
   }
 
   const elements = b.elements;
-  for (let i = 0; i < elements.length; i++) {
+  const nElem = elements.length;
+  for (let i = 0; i < nElem; i++) {
     const p = elements[i];
     if (p.isCollected) continue;
     if (Math.random() > S.globalInertia) continue;
@@ -135,7 +113,7 @@ function stepAssembling(b) {
 
   if (b.collectedCount >= 1 && Math.random() <= S.globalInertia) {
     let closestP = null, minDist = Infinity;
-    for (let i = 0; i < elements.length; i++) {
+    for (let i = 0; i < nElem; i++) {
       const p = elements[i];
       if (p.isCollected) continue;
       const dist = Math.abs((p.x - p.localX) - b.x) + Math.abs((p.y - p.localY) - b.y);
@@ -147,7 +125,7 @@ function stepAssembling(b) {
     }
   }
 
-  for (let i = 0; i < elements.length; i++) {
+  for (let i = 0; i < nElem; i++) {
     const p = elements[i];
     if (!p.isCollected && b.x + p.localX === p.x && b.y + p.localY === p.y) {
       p.isCollected = true;
@@ -158,12 +136,17 @@ function stepAssembling(b) {
   }
 }
 
-// Le bloc complet convoie ses particules jusqu'à sa position dans le texte.
+// Le bloc complet convoie ses particules. for indexé au lieu de for...of.
 function stepMigrating(b) {
   if (Math.random() <= S.globalInertia) {
     let move = getHoundMove(b.x, b.y, b.targetX, b.targetY, b.targetX + b.targetY);
     b.x += move.moveX; b.y += move.moveY;
   }
-  for (let p of b.elements) { p.x = b.x + p.localX; p.y = b.y + p.localY; }
+  const elements = b.elements;
+  const nElem = elements.length;
+  for (let i = 0; i < nElem; i++) {
+    const p = elements[i];
+    p.x = b.x + p.localX; p.y = b.y + p.localY;
+  }
   if (b.x === b.targetX && b.y === b.targetY) b.state = 'DOCKED';
 }
