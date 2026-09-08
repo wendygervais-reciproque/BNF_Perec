@@ -4,4 +4,5 @@ __pycache__/
 .claude/
 .DS_Store
 logs
+/logs
 logs
