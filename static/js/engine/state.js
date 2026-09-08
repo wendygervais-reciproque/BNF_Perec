@@ -40,7 +40,6 @@ export const S = {
   // ===== Compteurs et fenêtre de travail =====
   lastFramePlasmaCount: 0,  // sert au quota : lu au pas suivant pour brider
                             // la natalité si le plasma dépasse maxPlasmaCells
-  framePlasmaCount: 0,      // accumulé pendant le pas courant
   plasmaHealth: 1.0,        // 1 = pas de bridage ; calculé par Conway,
                             // consommé par les injections
   activeBox: { minX: 0, maxX: 0, minY: 0, maxY: 0 },
@@ -87,7 +86,6 @@ export function resetState() {
   S.time = 0;
   S.globalInertia = 1.0;
   S.lastFramePlasmaCount = 0;
-  S.framePlasmaCount = 0;
   S.plasmaHealth = 1.0;
   S.crystallizationProgress = 0.0;
   S.stepAccumulator = 0;

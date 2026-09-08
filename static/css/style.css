@@ -111,6 +111,14 @@
     /* === Polices === */
     --font-ibm-plex-sans: 'IBM Plex Sans', system-ui, sans-serif;
     --font-ibm-plex-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    /* Durée du tourne-page (ui.js → playPageFlip la réécrit en direct).
+       Source unique : les 6 animations de #page-flap (rotation, bascules de
+       visibilité front/back, ombrages, projection d'ombre) doivent rester
+       synchronisées, donc partager exactement la même valeur — les redondances
+       passées (un fallback littéral différent recopié dans chaque règle) ont
+       fini par diverger silencieusement les unes des autres. */
+    --flip-duration: 2000ms;
 }
 html
 {
@@ -216,6 +224,13 @@ canvas {
     box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
     -webkit-box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
     -moz-box-shadow: 0px 0px 67px 36px var(--color-canvas-vignette) inset;
+
+    /* L'ombre ne change jamais, mais empilée juste au-dessus d'un canvas qui
+       s'invalide à 60 im/s, WebKit la recompose entièrement à chaque frame
+       plutôt que de mettre en cache son calque (~230ms/frame mesurés au
+       Web Inspector). will-change force la promotion sur son propre calque
+       GPU, peint une fois puis réutilisé tel quel. */
+    will-change: transform;
 }
 
 .text-content-original {
@@ -700,9 +715,17 @@ body.help-open #contraintes { display: none; }
     pointer-events: none;
 }
 
+/* Rendu visible (donc peint) une image avant que .flipping ne démarre la
+   rotation — cf. le commentaire dans ui.js → playPageFlip : sans ce délai
+   d'une frame, WebKit anime parfois la couche 3D avant d'avoir fini de
+   peindre le canvas capturé qu'elle contient, et le rabat tourne à vide. */
+#page-flap.visible {
+    display: block;
+}
+
 #page-flap.flipping {
     display: block;
-    animation: page-flip var(--flip-duration, 2000ms) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
+    animation: page-flip var(--flip-duration) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
 }
 
 /* La face n'a QUE la rotation et le masquage de son propre dos : combiner
@@ -736,18 +759,30 @@ body.help-open #contraintes { display: none; }
 }
 
 #page-flap.flipping .flap-face.front {
-    animation: flap-front-visibility var(--flip-duration, 2000ms) steps(2, jump-none) forwards;
+    animation: flap-front-visibility var(--flip-duration) linear forwards;
 }
 #page-flap.flipping .flap-face.back {
-    animation: flap-back-visibility var(--flip-duration, 2000ms) steps(2, jump-none) forwards;
+    animation: flap-back-visibility var(--flip-duration) linear forwards;
 }
+
+/* steps(2, jump-none) coupait pile à 50% du TEMPS écoulé — mais la rotation
+   (cf. @keyframes page-flip) suit un cubic-bezier(0.61, 0.03, 0.34, 1), pas
+   une progression linéaire : à 50% du temps, le rabat n'est pas encore à
+   -90°. Bascule replacée à 47.71%, le point du temps où cette courbe
+   atteint réellement -90° (calculé par résolution numérique de la bézier) —
+   sinon on voit sauter le contenu d'une face à l'autre avant que le rabat ne
+   soit effectivement de profil. */
 @keyframes flap-front-visibility {
-    0%   { visibility: visible; }
-    100% { visibility: hidden; }
+    0%      { visibility: visible; }
+    47.71%  { visibility: visible; }
+    47.72%  { visibility: hidden; }
+    100%    { visibility: hidden; }
 }
 @keyframes flap-back-visibility {
-    0%   { visibility: hidden; }
-    100% { visibility: visible; }
+    0%      { visibility: hidden; }
+    47.71%  { visibility: hidden; }
+    47.72%  { visibility: visible; }
+    100%    { visibility: visible; }
 }
 
 .flap-face.front {
@@ -782,11 +817,11 @@ body.help-open #contraintes { display: none; }
 }
 .front .shade {
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 45%);
-    animation: shade-front var(--flip-duration, 2000ms) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
+    animation: shade-front var(--flip-duration) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
 }
 .back .shade {
     background: linear-gradient(270deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 55%);
-    animation: shade-back var(--flip-duration, 2000ms) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
+    animation: shade-back var(--flip-duration) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
 }
 
 /* Ombre du rabat qui approche, projetée sur la page gauche restée en place. */
@@ -799,7 +834,7 @@ body.help-open #contraintes { display: none; }
     opacity: 0;
 }
 #left-page-shadow.casting {
-    animation: cast-shadow var(--flip-duration, 2000ms) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
+    animation: cast-shadow var(--flip-duration) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
 }
 
 @keyframes page-flip {

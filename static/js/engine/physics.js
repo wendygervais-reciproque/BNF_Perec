@@ -5,6 +5,12 @@
 //   · FORMATION  chaque bloc rassemble ses particules (ASSEMBLING), puis
 //                convoie l'ensemble jusqu'à sa cible (MIGRATING) avant de s'y
 //                figer (DOCKED).
+//
+// Boucles for indexées plutôt que for...of dans les chemins chauds : Safari
+// (JavaScriptCore) n'optimise pas for...of sur les tableaux aussi
+// agressivement que V8 (itérateurs = objets + appels de fonction cachés).
+// Ceci dit, l'automate n'est pas le goulet d'étranglement Safari observé —
+// c'est le rendu (cf. renderer.js).
 
 import { S } from './state.js';
 import { PARAMS } from './params.js';
@@ -91,7 +97,8 @@ export function stepMovement() {
     return;
   }
 
-  for (let i = 0; i < particles.length; i++) {
+  const nParticles = particles.length;
+  for (let i = 0; i < nParticles; i++) {
     const p = particles[i];
     if (p.state === 'DYING') wander(p, cols, rows, 0);
   }
@@ -103,6 +110,7 @@ export function stepMovement() {
     else if (b.state === 'MIGRATING') stepMigrating(b);
   }
 }
+
 // Le bloc rassemble ses particules. globalInertia, qui monte de 0 à 1 pendant
 // la formation, dose la proportion autorisée à bouger : le démarrage est lent,
 // puis l'ensemble s'anime.
@@ -117,7 +125,8 @@ function stepAssembling(b) {
   }
 
   const elements = b.elements;
-  for (let i = 0; i < elements.length; i++) {
+  const nElem = elements.length;
+  for (let i = 0; i < nElem; i++) {
     const p = elements[i];
     if (p.isCollected) continue;
     if (Math.random() > S.globalInertia) continue;
@@ -135,7 +144,7 @@ function stepAssembling(b) {
 
   if (b.collectedCount >= 1 && Math.random() <= S.globalInertia) {
     let closestP = null, minDist = Infinity;
-    for (let i = 0; i < elements.length; i++) {
+    for (let i = 0; i < nElem; i++) {
       const p = elements[i];
       if (p.isCollected) continue;
       const dist = Math.abs((p.x - p.localX) - b.x) + Math.abs((p.y - p.localY) - b.y);
@@ -147,7 +156,7 @@ function stepAssembling(b) {
     }
   }
 
-  for (let i = 0; i < elements.length; i++) {
+  for (let i = 0; i < nElem; i++) {
     const p = elements[i];
     if (!p.isCollected && b.x + p.localX === p.x && b.y + p.localY === p.y) {
       p.isCollected = true;
@@ -164,6 +173,11 @@ function stepMigrating(b) {
     let move = getHoundMove(b.x, b.y, b.targetX, b.targetY, b.targetX + b.targetY);
     b.x += move.moveX; b.y += move.moveY;
   }
-  for (let p of b.elements) { p.x = b.x + p.localX; p.y = b.y + p.localY; }
+  const elements = b.elements;
+  const nElem = elements.length;
+  for (let i = 0; i < nElem; i++) {
+    const p = elements[i];
+    p.x = b.x + p.localX; p.y = b.y + p.localY;
+  }
   if (b.x === b.targetX && b.y === b.targetY) b.state = 'DOCKED';
 }

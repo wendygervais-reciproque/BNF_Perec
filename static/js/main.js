@@ -192,6 +192,12 @@ async function renewExtract() {
   // recouvre le rectangle des pages qu'à 0° et à 180°) — on y verrait
   // l'ancien texte encore figé, identique à celui qui vient de tourner.
   dissolve();
+
+  // Cartouche de l'ancienne contrainte remonté ici, et pas seulement dans le
+  // generate() du onSettle : sinon il reste posé jusqu'à la fin du tourne-page
+  // (~4 s) et se retire pendant que le nouveau texte est déjà en train de se
+  // former, au lieu de partir avec l'ancien.
+  UI.setConstraintBadge(null);
 }
 
 function activateConstraint(btn) {

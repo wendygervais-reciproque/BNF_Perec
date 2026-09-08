@@ -13,6 +13,11 @@
 //
 // Tout se joue dans une fenêtre englobante (activeBox) plutôt que sur le
 // canvas entier : c'est ce qui rend l'automate tenable à 60 images/seconde.
+//
+// Boucles for indexées plutôt que for...of, et framePlasmaCount porté en
+// locale plutôt qu'en propriété de S : gains marginaux sur Safari
+// (JavaScriptCore), mais l'automate en lui-même n'est pas le goulet
+// d'étranglement observé — c'est le rendu (cf. renderer.js).
 
 import { S } from './state.js';
 import { PARAMS } from './params.js';
@@ -33,11 +38,15 @@ export function stepPlasma(textIsFormed) {
   const nextEphemeralHeat = S.nextEphemeralHeat;
   const activeBox = S.activeBox;
 
+  let framePlasmaCount = 0;
+
   // --- B. FENÊTRE ACTIVE ET REPORT DU PAS PRÉCÉDENT ---
   let minX = cols, maxX = 0, minY = rows, maxY = 0;
 
-  for (let p of particles) {
-    let px = Math.floor(p.x), py = Math.floor(p.y);
+  const nParticles = particles.length;
+  for (let i = 0; i < nParticles; i++) {
+    const p = particles[i];
+    let px = p.x | 0, py = p.y | 0;
     if (px >= 0 && px < cols && py >= 0 && py < rows) {
       if (px < minX) minX = px; if (px > maxX) maxX = px;
       if (py < minY) minY = py; if (py > maxY) maxY = py;
@@ -48,6 +57,8 @@ export function stepPlasma(textIsFormed) {
   // en cours d'extinction doit être reporté et refroidi même hors zone.
   let oldMinX = Math.max(0, activeBox.minX - 5), oldMaxX = Math.min(cols - 1, activeBox.maxX + 5);
   let oldMinY = Math.max(0, activeBox.minY - 5), oldMaxY = Math.min(rows - 1, activeBox.maxY + 5);
+
+  const coolingSpeed = PARAMS.collisionCoolingSpeed;
 
   for (let y = oldMinY; y <= oldMaxY; y++) {
     const rowBase = y * cols;
@@ -60,11 +71,10 @@ export function stepPlasma(textIsFormed) {
       aliveGrid[idx] = 0;
       nextEphemeralState[idx] = 0;
       nextEphemeralOpacity[idx] = ephemeralOpacity[idx];
-      nextEphemeralHeat[idx] = Math.max(0.0, ephemeralHeat[idx] - PARAMS.collisionCoolingSpeed);
+      const h = nextEphemeralHeat[idx] = ephemeralHeat[idx] - coolingSpeed;
+      if (h < 0) nextEphemeralHeat[idx] = 0;
     }
   }
-
-  S.framePlasmaCount = 0;
 
   // Quota : au-delà de maxPlasmaCells, la natalité est bridée dans la même
   // proportion. Lissé plutôt que couperet, pour ne pas faire clignoter le fond.
@@ -86,15 +96,21 @@ export function stepPlasma(textIsFormed) {
       }
     }
 
-    for (let p of particles) {
-      let isLocked = (p.parentBlock && p.parentBlock.state === 'DOCKED');
+    for (let i = 0; i < nParticles; i++) {
+      const p = particles[i];
+      const isLocked = (p.parentBlock && p.parentBlock.state === 'DOCKED');
       if (!isLocked && p.isAlive && p.alpha > 0.0) {
-        let px = Math.floor(p.x), py = Math.floor(p.y);
+        let px = p.x | 0, py = p.y | 0;
         if (px >= activeBox.minX && px <= activeBox.maxX && py >= activeBox.minY && py <= activeBox.maxY) {
           aliveGrid[py * cols + px] = 1;
         }
       }
     }
+
+    const plasmaFadeInSpeed = PARAMS.plasmaFadeInSpeed;
+    const plasmaFadeOutSpeed = PARAMS.plasmaFadeOutSpeed;
+    const plasmaExtinctionSpeed = PARAMS.plasmaExtinctionSpeed;
+    const plasmaHealth = S.plasmaHealth;
 
     // Règles de Conway, avec offsets de lignes précompilés pour épargner
     // cols multiplications par cellule
@@ -121,7 +137,7 @@ export function stepPlasma(textIsFormed) {
           if (isAlive && (neighbors === 2 || neighbors === 3)) {
             nextEphemeralState[idx] = 1;
           } else if (!isAlive && neighbors === 3) {
-            if (Math.random() <= S.plasmaHealth) {
+            if (Math.random() <= plasmaHealth) {
               nextEphemeralState[idx] = 1;
               nextEphemeralHeat[idx] = 1.0;
             }
@@ -129,12 +145,12 @@ export function stepPlasma(textIsFormed) {
         }
 
         if (nextEphemeralState[idx] === 1) {
-          nextEphemeralOpacity[idx] = Math.min(1.0, ephemeralOpacity[idx] + PARAMS.plasmaFadeInSpeed);
-          S.framePlasmaCount++;
+          nextEphemeralOpacity[idx] = Math.min(1.0, ephemeralOpacity[idx] + plasmaFadeInSpeed);
+          framePlasmaCount++;
         } else {
-          const currentFadeSpeed = textIsFormed ? PARAMS.plasmaExtinctionSpeed : PARAMS.plasmaFadeOutSpeed;
+          const currentFadeSpeed = textIsFormed ? plasmaExtinctionSpeed : plasmaFadeOutSpeed;
           nextEphemeralOpacity[idx] = Math.max(0.0, ephemeralOpacity[idx] - currentFadeSpeed);
-          if (nextEphemeralOpacity[idx] > 0) S.framePlasmaCount++;
+          if (nextEphemeralOpacity[idx] > 0) framePlasmaCount++;
         }
       }
     }
@@ -147,24 +163,26 @@ export function stepPlasma(textIsFormed) {
   // --- C. SURVIE DES PARTICULES ---
   // Les particules libres et celles des blocs arrivés sont toujours vivantes ;
   // seules les collectées d'un bloc encore en route dépendent du plasma.
-  for (let p of particles) {
-    let isLocked = (p.parentBlock && p.parentBlock.state === 'DOCKED');
+  for (let i = 0; i < nParticles; i++) {
+    const p = particles[i];
+    const isLocked = (p.parentBlock && p.parentBlock.state === 'DOCKED');
     if (isLocked || !p.isCollected) p.nextAlive = true;
     else {
-      let px = Math.floor(p.x), py = Math.floor(p.y);
+      let px = p.x | 0, py = p.y | 0;
       if (px >= 0 && px < cols && py >= 0 && py < rows) p.nextAlive = (nextEphemeralState[py * cols + px] === 1);
       else p.nextAlive = false;
     }
   }
 
   if (!textIsFormed) {
-    stepDefibrillator(blocks, cols, rows, nextEphemeralState, nextEphemeralOpacity, nextEphemeralHeat, activeBox);
-    stepComets(particles, cols, rows, nextEphemeralState, nextEphemeralOpacity, nextEphemeralHeat, activeBox);
+    framePlasmaCount = stepDefibrillator(blocks, cols, rows, nextEphemeralState, nextEphemeralOpacity, nextEphemeralHeat, activeBox, framePlasmaCount);
+    framePlasmaCount = stepComets(particles, cols, rows, nextEphemeralState, nextEphemeralOpacity, nextEphemeralHeat, activeBox, framePlasmaCount);
   }
 
   // --- F. LES PARTICULES CREUSENT LEUR CELLULE ---
-  for (let p of particles) {
-    let px = Math.floor(p.x), py = Math.floor(p.y);
+  for (let i = 0; i < nParticles; i++) {
+    const p = particles[i];
+    let px = p.x | 0, py = p.y | 0;
     if (px >= 0 && px < cols && py >= 0 && py < rows) {
       if (p.nextAlive && p.alpha > 0 && p.state !== 'DYING') {
         nextEphemeralState[py * cols + px] = 0;
@@ -172,26 +190,36 @@ export function stepPlasma(textIsFormed) {
     }
   }
 
-  S.lastFramePlasmaCount = S.framePlasmaCount;
+  S.lastFramePlasmaCount = framePlasmaCount;
 
   // Échange des tampons : le suivant devient le courant
   S.ephemeralState = nextEphemeralState; S.nextEphemeralState = ephemeralState;
   S.ephemeralOpacity = nextEphemeralOpacity; S.nextEphemeralOpacity = ephemeralOpacity;
   S.ephemeralHeat = nextEphemeralHeat; S.nextEphemeralHeat = ephemeralHeat;
 
-  for (let p of particles) p.isAlive = p.nextAlive;
+  for (let i = 0; i < nParticles; i++) particles[i].isAlive = particles[i].nextAlive;
 }
 
 // --- D. LE DÉFIBRILLATEUR ---
 // Un bloc dont il ne reste presque plus rien de vivant se ranime autour d'un
 // de ses éléments tiré au sort, et projette des étincelles alentour. Sans
 // cela, un bloc éteint ne se reformerait jamais et le texte resterait troué.
-function stepDefibrillator(blocks, cols, rows, nextState, nextOpacity, nextHeat, activeBox) {
-  for (let b of blocks) {
+function stepDefibrillator(blocks, cols, rows, nextState, nextOpacity, nextHeat, activeBox, framePlasmaCount) {
+  const defibRadius = PARAMS.defibRadius;
+  const defibDensity = PARAMS.defibDensity;
+  const plasmaFadeInSpeed = PARAMS.plasmaFadeInSpeed;
+  const currentSparkChance = PARAMS.defibEphemeralSparks * S.plasmaHealth;
+
+  const nBlocks = blocks.length;
+  for (let bi = 0; bi < nBlocks; bi++) {
+    const b = blocks[bi];
     if (b.state === 'DOCKED') continue;
 
     let aliveCount = 0, collectedCount = 0;
-    for (let p of b.elements) {
+    const elements = b.elements;
+    const nElem = elements.length;
+    for (let i = 0; i < nElem; i++) {
+      const p = elements[i];
       if (!p.isCollected) continue;
       collectedCount++;
       if (p.nextAlive) aliveCount++;
@@ -202,37 +230,38 @@ function stepDefibrillator(blocks, cols, rows, nextState, nextOpacity, nextHeat,
     // Tirage d'un élément collecté sans créer de tableau intermédiaire
     let targetIdx = Math.floor(Math.random() * collectedCount);
     let rootP = null, ci = 0;
-    for (let p of b.elements) {
+    for (let i = 0; i < nElem; i++) {
+      const p = elements[i];
       if (!p.isCollected) continue;
       if (ci === targetIdx) { rootP = p; break; }
       ci++;
     }
     if (!rootP) continue;
 
-    let rx = Math.floor(rootP.x), ry = Math.floor(rootP.y);
+    let rx = rootP.x | 0, ry = rootP.y | 0;
 
-    for (let p of b.elements) {
+    for (let i = 0; i < nElem; i++) {
+      const p = elements[i];
       if (!p.isCollected) continue;
       let dx = Math.abs(p.localX - rootP.localX), dy = Math.abs(p.localY - rootP.localY);
-      if (dx <= PARAMS.defibRadius && dy <= PARAMS.defibRadius && Math.random() < PARAMS.defibDensity) p.nextAlive = true;
+      if (dx <= defibRadius && dy <= defibRadius && Math.random() < defibDensity) p.nextAlive = true;
     }
 
-    const currentSparkChance = PARAMS.defibEphemeralSparks * S.plasmaHealth;
     if (currentSparkChance <= 0.0) continue;
 
-    for (let i = -PARAMS.defibRadius; i <= PARAMS.defibRadius; i++) {
+    for (let i = -defibRadius; i <= defibRadius; i++) {
       const ty = ry + i;
       if (ty < 0 || ty >= rows) continue;
       const tRowBase = ty * cols;
-      for (let j = -PARAMS.defibRadius; j <= PARAMS.defibRadius; j++) {
+      for (let j = -defibRadius; j <= defibRadius; j++) {
         const tx = rx + j;
         if (tx < 0 || tx >= cols) continue;
         if (Math.random() < currentSparkChance) {
           const tidx = tRowBase + tx;
           if (nextState[tidx] === 1) nextHeat[tidx] = 1.0;
           nextState[tidx] = 1;
-          nextOpacity[tidx] = Math.min(1.0, nextOpacity[tidx] + PARAMS.plasmaFadeInSpeed);
-          S.framePlasmaCount++;
+          nextOpacity[tidx] = Math.min(1.0, nextOpacity[tidx] + plasmaFadeInSpeed);
+          framePlasmaCount++;
 
           // L'étincelle peut tomber hors de la fenêtre : on l'étend
           if (tx < activeBox.minX) activeBox.minX = tx;
@@ -243,31 +272,38 @@ function stepDefibrillator(blocks, cols, rows, nextState, nextOpacity, nextHeat,
       }
     }
   }
+  return framePlasmaCount;
 }
 
 // --- E. LES COMÈTES ---
 // Chaque particule libre sème un peu de plasma sur son passage : c'est ce qui
 // donne leur traînée aux particules errantes.
-function stepComets(particles, cols, rows, nextState, nextOpacity, nextHeat, activeBox) {
-  for (let p of particles) {
-    let isLocked = (p.parentBlock && p.parentBlock.state === 'DOCKED');
-    if (isLocked || p.alpha <= 0.0) continue;
-    if (Math.random() >= PARAMS.defibEphemeralSparks * S.plasmaHealth * 8) continue;
+function stepComets(particles, cols, rows, nextState, nextOpacity, nextHeat, activeBox, framePlasmaCount) {
+  const cometChance = PARAMS.defibEphemeralSparks * S.plasmaHealth * 8;
+  const plasmaFadeInSpeed = PARAMS.plasmaFadeInSpeed;
+  const nParticles = particles.length;
 
-    let rx = Math.floor(p.x), ry = Math.floor(p.y);
+  for (let i = 0; i < nParticles; i++) {
+    const p = particles[i];
+    const isLocked = (p.parentBlock && p.parentBlock.state === 'DOCKED');
+    if (isLocked || p.alpha <= 0.0) continue;
+    if (Math.random() >= cometChance) continue;
+
+    let rx = p.x | 0, ry = p.y | 0;
     if (rx < 0 || rx >= cols || ry < 0 || ry >= rows) continue;
 
     const ridx = ry * cols + rx;
     if (nextState[ridx] === 1) nextHeat[ridx] = 1.0;
     nextState[ridx] = 1;
-    nextOpacity[ridx] = Math.min(1.0, nextOpacity[ridx] + PARAMS.plasmaFadeInSpeed);
-    S.framePlasmaCount++;
+    nextOpacity[ridx] = Math.min(1.0, nextOpacity[ridx] + plasmaFadeInSpeed);
+    framePlasmaCount++;
 
     if (rx < activeBox.minX) activeBox.minX = rx;
     if (rx > activeBox.maxX) activeBox.maxX = rx;
     if (ry < activeBox.minY) activeBox.minY = ry;
     if (ry > activeBox.maxY) activeBox.maxY = ry;
   }
+  return framePlasmaCount;
 }
 
 // Liste des cellules à dessiner, construite une fois par image plutôt qu'une

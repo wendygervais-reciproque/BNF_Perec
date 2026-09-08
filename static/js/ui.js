@@ -340,7 +340,11 @@ function captureRightFace() {
   // Le rognage lui-même sert directement de visuel — inutile de le convertir
   // en <img> via toDataURL(), un encodage PNG synchrone assez lourd pour
   // bloquer le thread principal un instant et laisser un clignotement de la
-  // page droite juste avant que le pli ne démarre.
+  // page droite juste avant que le pli ne démarre. Pour la même raison,
+  // getImageData()/putImageData() (essayé, abandonné) sont écartés : lecture
+  // pixel par pixel tout aussi lourde, et source probable du clignotement et
+  // du ralentissement observés — drawImage() reste la bonne opération, le
+  // vrai problème est ailleurs.
   const snapshot = document.createElement('canvas');
   snapshot.width = w;
   snapshot.height = h;
@@ -349,15 +353,19 @@ function captureRightFace() {
 
   const nodes = [snapshot];
 
-  if (constraintBadgeEl) {
+  // Cloné seulement quand un cartouche est réellement affiché : sans
+  // contrainte à variable (lieu/époque/genre), #constraint-badge est
+  // visibility:hidden ET translaté hors écran (cf. style.css) — le cloner
+  // quand même introduirait un élément transformé superflu dans la même
+  // couche 3D que le canvas capturé, pour rien.
+  if (constraintBadgeEl && constraintBadgeEl.classList.contains('visible')) {
     const badgeClone = constraintBadgeEl.cloneNode(true);
     // #constraint-badge (et .visible) fixent leur propre `visibility` en
     // dur, jamais héritée : sur le clone, ça court-circuite le basculement de
     // visibility qui masque toute la face passé 90° (cf. .flap-face plus
     // bas) — seul backface-visibility resterait pour le cacher, ce qui l'a
-    // laissé filtrer en mirroir (lieu / époque / genre littéraire, les seules
-    // contraintes qui posent un cartouche). L'inline gagne sur la règle de la
-    // feuille de style : on force l'héritage depuis la face.
+    // laissé filtrer en mirroir. L'inline gagne sur la règle de la feuille de
+    // style : on force l'héritage depuis la face.
     badgeClone.style.visibility = 'inherit';
     nodes.push(badgeClone);
   }
@@ -386,24 +394,35 @@ export function playPageFlip(newExtractText, newExtractId, onSettle) {
 
   document.documentElement.style.setProperty('--flip-duration', `${FLIP_DURATION_MS}ms`);
 
-  void pageFlapEl.offsetWidth;   // relance l'animation depuis zéro si elle vient de tourner
-  pageFlapEl.classList.add('flipping');   // display:block dès cette ligne : la face devient mesurable
+  // display:block sans démarrer la rotation, le temps d'une image : sur
+  // WebKit, la couche 3D peut commencer à tourner avant d'avoir fini de
+  // peindre le canvas qu'on vient d'y insérer (rabat qui tourne à vide, le
+  // contenu n'apparaissant qu'un instant vers 90°, cf. #page-flap.visible
+  // dans style.css). Deux rAF : le premier attend le prochain style/layout,
+  // le second le paint qui en découle.
+  pageFlapEl.classList.remove('flipping');
+  pageFlapEl.classList.add('visible');
 
-  // Calé sur la même trame que la vraie page gauche (cf. snapLeftText) :
-  // sans ça, le texte de la face arrière apparaît quelques pixels plus haut
-  // ou plus bas que ne le sera la vraie page une fois révélée, et on voit un
-  // saut au moment où le rabat se retire. Mesuré ici (juste après la mise à
-  // plat à 0° du rabat, avant tout autre changement) car la rotation à 180°
-  // de la face arrière ne fausse pas sa hauteur — seule sa lecture est
-  // mirroir, ce qui ne joue pas sur l'axe vertical.
-  snapTextToGrid(flapBackTextEl, flapBackFaceEl);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    void pageFlapEl.offsetWidth;   // relance l'animation depuis zéro si elle vient de tourner
+    pageFlapEl.classList.add('flipping');
 
-  if (leftPageShadowEl) leftPageShadowEl.classList.add('casting');
+    // Calé sur la même trame que la vraie page gauche (cf. snapLeftText) :
+    // sans ça, le texte de la face arrière apparaît quelques pixels plus haut
+    // ou plus bas que ne le sera la vraie page une fois révélée, et on voit un
+    // saut au moment où le rabat se retire. Mesuré ici (juste après la mise à
+    // plat à 0° du rabat, avant tout autre changement) car la rotation à 180°
+    // de la face arrière ne fausse pas sa hauteur — seule sa lecture est
+    // mirroir, ce qui ne joue pas sur l'axe vertical.
+    snapTextToGrid(flapBackTextEl, flapBackFaceEl);
+
+    if (leftPageShadowEl) leftPageShadowEl.classList.add('casting');
+  }));
 
   pageFlapEl.addEventListener('animationend', function onEnd() {
     pageFlapEl.removeEventListener('animationend', onEnd);
     onSettle();
-    pageFlapEl.classList.remove('flipping');
+    pageFlapEl.classList.remove('flipping', 'visible');
     if (leftPageShadowEl) leftPageShadowEl.classList.remove('casting');
     flapFrontEl.replaceChildren();
     flapBackTextEl.textContent = '';
