@@ -47,10 +47,18 @@ THINK_RE = re.compile(
 # imposés :"). On la retire de la réponse affichée ; les mots restent en gras
 # dans le corps du texte. NB : demander au modèle d'omettre cette liste le fait
 # aussi renoncer au gras dans le texte, d'où ce nettoyage a posteriori.
-# Étiquette optionnelle en tête de liste ("Mots imposés :", "mots choisis :"…).
+# Étiquette optionnelle en tête de liste ("Mots imposés :", "mots choisis :",
+# ou juste "choisis :"). Ne pas la retirer laisse son « : » interne faire
+# rejeter le bloc par le garde-fou anti-prose plus bas (un deux-points suivi
+# d'un mot y ressemble à de la prose) — d'où l'intérêt de couvrir sa
+# formulation même quand le modèle omet le « mots » d'appui. On reste
+# volontairement sur une liste de synonymes plausibles plutôt qu'un préfixe
+# générique arbitraire ("Elle dit : Bonjour, comment…" ressemble sinon assez à
+# une énumération une fois son « : » avalé pour être classé à tort comme
+# liste — cf. tests).
 LIST_LABEL_RE = re.compile(
-    r"^(?:mots?(?:\s+(?:choisis|imposés|clés|à réutiliser))?|liste|contrainte|"
-    r"éléments?)\s*:\s*",
+    r"^(?:mots?\s+)?(?:choisis|imposés|clés|sélectionnés|retenus|à réutiliser|"
+    r"liste|contrainte|éléments?)\s*:\s*",
     re.IGNORECASE,
 )
 
@@ -65,9 +73,11 @@ LEADING_MARKER_RE = re.compile(r"^\s*(?:[-*•‣▪·]|\(?\d{1,2}[.)])\s*")
 # Séparateur entre deux items d'une énumération tenant sur une seule ligne.
 # Le modèle n'utilise pas toujours la virgule ; quelques puces inline
 # fréquentes sont couvertes en plus du point-virgule, ainsi que la barre
-# oblique (un mal détecté ici laisse fuiter toute la liste, non nettoyée,
-# dans le texte affiché — cf. split_leading_word_list).
-ITEM_SEP_RE = re.compile(r"[,;•‣▪·|/]")
+# oblique et une double espace (ou tabulation) — une simple espace reste,
+# elle, à l'intérieur d'un item ("numéro de voltige"). Un appariement raté ici
+# laisse fuiter toute la liste, non nettoyée, dans le texte affiché — cf.
+# split_leading_word_list.
+ITEM_SEP_RE = re.compile(r"[,;•‣▪·|/]|[ \t]{2,}")
 
 # Garde-fou de langue : le modèle bascule parfois dans la langue du pays
 # (contrainte changement_lieu, surtout avec l'espagnol). On mesure la densité
@@ -254,11 +264,14 @@ def split_leading_word_list(answer: str) -> tuple[list[str] | None, str]:
 
     La forme de l'énumération n'est pas garantie (le modèle varie : une seule
     ligne à virgules, une puce ou un numéro par ligne, un autre séparateur
-    inline...) — un item par ligne est essayé en premier ; à défaut, la ligne
-    unique est découpée sur les séparateurs usuels (cf. ITEM_SEP_RE). Une
-    forme non reconnue laisse la liste telle quelle dans le texte affiché,
-    d'où l'intérêt d'élargir la couverture plutôt que de se fier à un seul
-    format.
+    inline...) — un item par ligne est essayé en premier ; à défaut, les
+    éventuels sauts de ligne restants sont eux-mêmes traités comme des
+    séparateurs, et la ligne (ou le bloc) résultant est découpé sur les
+    séparateurs usuels (cf. ITEM_SEP_RE) — utile quand le modèle glisse une
+    ligne supplémentaire égarée (ex. un reliquat de l'exemple du prompt) sans
+    que le bloc atteigne les 3 lignes du premier cas. Une forme non reconnue
+    laisse la liste telle quelle dans le texte affiché, d'où l'intérêt
+    d'élargir la couverture plutôt que de se fier à un seul format.
     """
     for sep in ("\n\n", "\n"):
         head, found, tail = answer.partition(sep)
@@ -271,7 +284,7 @@ def split_leading_word_list(answer: str) -> tuple[list[str] | None, str]:
         if len(lines) >= 3:
             items = lines
         else:
-            items = [s.strip() for s in ITEM_SEP_RE.split(head_clean) if s.strip()]
+            items = [s.strip() for s in ITEM_SEP_RE.split(head_clean.replace("\n", ", ")) if s.strip()]
 
         candidate = ", ".join(items)
         # Une ponctuation de phrase suivie de texte (« . D », « : U ») trahit
