@@ -61,8 +61,40 @@
     font-display: block;
 }
 
-* {
+/* Masqué par défaut (interface tactile) ; la touche « c » (cursor.js) retire
+   .hide-cursor de <html> pour le faire réapparaître. */
+html.hide-cursor * {
     cursor: none !important;
+}
+
+/* Feedback de clic/tactile — le protocole de l'écran ne le fournit pas,
+   simulé ici (cursor.js) par un rond translucide qui grandit et s'estompe
+   au point de contact. mix-blend-mode: difference s'inverse selon le fond
+   (sombre sur la page claire, clair sur le canvas sombre), pour rester
+   visible partout sans connaître les couleurs sous-jacentes. */
+.click-ripple {
+    position: fixed;
+    z-index: 9999;
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.65);
+    mix-blend-mode: difference;
+    pointer-events: none;
+    animation: click-ripple-anim 0.5s ease-out forwards;
+}
+
+@keyframes click-ripple-anim {
+    from {
+        opacity: 1;
+        transform: scale(0.3);
+    }
+    to {
+        opacity: 0;
+        transform: scale(1.4);
+    }
 }
 
 :root {
