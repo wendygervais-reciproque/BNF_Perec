@@ -291,8 +291,14 @@ def split_leading_word_list(answer: str) -> tuple[list[str] | None, str]:
         # de la prose, jamais une énumération de mots.
         if re.search(r"[.!?:]\s+\S", candidate):
             continue
+        # Chaque item reste une expression, jamais une phrase — mais « mots ou
+        # expressions clés » peut légitimement s'étirer sur une proposition
+        # complète (« un fil tendu à quatre mètres du sol », 8 mots) : un
+        # plafond trop bas ici rejetterait toute la liste à cause d'un seul
+        # item un peu long, alors que le plafond global sur `candidate`
+        # suffit déjà à écarter une vraie prose.
         if (len(candidate) <= 150 and len(items) >= 3
-                and all(len(s.split()) <= 6 for s in items)):
+                and all(len(s.split()) <= 10 for s in items)):
             return items, tail.lstrip()
     return None, answer
 
