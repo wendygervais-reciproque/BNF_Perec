@@ -68,6 +68,6 @@ export const GENERATION_TIMEOUT_MS = 60000;
 
 // Mode inactif : après ce délai sans interaction ET sans animation en cours,
 // un voile assombrit l'écran et les boutons de contrainte se mettent à rebondir.
-export const IDLE_DELAY_MS = 60000;
+export const IDLE_DELAY_MS = 120000;
 export const IDLE_BOUNCE_MIN_MS = 1600;    // délai minimal entre deux rebonds
 export const IDLE_BOUNCE_JITTER_MS = 1400; // part aléatoire ajoutée au délai
