@@ -61,6 +61,10 @@
     font-display: block;
 }
 
+* {
+    cursor: none !important;
+}
+
 :root {
 
     /* ===== Surfaces ===== */
