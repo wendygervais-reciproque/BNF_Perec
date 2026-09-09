@@ -850,6 +850,13 @@ body.help-open #contraintes { display: none; }
     position: absolute;
     inset: 0;
     pointer-events: none;
+    /* Sans indice explicite, Safari semble ne pas recompositer en continu
+       l'opacité de cet élément une fois qu'il redevient visible en cours
+       d'animation (bascule de visibility sur .flap-face, cf. plus haut) : le
+       fondu de shade-back finit alors par sauter d'un coup au lieu de
+       s'estomper. À vérifier sur Safari — non testable depuis cet
+       environnement. */
+    will-change: opacity;
 }
 .front .shade {
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 45%);

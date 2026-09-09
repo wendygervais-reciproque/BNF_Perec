@@ -257,9 +257,17 @@ export function highlightSource(words) {
   const terms = (words || []).map(w => w.trim()).filter(Boolean);
   if (terms.length === 0) { clearSourceHighlight(); return; }
   // Du plus long au plus court : évite qu'un mot court n'entame une expression.
+  // Le serveur normalise l'apostrophe droite en courbe avant d'extraire cette
+  // liste (cf. normalize_for_font, app.py) — pour que le rendu canvas reste
+  // dessinable — mais l'extrait source, lui, garde l'apostrophe droite
+  // d'origine ("l'un"). Sans ce repli, un terme comme "l'un" (devenu "l’un")
+  // ne matchait plus jamais rien dans le texte source : le mot restait
+  // silencieusement non surligné à gauche.
   const pattern = terms
     .sort((a, b) => b.length - a.length)
-    .map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .map(w => w
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      .replace(/['’]/g, "['’]"))
     .join('|');
   const re = new RegExp(`(${pattern})`, 'gi');
   let html = '', last = 0;
