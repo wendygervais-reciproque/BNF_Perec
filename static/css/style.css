@@ -67,6 +67,10 @@ html.hide-cursor * {
     cursor: none !important;
 }
 
+* {
+    -webkit-user-select: text;
+}
+
 /* Feedback de clic/tactile — le protocole de l'écran ne le fournit pas,
    simulé ici (cursor.js) par un rond translucide qui grandit et s'estompe
    au point de contact. mix-blend-mode: difference s'inverse selon le fond
@@ -181,6 +185,7 @@ body {
     justify-content: center;
     align-items: center;
     user-select: none;
+
 }
 
 canvas {
