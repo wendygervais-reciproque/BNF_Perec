@@ -855,19 +855,26 @@ body.help-open #contraintes { display: none; }
     position: absolute;
     inset: 0;
     pointer-events: none;
-    /* Sans indice explicite, Safari semble ne pas recompositer en continu
-       l'opacité de cet élément une fois qu'il redevient visible en cours
-       d'animation (bascule de visibility sur .flap-face, cf. plus haut) : le
-       fondu de shade-back finit alors par sauter d'un coup au lieu de
-       s'estomper. À vérifier sur Safari — non testable depuis cet
-       environnement. */
     will-change: opacity;
 }
-.front .shade {
+
+/* Comme flap-front-visibility / flap-back-visibility juste au-dessus,
+   l'animation est déclarée sous #page-flap.flipping et non sous .front/.back
+   seuls (classes statiques, jamais retirées) : à chaque flip, ui.js retire
+   .flipping à la fin (animationend) puis la rajoute au suivant, avec un
+   reflow forcé (cf. playPageFlip) — ce qui réapplique et relance vraiment
+   l'animation. Déclarée sur .front/.back seuls (comme avant), elle ne
+   change jamais de sélecteur correspondant : figée par `forwards` à son état
+   final (opacité 0) dès le premier tourne-page, elle ne se rejouait plus
+   ensuite sur Safari — masquée le temps que #page-flap soit display:none,
+   mais jamais réellement relancée à la réapparition. D'où le fondu correct
+   au tout premier flip, puis une disparition abrupte (déjà à 0) à chaque
+   flip suivant. */
+#page-flap.flipping .front .shade {
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 45%);
     animation: shade-front var(--flip-duration) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
 }
-.back .shade {
+#page-flap.flipping .back .shade {
     background: linear-gradient(270deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 55%);
     animation: shade-back var(--flip-duration) cubic-bezier(0.61, 0.03, 0.34, 1) forwards;
 }
