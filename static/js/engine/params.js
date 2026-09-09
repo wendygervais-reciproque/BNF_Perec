@@ -36,7 +36,7 @@ export const PARAMS = {
   // Transitions du Plasma
   plasmaFadeInSpeed: 0.8,
   plasmaFadeOutSpeed: 0.02,
-  plasmaExtinctionSpeed: 0.02,
+  plasmaExtinctionSpeed: 0.01, //0.02
   collisionCoolingSpeed: 0.05,
 
   // Esthétique & Couleurs
