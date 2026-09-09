@@ -64,8 +64,10 @@ LEADING_MARKER_RE = re.compile(r"^\s*(?:[-*•‣▪·]|\(?\d{1,2}[.)])\s*")
 
 # Séparateur entre deux items d'une énumération tenant sur une seule ligne.
 # Le modèle n'utilise pas toujours la virgule ; quelques puces inline
-# fréquentes sont couvertes en plus du point-virgule.
-ITEM_SEP_RE = re.compile(r"[,;•‣▪·|]")
+# fréquentes sont couvertes en plus du point-virgule, ainsi que la barre
+# oblique (un mal détecté ici laisse fuiter toute la liste, non nettoyée,
+# dans le texte affiché — cf. split_leading_word_list).
+ITEM_SEP_RE = re.compile(r"[,;•‣▪·|/]")
 
 # Garde-fou de langue : le modèle bascule parfois dans la langue du pays
 # (contrainte changement_lieu, surtout avec l'espagnol). On mesure la densité
@@ -161,6 +163,71 @@ SOURCE_HIGHLIGHT_CONSTRAINTS = frozenset({"forcage", "homosemantique"})
 # du texte destiné au canvas. Garde-fou de longueur : si la première ligne
 # est anormalement longue, c'est du récit, on n'y touche pas.
 MENTION_MAX_LEN = 80
+
+
+# Alphabet dessiné par la police matricielle du canvas (static/js/engine/
+# bitmap_font.js) : lettres, accents utilisés par le français, chiffres et la
+# ponctuation ci-dessous. Tout caractère hors de cet ensemble (et hors saut de
+# ligne, géré séparément) est soit reformulé via FONT_CHAR_SUBSTITUTIONS, soit
+# replié sur ", " par normalize_for_font — en dernier recours côté client,
+# getLetterBitmap ignore aussi silencieusement un caractère inconnu (cf.
+# bitmap_font.js), mais mieux vaut ne jamais lui en envoyer un.
+# Le `*` n'est pas un glyphe dessiné : c'est le marqueur de mise en exergue
+# intercepté par text_manager.js avant tout passage par le rendu (jamais
+# transmis à getLetterBitmap), donc il doit traverser cette normalisation
+# intact plutôt qu'être traité comme un caractère inconnu.
+FONT_CHARSET = frozenset(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    "éÉèÈêÊàÀâôÔùÙïÏçÇîÎûÂœŒōāãøḥ"
+    "0123456789"
+    ":()[]<>=_°.,;!?’\"«»-–— \n\t*"
+)
+
+# Substitutions connues : caractères que le modèle utilise couramment à la
+# place d'un signe équivalent supporté (apostrophe, guillemets, points de
+# suspension), ou comme séparateur inline d'énumération (barre oblique,
+# puces) — traité en amont de split_leading_word_list pour que la liste des
+# « mots choisis » soit reconnue même quand le modèle sépare avec `/`.
+FONT_CHAR_SUBSTITUTIONS = {
+    "'": "’",
+    "‘": "’",
+    "“": '"',
+    "”": '"',
+    "…": "...",
+    "/": ", ",
+    "•": ", ",
+    "‣": ", ",
+    "▪": ", ",
+    "·": ", ",
+    "|": ", ",
+}
+
+
+def normalize_for_font(text: str) -> str:
+    """Rend `text` intégralement dessinable par la police matricielle.
+
+    Applique d'abord les substitutions connues, puis traite tout caractère
+    encore hors alphabet (rare : signe non prévu ci-dessus) comme un
+    séparateur d'énumération générique — replié sur ", ", déjà reconnu par
+    ITEM_SEP_RE. Ainsi, si le modèle invente une nouvelle façon de séparer sa
+    liste de « mots choisis » (au lieu des puces/barres obliques déjà
+    couvertes), split_leading_word_list() la reconnaît quand même, sans
+    attendre qu'un nouveau cas soit observé et ajouté à la main. Journalisé
+    pour pouvoir, avec le temps, ajouter le signe à la police plutôt qu'au
+    repli.
+    """
+    for bad, good in FONT_CHAR_SUBSTITUTIONS.items():
+        text = text.replace(bad, good)
+
+    unknown = {c for c in text if c not in FONT_CHARSET}
+    if unknown:
+        logging.warning(
+            "normalize_for_font : caractère(s) hors police replié(s) sur ', ' : %s",
+            ", ".join(f"U+{ord(c):04X} {c!r}" for c in unknown),
+        )
+        for c in unknown:
+            text = text.replace(c, ", ")
+    return text
 
 
 def strip_leading_mention(answer: str) -> str:
@@ -262,6 +329,7 @@ def generate_answer(client: OpenAI, model: str, prompt: str,
         )
         raw_answer = response.choices[0].message.content or ""
         answer = THINK_RE.sub("", raw_answer).strip()
+        answer = normalize_for_font(answer)
         word_list, answer = split_leading_word_list(answer)
         answer = answer.strip()
         if not check_french or french_ratio(answer) >= FRENCH_RATIO_MIN:

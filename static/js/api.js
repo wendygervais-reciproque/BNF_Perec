@@ -122,8 +122,45 @@ function formatForConstraint(text, constraintId) {
 
 // Le moteur d'animation attend les mots à mettre en exergue entre astérisques
 // simples ; le modèle les renvoie en gras markdown.
+//
+// Le moteur bascule une exergue à chaque « * » rencontré (text_manager.js) :
+// il n'y a pas de distinction ouvrant/fermant, seulement une parité. Le
+// regex ci-dessous ne capture que des paires « **...** » non imbriquées, mais
+// ça ne suffit pas à empêcher un markdown mal fermé de fausser l'appariement :
+// si le modèle oublie de refermer une seule des paires attendues, le prochain
+// « ** » du texte (qui appartient en réalité à l'expression suivante) sert de
+// fermeture de secours — et TOUTES les paires suivantes se retrouvent
+// décalées d'un cran, chacune surlignant un fragment qui n'est ni l'un ni
+// l'autre des deux mots voulus. Un simple test de parité globale (comme
+// « retirer la dernière astérisque si le compte est impair ») ne corrige pas
+// ce décalage, seulement le fait qu'il s'arrête un jour.
+//
+// Seul un garde-fou sur le contenu capturé permet de le détecter : les
+// expressions à mettre en exergue sont par construction courtes (les prompts
+// demandent des « mots ou expressions clés »), jamais une phrase entière.
+// Une capture corrompue par un décalage, elle, a de bonnes chances de dépasser
+// cette longueur ou d'avaler une ponctuation de fin de phrase (mêmes critères
+// que split_leading_word_list côté serveur). Une capture qui échoue à ce test
+// est traitée comme du bruit : ses astérisques sont retirées sans créer
+// d'exergue, plutôt que d'accepter un surlignage sur le mauvais passage.
+const HIGHLIGHT_MAX_LEN = 60;
+
+function isPlausibleHighlight(inner) {
+  return inner.length <= HIGHLIGHT_MAX_LEN && !/[.!?:]\s+\S/.test(inner);
+}
+
+// Sentinelle (caractère de contrôle, exclu par construction d'un texte
+// généré) : protège le temps du nettoyage les astérisques déjà validées,
+// qui doivent survivre au retrait des astérisques isolées ci-dessous.
+const HIGHLIGHT_SENTINEL = '\x00';
+
 function markdownBoldToHighlight(text) {
-  return text.replace(/\*\*([^*]+)\*\*/g, '*$1*');
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, (match, inner) => isPlausibleHighlight(inner)
+      ? `${HIGHLIGHT_SENTINEL}${inner}${HIGHLIGHT_SENTINEL}`
+      : inner)
+    .replace(/\*/g, '')
+    .replaceAll(HIGHLIGHT_SENTINEL, '*');
 }
 
 // Retire tout astérisque de balisage : le moteur traite chaque « * » comme une

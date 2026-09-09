@@ -1625,25 +1625,43 @@ const rawFont = {
     .......
     .......
   `,
+  // Glyphe vide (mêmes dimensions que les autres) pour tout caractère hors
+  // police : un texte généré peut contenir un signe non prévu (ex. une barre
+  // oblique utilisée par le modèle comme séparateur), mieux vaut l'ignorer
+  // silencieusement qu'afficher un carré plein qui ressemble à un bug de
+  // rendu. warnUnknownChar() signale l'absence en console pour repérer les
+  // caractères à ajouter à la police au fil du temps.
   'UNKNOWN': `
     .......
     .......
     .......
     .......
-    XXXXX..
-    X...X..
-    X.X.X..
-    X...X..
-    X...X..
-    XXXXX..
+    .......
+    .......
+    .......
+    .......
+    .......
+    .......
     .......
     .......
   `
 };
 
+const warnedChars = new Set();
+
+function warnUnknownChar(char) {
+  if (warnedChars.has(char)) return;
+  warnedChars.add(char);
+  console.warn(`bitmap_font: caractère non supporté ignoré (code ${char.codePointAt(0)}) : "${char}"`);
+}
+
 export function getLetterBitmap(char) {
-  let template = rawFont[char] !== undefined ? rawFont[char] : rawFont['UNKNOWN'];
-  
+  let template = rawFont[char];
+  if (template === undefined) {
+    warnUnknownChar(char);
+    template = rawFont['UNKNOWN'];
+  }
+
   // Le parseur reste identique, il traite les 12 lignes de la matrice avec précision.
   const rows = template.split('\n').map(row => row.trim()).filter(row => row.length > 0);
 
