@@ -10,6 +10,10 @@ do shell script "/Users/administrateur1/.local/bin/unsloth run --model unsloth/g
 # Attente de 15 secondes pour laisser le modèle charger sur le M3
 delay 15
 
+tell application "/Users/administrateur1/Perec/perec/perec.app"
+    quit
+end tell
+
 # Lancement de l'application
 do shell script "cd '/Users/administrateur1/Perec/BNF_PEREC' && /usr/local/bin/docker-compose up -d"
 
