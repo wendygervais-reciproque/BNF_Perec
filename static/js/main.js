@@ -49,6 +49,7 @@ let lastFormationDuration = null;
 let pendingText = null;
 let pendingVariable = null;      // cartouche mis de côté : il n'entre qu'au texte formé
 let pendingSourceWords = null;   // mots-clés à surligner dans la page source, idem
+let pendingSourceSpans = null;   // ou plages exactes du texte source, idem
 
 let currentTextId = null;     // extrait affiché page gauche
 let activeConstraintId = null;
@@ -115,7 +116,7 @@ function onTextFormed() {
   UI.setGeneratingButton(null);              // déverrouillage des contraintes
   UI.showTextIteration();                    // la signature revient en fondu
   UI.setConstraintBadge(pendingVariable);    // le cartouche descend du haut
-  UI.highlightSource(pendingSourceWords);    // mots source en écho à l'exergue
+  UI.highlightSource(pendingSourceWords, pendingSourceSpans);    // mots source en écho à l'exergue
   resetIdleTimer();                          // écran stabilisé : le minuteur peut courir
 }
 
@@ -144,7 +145,7 @@ async function generate() {
   UI.setConstraintBadge(null);   // l'ancien texte se dissout, son cartouche remonte
   dissolve();
 
-  const { text, variable, sourceWords } = await requestGeneration(currentTextId, activeConstraintId);
+  const { text, variable, sourceWords, sourceSpans } = await requestGeneration(currentTextId, activeConstraintId);
 
   if (token !== generationToken) return;  // une génération plus récente a pris la main
   if (!text) {
@@ -157,6 +158,7 @@ async function generate() {
   pendingText = text;
   pendingVariable = variable;
   pendingSourceWords = sourceWords;
+  pendingSourceSpans = sourceSpans;
   UI.bumpTextIteration(currentTextId, activeConstraintId);
 }
 
@@ -245,6 +247,7 @@ function showLocalText(text) {
   pendingText = text;
   pendingVariable = null;
   pendingSourceWords = null;
+  pendingSourceSpans = null;
 }
 
 window.addEventListener('keydown', (e) => {

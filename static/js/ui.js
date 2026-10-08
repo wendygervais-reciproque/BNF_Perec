@@ -248,14 +248,32 @@ export function setExtractText(content) {
 const escapeHtml = s =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-// Surligne dans la page source les mots-clés réutilisés par la contrainte
-// (forçage : mots imposés ; homosémantique : mots remplacés par des synonymes),
-// en écho à leur mise en exergue sur le canvas. Sans effet si la liste est vide
-// ou si aucun mot ne figure tel quel dans le texte source.
-export function highlightSource(words) {
+// Surligne dans la page source les passages repris par la contrainte, en écho
+// à leur mise en exergue sur le canvas. Deux désignations possibles :
+//   - spans : plages [début, fin] du texte source, calculées par le serveur en
+//     comparant la réécriture à la source (homosémantique — cf. diff_highlight,
+//     app.py). Prioritaires : elles visent l'occurrence exacte ;
+//   - words : mots-clés annoncés par le modèle (forçage), cherchés tels quels
+//     dans le texte source.
+// Sans effet si rien n'est désigné ou si aucun mot ne figure dans le texte.
+export function highlightSource(words, spans) {
   if (!originalTextEl) return;
+  const ranges = spans ?? findWordRanges(words);
+  if (ranges.length === 0) { clearSourceHighlight(); return; }
+  let html = '', last = 0;
+  for (const [start, end] of ranges) {
+    html += escapeHtml(sourcePlain.slice(last, start));
+    html += `<span class="source-highlight">${escapeHtml(sourcePlain.slice(start, end))}</span>`;
+    last = end;
+  }
+  html += escapeHtml(sourcePlain.slice(last));
+  originalTextEl.innerHTML = html;
+  snapLeftText();
+}
+
+function findWordRanges(words) {
   const terms = (words || []).map(w => w.trim()).filter(Boolean);
-  if (terms.length === 0) { clearSourceHighlight(); return; }
+  if (terms.length === 0) return [];
   // Du plus long au plus court : évite qu'un mot court n'entame une expression.
   // Le serveur normalise l'apostrophe droite en courbe avant d'extraire cette
   // liste (cf. normalize_for_font, app.py) — pour que le rendu canvas reste
@@ -270,15 +288,7 @@ export function highlightSource(words) {
       .replace(/['’]/g, "['’]"))
     .join('|');
   const re = new RegExp(`(${pattern})`, 'gi');
-  let html = '', last = 0;
-  for (const m of sourcePlain.matchAll(re)) {
-    html += escapeHtml(sourcePlain.slice(last, m.index));
-    html += `<span class="source-highlight">${escapeHtml(m[0])}</span>`;
-    last = m.index + m[0].length;
-  }
-  html += escapeHtml(sourcePlain.slice(last));
-  originalTextEl.innerHTML = html;
-  snapLeftText();
+  return [...sourcePlain.matchAll(re)].map(m => [m.index, m.index + m[0].length]);
 }
 
 export function clearSourceHighlight() {

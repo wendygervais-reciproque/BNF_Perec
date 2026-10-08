@@ -13,12 +13,14 @@ Usage :
     python3 generate_secours.py --force       # régénère tout
     python3 generate_secours.py --text 07     # limite à l'extrait 07
     python3 generate_secours.py --constraint haiku
+    python3 generate_secours.py --rehighlight # recalcule le surlignage, sans LLM
 """
 
 import argparse
 import json
 import logging
 import os
+import re
 import sys
 
 from openai import OpenAI
@@ -27,7 +29,8 @@ from app import (
     BASE_DIR,
     CONSTRAINTS,
     DATA_DIR,
-    SOURCE_HIGHLIGHT_CONSTRAINTS,
+    DIFF_HIGHLIGHT_CONSTRAINTS,
+    apply_diff_highlight,
     badge_value,
     build_prompt,
     generate_answer,
@@ -47,9 +50,11 @@ def load_secours() -> dict:
 
 def save_secours(data: dict) -> None:
     tmp = SECOURS_PATH.with_suffix(".json.tmp")
-    tmp.write_text(
-        json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    text = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+    # Les plages de surlignage (listes de paires d'entiers) tiennent sur une
+    # ligne : l'indentation en ferait des centaines de lignes d'un seul nombre.
+    text = re.sub(r"(?<=[\[\d,\]])\n\s*(?=[\[\d\]])", "", text)
+    tmp.write_text(text, encoding="utf-8")
     tmp.replace(SECOURS_PATH)
 
 
@@ -66,11 +71,35 @@ def generate_one(client: OpenAI, model: str, text_id: str, constraint_id: str) -
         # Mention affichée par le cartouche du front, pas par le canvas
         answer = strip_leading_mention(answer)
         contexte = badge_value(contexte)
+    # Passages du texte source à surligner en écho à l'exergue : plages issues
+    # de la comparaison quand elle s'applique, sinon mots annoncés par le modèle.
+    answer, source_words, source_spans = apply_diff_highlight(
+        constraint_id, source_text, answer, source_words
+    )
     entry = {"contexte": contexte, "texte": answer}
-    if constraint_id in SOURCE_HIGHLIGHT_CONSTRAINTS:
-        # Mots-clés du texte source, pour les surligner en écho à l'exergue.
+    if source_words is not None:
         entry["source_words"] = source_words
+    if source_spans is not None:
+        entry["source_spans"] = source_spans
     return entry
+
+
+def rehighlight(data: dict) -> None:
+    """Recalcule le surlignage des textes déjà générés, sans rappeler le LLM."""
+    for text_id, entries in data["textes"].items():
+        source_text = read_file(DATA_DIR / f"{text_id}.txt")
+        for constraint_id in DIFF_HIGHLIGHT_CONSTRAINTS & entries.keys():
+            entry = entries[constraint_id]
+            answer, source_words, source_spans = apply_diff_highlight(
+                constraint_id, source_text, entry["texte"], entry.get("source_words")
+            )
+            if source_spans is None:
+                logging.warning("extrait %s × %s : inchangé", text_id, constraint_id)
+                continue
+            entry["texte"] = answer
+            entry["source_spans"] = source_spans
+            entry.pop("source_words", None)
+    save_secours(data)
 
 
 def main() -> int:
@@ -80,7 +109,13 @@ def main() -> int:
     parser.add_argument("--text", help="limite à un extrait (ex. 07)")
     parser.add_argument("--constraint", choices=sorted(CONSTRAINTS),
                         help="limite à une contrainte")
+    parser.add_argument("--rehighlight", action="store_true",
+                        help="recalcule le surlignage des textes existants, sans LLM")
     args = parser.parse_args()
+
+    if args.rehighlight:
+        rehighlight(load_secours())
+        return 0
 
     base_url = os.environ.get("LLM_BASE_URL") or os.environ.get("UNSLOTH_URL")
     api_key = os.environ.get("LLM_API_KEY") or os.environ.get("GEMMA_API")

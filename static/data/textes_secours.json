@@ -53,7 +53,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Une nuit, le **vieux cocher** fut réveillé par de **minuscules couinements** qui semblaient provenir de la **chambre**. Il s'imagina que le savant démoniaque avait apprivoisé un de ses **rats** et lui avait appris à aller chercher les montres. Il se leva, prit dans la trousse à outils qui ne le quittait jamais un petit **marteau**, pénétra dans la **chambre**, s'approcha le plus doucement possible de la tenture et frappa violemment à l'endroit d'où le bruit semblait lui parvenir."
+        "texte": "Une nuit, le vieux cocher fut réveillé par de minuscules couinements qui semblaient provenir de la chambre. Il s'imagina que le savant démoniaque avait apprivoisé un de ses rats et lui avait appris à aller chercher les montres. Il se leva, prit dans la trousse à outils qui ne le quittait jamais un petit marteau, pénétra dans la chambre, s'approcha le plus doucement possible de la tenture et frappa violemment à l'endroit d'où le bruit semblait lui parvenir.",
+        "source_spans": []
       },
       "changement_lieu": {
         "contexte": "Chine",
@@ -79,7 +80,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Le **seigneur** de Gleichen fut **retenu** dans une **lutte** contre les Sarrasins, et **sentencié** à la servitude. Comme il fut **mis au service** des parcelles du sérail, la **descendante** du sultan le **constata**. Elle jugea qu'il était **personne de valeur**, développa un sentiment d'affection pour lui, et lui proposa de faciliter sa fuite s'il souhaitait l'épouser."
+        "texte": "Le **seigneur** de Gleichen fut **retenu** dans **une lutte** contre les Sarrasins, et **sentencié** à **la servitude**. Comme il fut **mis au service** des **parcelles** du sérail, la **descendante** du sultan le **constata**. Elle jugea qu'il était **personne** de **valeur**, **développa un sentiment d'affection** pour lui, et lui **proposa** de **faciliter sa fuite** s'il **souhaitait** l'épouser.",
+        "source_spans": [[3,8],[25,40],[46,55],[81,89],[92,103],[118,137],[142,149],[164,169],[183,191],[216,221],[225,232],[234,251],[269,275],[279,300],[306,313]]
       },
       "changement_lieu": {
         "contexte": "Japon",
@@ -105,7 +107,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Ce **individu** — James Sherwood — fut la victime d'une des plus célèbres **fraudes** de tous les temps : deux **escrocs ingénieux** lui vendirent, en mille huit cent quatre-vingt-seize, le **récipient** dans lequel D'Arimathie avait recueilli le sang du Christ. La femme — une **auteure de romans** américaine nommée Ursula Sobieski — a entrepris depuis trois ans de reconstituer cette **affaire sombre** pour en faire la matière de son prochain livre."
+        "texte": "**Ce individu** — James Sherwood — fut la victime d'une des plus célèbres **fraudes** de tous les temps : deux **escrocs ingénieux** lui vendirent, en mille huit cent quatre-vingt-seize, le **récipient** dans lequel D'Arimathie avait recueilli le sang du Christ. La femme — une **auteure de romans** américaine nommée Ursula Sobieski — a entrepris depuis trois ans de reconstituer cette affaire **sombre** pour en faire la matière de son prochain livre.",
+        "source_spans": [[0,9],[68,80],[106,125],[183,187],[262,272],[360,370]]
       },
       "changement_lieu": {
         "contexte": "Japon",
@@ -131,7 +134,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Durant deux décennies, de 1955 à 1975, Bartlebooth, réintégré en France, remettrait en ordre, séquentiellement, un puzzle à raison d'un puzzle toutes les deux semaines. Tandis que les assemblages de puzzles seraient réorganisés, les unités navales seraient « retexturées » de façon à ce qu'on puisse les séparer de leur support, acheminées au lieu exact où — vingt années auparavant — elles avaient été colorées, et immergées dans un agent nettoyant d'où ne serait extraite qu'une feuille de papier Whatman, non altérée et vierge."
+        "texte": "**Durant deux décennies**, de 1955 à 1975, Bartlebooth, **réintégré** en France, **remettrait en ordre**, séquentiellement, un puzzle à raison d'un puzzle toutes les deux semaines. Tandis que les assemblages de puzzles seraient réorganisés, les unités navales seraient « retexturées » de **façon** à ce qu'on puisse les **séparer** de leur support, **acheminées au lieu exact** où — vingt **années** auparavant — elles avaient été **colorées**, et **immergées** dans **un agent nettoyant** d'où ne **serait extraite** qu'une feuille de papier Whatman, **non altérée** et vierge.",
+        "source_spans": [[0,17],[48,54],[66,81],[269,276],[299,307],[325,354],[366,369],[401,408],[413,421],[427,449],[458,470],[505,512]]
       },
       "changement_lieu": {
         "contexte": "Kenya",
@@ -157,7 +161,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Il y a un peu plus de six ans, votre **enfant**, qui se faisait alors appeler Véronique Lambert, fut **recrutée** pour un mois comme **assistante domestique** par ma femme qui, **affligée**, désirait que quelqu'un s'occupe de notre **descendance**, qui avait tout juste cinq ans. Le vendredi 11 juin 1953, pour des raisons que je continue d'ignorer, volontairement ou involontairement, elle laissa notre **enfant** se **submerger**."
+        "texte": "Il y a un peu plus de six ans, votre **enfant**, qui se faisait alors appeler Véronique Lambert, fut **recrutée** pour un mois comme **assistante domestique** par ma femme qui, **affligée**, désirait que quelqu'un s'occupe de notre **descendance**, qui avait tout juste cinq ans. Le vendredi 11 juin 1953, pour des raisons que je continue d'ignorer, volontairement ou involontairement, elle laissa notre **enfant** se **submerger**.",
+        "source_spans": [[37,42],[96,103],[123,136],[155,161],[204,213],[370,374],[378,383]]
       },
       "changement_lieu": {
         "contexte": "Inde",
@@ -183,7 +188,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Paul Hébert, **descendant d'un préparateur de médicaments** situé au **numéro 48, rue de Madrid**, tirait pleinement parti de ce **aîné** en lui **dérobant des contenants de remède** qu'il **commercialisait** entre quarante et cinquante francs à de **jeunes consommateurs de substances illicites** du Quartier latin ; il avait ce jour-là remis sa **dotation mensuelle** et s'apprêtait, lorsqu'il fut appréhendé, à **dépenser l'argent** sur les Champs-Élysées les cinq cents francs qu'il venait de **gagner**."
+        "texte": "**Paul Hébert, descendant** d'un **préparateur de médicaments situé au numéro** 48, rue de Madrid, **tirait pleinement parti** de ce **aîné** en lui **dérobant** des **contenants de remède** qu'il **commercialisait** entre quarante et cinquante francs à de jeunes **consommateurs de substances illicites** du Quartier latin ; il avait ce jour-là **remis** sa **dotation** mensuelle et s'apprêtait, **lorsqu'il** fut **appréhendé**, à dépenser **l'argent** sur les Champs-Élysées les cinq cents francs qu'il venait de gagner.",
+        "source_spans": [[0,10],[16,35],[55,88],[95,112],[120,131],[136,164],[171,180],[228,235],[276,281],[285,294],[321,329],[334,340],[344,349]]
       },
       "changement_lieu": {
         "contexte": "Maroc",
@@ -209,7 +215,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Grégoire Simpson, **l'année suivante**, obtint une bourse dont le montant, bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail. Mais au lieu de se consacrer à ses études et de finir sa licence, il tomba alors dans une sorte de **neurasthénie** ; une **léthargie singulière** dont apparemment rien ne parvint à le réveiller.\n\n**Transformation :**\n\n**L'année suivante**, Grégoire Simpson obtint une subvention dont la somme, bien que modeste, lui offrait au moins la capacité de subsister sans nécessiter impérativement d'exercer une activité professionnelle. Cependant, au lieu d'investir son temps dans ses apprentissages et de finaliser son diplôme universitaire, il s'enfonça alors dans une forme de **état de fatigue chronique** ; une **somnolence particulière** dont, à première vue, rien ne parvenait à le sortir de son inertie."
+        "texte": "**Grégoire Simpson, l'année** suivante, obtint une bourse dont le montant, bien que peu élevé, lui permettait au moins de survivre sans avoir absolument besoin de se trouver du travail. Mais au lieu de se consacrer à ses études et de finir sa licence, il tomba alors dans une sorte de neurasthénie ; une léthargie singulière dont apparemment rien ne parvint à le réveiller.\n\nTransformation :\n\nL'année suivante, Grégoire Simpson obtint une subvention dont la somme, bien que modeste, lui offrait au moins la capacité de subsister sans nécessiter impérativement d'exercer une activité professionnelle. Cependant, au lieu d'investir son temps dans ses apprentissages et de finaliser son diplôme universitaire, il s'enfonça alors dans une forme de état de fatigue chronique ; une somnolence particulière dont, à première vue, rien ne parvenait à le sortir de son inertie.",
+        "source_spans": [[0,7],[18,34]]
       },
       "changement_lieu": {
         "contexte": "Norvège",
@@ -235,7 +242,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Ils leur vendait **sept francs** une **chemise** qui lui en coûtait trois et qu'ils **revendaient** dix-sept, vingt et un, vingt-cinq ou trente francs selon les cas. Ils commencèrent dans la toute petite **échoppe** d'un ancien cordonnier, près de Saint-André-des-Arts. Ils possèdent aujourd'hui trois **magasins** à Paris, deux autres à Lille et à Cannes, et projettent d'en ouvrir une dizaine d'autres, permanents ou saisonniers, dans des villes d'eaux, des plages de l'Atlantique et des stations de sports d'hiver."
+        "texte": "**Ils** leur vendait sept francs une chemise qui lui en coûtait trois et qu'ils revendaient dix-sept, vingt et un, vingt-cinq ou trente francs selon les cas. Ils commencèrent dans la toute petite échoppe d'un ancien cordonnier, près de Saint-André-des-Arts. Ils possèdent aujourd'hui trois magasins à Paris, deux autres à Lille et à Cannes, et projettent d'en ouvrir une dizaine d'autres, permanents ou saisonniers, dans des villes d'eaux, des plages de l'Atlantique et des stations de sports d'hiver.",
+        "source_spans": [[0,2]]
       },
       "changement_lieu": {
         "contexte": "Égypte",
@@ -261,7 +269,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "camionnettes aménagées en roulottes, tréteaux, faire la cuisine, les comptes et les mises en scène, l'ingénue, reprendre les costumes, la duègne, la vaisselle, le ménage, les courses, les coups de peigne et les coups de fer de dernière minute"
+        "texte": "camionnettes aménagées en roulottes, tréteaux, **faire** la cuisine, les comptes et les mises en scène, l'ingénue, **reprendre** les costumes, la duègne, la vaisselle, le ménage, les courses, les coups de peigne et les coups de fer de dernière minute",
+        "source_spans": [[0,38],[103,116],[164,171],[182,191],[193,221],[236,248],[302,320],[393,399]]
       },
       "changement_lieu": {
         "contexte": "Japon",
@@ -287,7 +296,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Très vite, **Elzbieta et Boubaker** devinrent inséparables. Ils restaient à l'écart des autres, ne prenaient pas part à leurs **jeux**, mais marchaient en se tenant par le petit doigt, se regardaient en souriant, se racontaient, chacun dans leur **langue**, de longues **histoires** que l'autre écoutait, ravi, sans les comprendre. Les autres enfants ne les aimaient pas, leur faisaient des blagues cruelles, cachaient des cadavres de mulots dans leurs lits.\n\nTrès vite, **la jeune femme et l'enfant**, devinrent inséparables. Ils restaient à l'écart des autres, ne prenaient pas part à leurs **activités ludiques**, mais marchaient en se tenant par le petit doigt, se regardaient en souriant, se racontaient, chacun dans sa **communication orale**, de longues **récits** que l'autre écoutait, ravi, sans les saisir. Les autres enfants ne les aimaient pas, leur faisaient des moqueries acerbes, dissimulaient des restes de rongeurs dans leurs couchages."
+        "texte": "Très vite, Elzbieta et Boubaker devinrent inséparables. Ils restaient à l'écart des autres, ne prenaient pas part à leurs jeux, mais marchaient en se tenant par le petit doigt, se regardaient en souriant, se racontaient, chacun dans leur langue, de longues histoires que l'autre écoutait, ravi, sans les comprendre. Les autres enfants ne les aimaient pas, leur faisaient des blagues cruelles, cachaient des cadavres de mulots dans leurs lits.\n\nTrès vite, la jeune femme et l'enfant, devinrent inséparables. Ils restaient à l'écart des autres, ne prenaient pas part à leurs activités ludiques, mais marchaient en se tenant par le petit doigt, se regardaient en souriant, se racontaient, chacun dans sa communication orale, de longues récits que l'autre écoutait, ravi, sans les saisir. Les autres enfants ne les aimaient pas, leur faisaient des moqueries acerbes, dissimulaient des restes de rongeurs dans leurs couchages.",
+        "source_spans": []
       },
       "changement_lieu": {
         "contexte": "Norvège",
@@ -313,7 +323,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Olivier, né en 1920, grandit sur des **étendues côtières** alors le plus souvent **dépourvues d'habitants** et fut mis à dix ans **logement temporaire** au lycée de Rochefort. Détestant l'internat et les études, il se morfondait toute la semaine au fond de la classe en rêvant aux **sorties équestres** qu'il ferait le dimanche. Il redoubla la troisième et échoua quatre fois au bac."
+        "texte": "Olivier, né en 1920, grandit sur des **étendues côtières** alors le plus souvent **dépourvues d'habitants** et fut mis à dix ans **logement temporaire** au lycée de Rochefort. Détestant l'internat et les études, il se morfondait toute la semaine au fond de la classe en rêvant aux **sorties équestres** qu'il ferait le dimanche. Il redoubla la troisième et échoua quatre fois au bac.",
+        "source_spans": [[37,43],[66,74],[96,108],[237,256]]
       },
       "changement_lieu": {
         "contexte": "Chine",
@@ -339,7 +350,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Cinoc, qui avait alors une **cinquantaine d'années**, exerçait un **curieux métier**. Comme il le disait lui-même, il était « **tueur de mots** » : il travaillait à la mise à jour des **dictionnaires Larousse**. Mais alors que d'autres rédacteurs étaient à la recherche de mots et de sens nouveaux, lui devait, pour leur faire de la place, éliminer tous les mots et tous les sens tombés en **désuétude**."
+        "texte": "Cinoc, qui avait alors une cinquantaine d'années, exerçait un curieux métier. Comme il le disait lui-même, il était « tueur de mots » : il travaillait à la mise à jour des dictionnaires Larousse. Mais alors que d'autres rédacteurs étaient à la recherche de mots et de sens nouveaux, lui devait, pour leur faire de la place, éliminer tous les mots et tous les sens tombés en désuétude.",
+        "source_spans": []
       },
       "changement_lieu": {
         "contexte": "Chine",
@@ -365,7 +377,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Pour occuper les longues heures d'attente pendant lesquelles la radio restait muette, il lisait un **volume conséquent de fiction** qu'il avait découvert dans un **boîte**. Des **sections complètes** étaient manquantes et il s'efforçait de relier entre elles les **segments** dont il disposait. Il y était question, entre autres, d'un **homme chinois agressif**, d'une fille courageuse aux yeux bruns, d'un **grand individu serein** dont les **mains se blanchissaient** aux jointures quand quelqu'un le contrariait pour de bon."
+        "texte": "Pour occuper les longues heures d'attente pendant lesquelles la radio restait muette, il lisait un **volume conséquent de fiction** qu'il avait **découvert** dans **un boîte**. Des **sections complètes étaient manquantes** et il s'efforçait de relier entre **elles** les **segments** dont il disposait. Il y était question, entre autres, d'un **homme chinois agressif**, d'une fille courageuse aux yeux bruns, d'un grand **individu serein** dont les **mains se** blanchissaient aux jointures quand quelqu'un le contrariait pour de bon.",
+        "source_spans": [[99,110],[123,129],[135,145],[151,176],[211,214],[219,227],[287,301],[353,368],[378,384]]
       },
       "changement_lieu": {
         "contexte": "Inde",
@@ -391,7 +404,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Leur premier numéro exploitait deux **techniques** classiques des magiciens de fête foraine : **Blunt**, en **ascète**, devinait diverses choses à partir de chiffres apparemment choisis au hasard ; quant à **Ingeborg**, en **prophétesse**, elle éraflait avec une plume d'acier la **substance gélatineuse** d'une plaque photographique représentant **Blunt** et une **cicatrice** sanglante identique apparaissait sur le corps de son partenaire."
+        "texte": "Leur premier numéro exploitait deux **techniques** classiques des magiciens de fête foraine : Blunt, en **ascète**, devinait diverses choses à partir de chiffres apparemment choisis au hasard ; quant à Ingeborg, en **prophétesse**, elle éraflait avec une plume d'acier la **substance gélatineuse** d'une plaque photographique représentant Blunt et une **cicatrice** sanglante identique apparaissait sur le corps de son partenaire.",
+        "source_spans": [[36,41],[95,100],[201,208],[250,258],[313,320]]
       },
       "changement_lieu": {
         "contexte": "Maroc",
@@ -417,7 +431,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Quand Dinteville s'installa à Lavaur, l'un de ses premiers clients fut un **artiste de la jonglerie** qui avait avalé quelques semaines auparavant un de ses **instruments tranchants**. Ne sachant pas quoi faire, n'osant l'opérer, Dinteville lui donna à tout hasard un **reflux** et l'autre lui ressortit tout un tas de petits clous. Dinteville fut tellement **stimulé** qu'il voulut écrire une **correspondance** sur ce cas."
+        "texte": "Quand Dinteville s'installa à Lavaur, l'un de ses premiers clients fut un **artiste de la jonglerie** qui avait avalé quelques semaines auparavant un de ses **instruments tranchants**. Ne sachant pas quoi faire, n'osant l'opérer, Dinteville lui donna à tout hasard un **reflux** et l'autre lui ressortit tout un tas de petits clous. Dinteville fut tellement **stimulé** qu'il voulut écrire une **correspondance** sur ce cas.",
+        "source_spans": [[74,82],[138,146],[231,238],[318,325],[350,363]]
       },
       "changement_lieu": {
         "contexte": "Inde",
@@ -443,7 +458,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Il n'avait ni **appétit** ni **désir hydrique**, ni **chaleur** ni **froideur** ; il pouvait demeurer sans dormir plus de quarante heures, sans rien faire d'autre que prendre une à une les pièces non encore rassemblées, les regarder, les retourner et les reposer sans même essayer de les placer, comme si n'importe quelle tentative devait être inexorablement vouée à l'échec. Une fois il resta assis 62 heures d'affilée — du mercredi matin huit heures au vendredi soir dix heures — devant un **assemblage de pièces incomplet**."
+        "texte": "Il n'avait ni **appétit** ni **désir hydrique**, ni **chaleur** ni **froideur** ; il pouvait **demeurer** sans dormir plus de quarante heures, sans rien faire d'autre que prendre une à une les pièces non encore rassemblées, les regarder, les retourner et les reposer sans même essayer de les placer, comme si n'importe quelle tentative devait être inexorablement vouée à l'échec. Une fois il resta assis 62 heures d'affilée — du mercredi matin huit heures au vendredi soir dix heures — devant un **assemblage de pièces incomplet**.",
+        "source_spans": [[14,18],[22,26],[31,36],[40,45],[59,65],[456,471]]
       },
       "changement_lieu": {
         "contexte": "Brésil",
@@ -469,7 +485,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Durant des périodes prolongées, **Massy** conduisit **Margay** à la réussite dans toutes les grandes **pistes cyclables** d'Europe. Et longtemps, lorsque il percevait l'assistance des espaces verts et des tribunes saluer **Lino** sans retenue et s'élever en chantant son appellation dès qu'il se manifestait sur la voie d'accès dans son uniforme blanc à rayures violettes, lorsque il le percevait, triomphant, monter sur l'estrade pour recevoir ses trophées et ses compositions, il ne ressentait que la gaieté et l'orgueil."
+        "texte": "**Durant** des **périodes prolongées**, Massy **conduisit** Margay à la **réussite** dans **toutes** les **grandes pistes cyclables** d'Europe. Et longtemps, **lorsque** il **percevait l'assistance** des **espaces verts** et des **tribunes saluer** Lino **sans retenue** et **s'élever** en **chantant** son **appellation** dès qu'il **se manifestait** sur la **voie d'accès** dans son **uniforme** blanc à **rayures** violettes, **lorsque** il le **percevait**, **triomphant**, **monter** sur **l'estrade** pour recevoir ses **trophées** et ses **compositions**, il **ne ressentait** que **la gaieté** et **l'orgueil**.",
+        "source_spans": [[0,7],[12,18],[26,30],[43,51],[57,61],[66,83],[108,113],[117,136],[141,149],[157,174],[180,193],[197,205],[209,217],[222,225],[236,248],[256,261],[271,278],[287,293],[305,310],[317,323],[325,334],[336,343],[348,357],[376,385],[393,401],[406,420],[425,429],[433,439]]
       },
       "changement_lieu": {
         "contexte": "Égypte",
@@ -495,7 +512,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Fernand de Beaumont, douze novembre 1935, Bartlebooth, Méditerranée, vingt et unième aquarelle, port corse de Propriano, radio, continent, enterrement, Lédignan.\n\nQuand **Fernand de Beaumont** s'autodétruisit, le **douze novembre 1935**, Bartlebooth se trouvait en **Méditerranée** et venait de réaliser sa **vingt et unième aquarelle** dans le **petit port corse de Propriano**. Il découvrit l'information par le moyen de la **radio**, et réussit à rejoindre le **continent** à temps pour assister à la cérémonie funéraire de son **malheureux ami**, à Lédignan."
+        "texte": "Fernand de Beaumont, douze novembre 1935, Bartlebooth, Méditerranée, vingt et unième aquarelle, port corse de Propriano, radio, continent, enterrement, Lédignan.\n\nQuand Fernand de Beaumont s'autodétruisit, le douze novembre 1935, Bartlebooth **se trouvait** en Méditerranée et venait de **réaliser** sa vingt et unième aquarelle dans le petit port corse de Propriano. Il **découvrit l'information par le moyen de** la radio, et **réussit** à **rejoindre le continent** à temps pour assister à **la cérémonie funéraire** de son malheureux ami, à Lédignan.",
+        "source_spans": [[0,7],[76,81],[111,118],[190,210],[224,231],[234,241],[250,266],[283,296]]
       },
       "changement_lieu": {
         "contexte": "Thaïlande",
@@ -521,7 +539,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Elle arriva vers **l'heure de minuit**. La nuit était **obscure**. Très loin, devant les appartements de l'Aigle, des **sentinelles désinvoltes** faisaient les cent pas. Loorens déroula jusqu'au pied de la forteresse une **montée de soie entrelacée** qu'Ursula puis lui empruntèrent pour se retrouver, vingt-cinq mètres plus bas, sur une **petite bande de sable** entourée de rochers et de récifs à fleur d'eau."
+        "texte": "Elle arriva vers **l'heure de** minuit. La nuit était **obscure**. Très loin, devant les appartements de l'Aigle, des **sentinelles désinvoltes** faisaient les cent pas. Loorens déroula jusqu'au pied de la forteresse une **montée** de soie **entrelacée** qu'Ursula puis lui empruntèrent pour se retrouver, vingt-cinq mètres plus bas, sur une **petite bande de sable** entourée de rochers et de récifs à fleur d'eau.",
+        "source_spans": [[39,44],[97,115],[191,198],[207,214],[302,320]]
       },
       "changement_lieu": {
         "contexte": "Japon",
@@ -547,7 +566,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Comme toutes les **jeunes filles** et les **filles** d'Australie, Olivia avait évidemment été entre 1940 et 1945 **protectrice militaire** de plusieurs hommes. En fait, il s'était agi pour elle de régiments entiers auxquels elle envoyait son **image personnalisée** ; de plus, une fois par mois, elle écrivait une petite lettre à un simple **militaire** ou à un sous-officier qui s'était signalé par un fait d'armes plus ou moins héroïque."
+        "texte": "Comme toutes les **jeunes filles** et les filles d'Australie, Olivia avait évidemment été entre 1940 et 1945 **protectrice militaire** de plusieurs **hommes**. En fait, il s'était agi pour elle de régiments entiers auxquels elle envoyait **son image personnalisée** ; de plus, une fois par mois, elle écrivait une petite lettre à un simple **militaire** ou à un sous-officier qui s'était signalé par un fait d'armes plus ou moins héroïque.",
+        "source_spans": [[17,26],[34,40],[108,126],[140,147],[227,252],[327,333]]
       },
       "changement_lieu": {
         "contexte": "Chine",
@@ -573,7 +593,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "C'est dans les **derniers mois** de l'année mille neuf cent soixante-douze que Bartlebooth se rendit compte qu'il devenait **aveugle**. Cela avait commencé quelques semaines auparavant par des **maux de tête**, des torticolis et des **troubles visuels** qui faisaient que, lorsqu'il avait travaillé toute une journée sur ses puzzles, il avait la sensation que sa **vue se brouillait**, que le contour des choses se nimbait d'une brume imprécise."
+        "texte": "C'est dans les derniers mois de l'année mille neuf cent soixante-douze que Bartlebooth se rendit compte qu'il devenait aveugle. Cela avait commencé quelques semaines auparavant par des maux de tête, des torticolis et des troubles visuels qui faisaient que, lorsqu'il avait travaillé toute une journée sur ses puzzles, il avait la sensation que sa vue se brouillait, que le contour des choses se nimbait d'une brume imprécise.",
+        "source_spans": []
       },
       "changement_lieu": {
         "contexte": "Chine",
@@ -599,7 +620,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Afin de se venger de **Louisette Guerné**, qui lui avait renversé une **bouteille d'encre de chine** sur sa blouse en classe de dessin, Isabelle lui a raconté qu'il y avait un **vieillard pornographique** qui la suivait dans la rue chaque fois qu'elle sortait du **lycée** et qu'un jour il allait l'attaquer et lui **arracher tous ses vêtements** et l'obliger à lui faire des choses dégoûtantes."
+        "texte": "**Afin de** se venger de Louisette Guerné, qui lui avait renversé une bouteille d'encre de chine sur sa blouse en classe de dessin, Isabelle lui a raconté qu'il y avait un vieillard pornographique qui la suivait dans la rue chaque fois qu'elle sortait du lycée et qu'un jour il allait l'attaquer et lui arracher tous ses vêtements et l'obliger à lui faire des choses dégoûtantes.",
+        "source_spans": [[0,4]]
       },
       "changement_lieu": {
         "contexte": "Brésil",
@@ -625,7 +647,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Un jour, accompagnant son **conjoint** chez Cleray pour qu'il se choisisse un **réceptacle pour tabac**, Madame Danglars, saisie par une **vive émotion** et une **peur irrépressible** et regardant droit dans les yeux la vendeuse qui s'occupait d'eux, avait dérobé une **attache de ceinture** en écaille. Ce n'était qu'un **vol de biens précieux**, mais lorsque le soir même elle l'avoua à son **partenaire**, qui ne s'était aperçu de rien."
+        "texte": "Un jour, accompagnant son **conjoint** chez Cleray pour qu'il se choisisse un **réceptacle pour tabac**, Madame Danglars, saisie par **une vive émotion** et une **peur irrépressible** et regardant droit dans les yeux la vendeuse qui s'occupait d'eux, avait dérobé une **attache** de ceinture en écaille. Ce n'était qu'un **vol** de **biens précieux**, mais lorsque le soir même elle l'avoua à son **partenaire**, qui ne s'était aperçu de rien.",
+        "source_spans": [[26,30],[70,87],[117,124],[132,153],[238,244],[286,292],[296,300],[347,351]]
       },
       "changement_lieu": {
         "contexte": "Thaïlande",
@@ -651,7 +674,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Célia Crespi eut un **descendance**. Elle le mit discrètement au monde en **l'année** mille neuf cent trente-six. Presque personne ne s'était aperçu qu'elle avait été **gestée**. Tout l'**édifice** s'interrogea sur l'identité du père et tous les noms des individus de sexe mâle habitant la maison et âgés de quinze à soixante-quinze ans furent avancés. Le secret ne fut jamais dévoilé. L'enfant, déclaré né de **parent ignorer**, fut élevé en dehors de Paris. Personne de l'**habitation** ne le vit jamais."
+        "texte": "Célia Crespi eut un **descendance**. Elle le mit discrètement au monde en **l'année** mille neuf cent trente-six. Presque personne ne s'était aperçu qu'elle avait été **gestée**. Tout **l'édifice** s'interrogea sur l'identité du père et tous les noms des individus de sexe mâle habitant la maison et âgés de quinze à soixante-quinze ans furent avancés. Le secret ne fut jamais dévoilé. L'enfant, déclaré né de **parent ignorer**, fut élevé en dehors de Paris. Personne de **l'habitation** ne le vit jamais.",
+        "source_spans": [[20,24],[144,152],[159,169],[382,394],[438,448]]
       },
       "changement_lieu": {
         "contexte": "Thaïlande",
@@ -677,7 +701,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Accompagné de quatre **individus malveillants dotés d'armes**, Jeremiah arriva à bord d'un **siège de type cabine endommagé et exhalant des fumées**. Avec toutes les précautions d'usage, ils inspectèrent les environs et encerclèrent le **logement numéro 31**. L'**espace de repos** n'était pas très éclairé, juste assez pour que Jeremiah voie bien, à travers les rideaux de crochet, sagement étendu sur l'un des lits jumeaux, les bras croisés, les yeux grands ouverts, son **frère Ruben**."
+        "texte": "Accompagné de quatre **individus malveillants dotés d'armes**, Jeremiah arriva à bord d'un **siège de type cabine endommagé** et **exhalant des fumées**. Avec toutes les précautions d'usage, ils inspectèrent les environs et encerclèrent le **logement numéro** 31. **L'espace de repos** n'était pas très **éclairé**, juste assez pour que Jeremiah voie bien, à travers les rideaux de crochet, sagement étendu sur l'un des lits jumeaux, les bras croisés, les yeux grands ouverts, son frère Ruben.",
+        "source_spans": [[21,35],[65,93],[97,103],[191,202],[207,217],[235,243]]
       },
       "changement_lieu": {
         "contexte": "Thaïlande",
@@ -703,7 +728,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "La **citoyenne suisse**, manifestement **passionnée au plus haut niveau** par les **difficultés de sûreté au sein du foyer**, a réclamé qu'on lui décrive le **mode de fonctionnement de tous les équipements ménagers** et qu'on lui indique la localisation des **interrupteurs de sécurité**, des **dispositifs de protection contre les surintensités** et des **régulateurs de courant**. L'examen de la cuisine n'a pas engendré trop d'obstacles, mais dans l'**espace sanitaire**, les choses ont très vite déraillé."
+        "texte": "La **citoyenne suisse**, manifestement **passionnée** au **plus haut niveau** par les **difficultés** de **sûreté au sein du foyer**, a **réclamé** qu'on lui **décrive** le **mode de** fonctionnement de tous les **équipements ménagers** et qu'on lui **indique la localisation** des **interrupteurs de sécurité**, des **dispositifs de protection contre les surintensités** et des **régulateurs de courant**. **L'examen** de la cuisine n'a pas **engendré** trop **d'obstacles**, mais dans **l'espace sanitaire**, les choses ont très vite **déraillé**.",
+        "source_spans": [[3,12],[28,35],[39,52],[61,70],[74,93],[97,102],[113,121],[152,178],[192,212],[217,230],[236,244],[252,264],[266,278],[301,305],[311,323],[335,352],[379,389]]
       },
       "changement_lieu": {
         "contexte": "Brésil",
@@ -729,7 +755,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Durant trois mois, **l'auteur** écrivit, **contacta**, et **signala** à l'entrée en totale défaillance. Ensuite, le onze juillet, il rendit visite à Smautf dans sa chambre et le chargea de prévenir son **patron** qu'il lui déclarait la guerre : si la **création**, pour Bartlebooth, consistait à détruire les créations qu'il avait élaborées, la **manifestation**, pour lui, Beyssandre, consisterait à sauvegarder, quoi qu'il en coûte, une ou plusieurs de ces créations, et il défiait cet Anglais obstiné de l'entraver."
+        "texte": "**Durant** trois mois, **l'auteur** écrivit, **contacta**, et **signala** à **l'entrée** en **totale défaillance**. **Ensuite**, le onze juillet, il rendit visite à Smautf dans sa chambre et le chargea de prévenir son **patron** qu'il lui déclarait la guerre : si **la création**, pour Bartlebooth, consistait à détruire les **créations** qu'il avait **élaborées**, **la manifestation**, pour lui, Beyssandre, consisterait à **sauvegarder**, **quoi qu'il en** coûte, une ou plusieurs de ces **créations**, et il défiait cet Anglais obstiné de **l'entraver**.",
+        "source_spans": [[0,7],[20,30],[40,49],[54,59],[62,70],[74,84],[86,90],[181,187],[223,228],[274,280],[293,300],[302,307],[346,355],[357,366],[398,404],[443,456]]
       },
       "changement_lieu": {
         "contexte": "Japon",
@@ -755,7 +782,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Quelques semaines plus tard, Blanche découvrit qu'elle était **gestante** et que l'**accouchement** coïnciderait à quelques jours près avec l'ouverture du **rassemblement**. La seule solution était qu'elle se fasse **interrompre de la grossesse** ; mais lorsqu'elle l'annonça à Ricetti, le danseur entra dans une indescriptible fureur, et lui interdit de **mettre fin à la gestation** de l'être irremplaçable qu'il allait lui donner au seul profit d'une soirée de renommée."
+        "texte": "Quelques semaines plus tard, Blanche découvrit qu'elle était **gestante** et que **l'accouchement** coïnciderait à quelques jours près avec l'ouverture du **rassemblement**. La seule solution était qu'elle se fasse **interrompre de la grossesse** ; mais lorsqu'elle l'annonça à Ricetti, le danseur entra dans une indescriptible fureur, et lui interdit de **mettre fin à la gestation de** l'être irremplaçable qu'il allait lui donner au seul profit **d'une soirée** de **renommée**.",
+        "source_spans": [[61,69],[77,101],[157,165],[208,215],[324,333],[394,403],[407,413]]
       },
       "changement_lieu": {
         "contexte": "Inde",
@@ -781,7 +809,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Adélaïde, après avoir battu à dix ans le record de France (catégorie minimes) du soixante mètres plat, fut saisie, dès douze ans, par l'entité du cirque et conduisit ses quatre sœurs dans une démonstration aérienne qui devint rapidement célèbre dans toute l'Europe : Les Filles du Feu effectuaient des passages à travers des anneaux ardents, modifiaient de la structure en hauteur tout en manipulant des braises ou exécutaient du jonglage avec des cerceaux sur un fil suspendu à quatre mètres du sol."
+        "texte": "Adélaïde, après avoir battu à dix ans le record de France (catégorie minimes) du soixante mètres plat, fut saisie, dès douze ans, par **l'entité** du cirque et **conduisit** ses quatre sœurs dans **une démonstration aérienne** qui **devint rapidement célèbre** dans toute l'Europe : Les Filles du Feu **effectuaient des passages** à travers des **anneaux ardents**, **modifiaient** de **la structure en hauteur** tout en **manipulant des braises ou exécutaient du jonglage** avec des **cerceaux** sur un fil **suspendu** à quatre mètres du sol.",
+        "source_spans": [[134,142],[156,164],[187,207],[212,230],[271,280],[295,313],[315,326],[330,337],[346,354],[364,398],[410,415]]
       },
       "changement_lieu": {
         "contexte": "Égypte",
@@ -807,7 +836,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Sans se soucier du **agitation** qu'elle provoquait, Gertrude lança son **vêtement de protection** à la figure du lord en lui disant que les **matières** qu'on lui fournissait étaient **repoussantes** et qu'il n'était pas question qu'elle fasse son **préparation alimentaire** avec. Lord Ashtray tenait d'autant plus à sa **cuisinière** qu'il n'avait pratiquement jamais goûté sa **préparation alimentaire**. Pour la conserver, il accepta sans hésitation qu'elle aille faire son **achats** elle-même, où elle voulait."
+        "texte": "Sans se soucier du **agitation** qu'elle provoquait, Gertrude lança son **vêtement de protection** à la figure du lord en lui disant que les **matières** qu'on lui fournissait étaient **repoussantes** et qu'il n'était pas question qu'elle fasse **son préparation alimentaire** avec. Lord Ashtray tenait d'autant plus à sa cuisinière qu'il n'avait pratiquement jamais goûté sa **préparation alimentaire**. Pour la conserver, il accepta sans hésitation qu'elle aille faire son **achats** elle-même, où elle voulait.",
+        "source_spans": [[19,26],[66,73],[116,124],[155,167],[212,222],[322,329],[401,407]]
       },
       "changement_lieu": {
         "contexte": "Mexique",
@@ -833,7 +863,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "C'est dans la cuisine que l'on découvrit le gros des **personnes conviées**, une douzaine environ, qui improvisaient un concert de musique contemporaine sous la direction du **hôte**, celui-ci, vêtu d'un **vêtement de maison à motifs** gris et verts, les pieds dans des babouches de cuir, un **luminaire conique servant de couvre-chef**, était juché sur un **siège rembourré** et donnait la mesure."
+        "texte": "C'est dans la cuisine que l'on découvrit le gros des **personnes conviées**, une douzaine environ, qui improvisaient un concert de musique contemporaine sous la direction du hôte, celui-ci, vêtu d'un **vêtement de maison** à **motifs gris** et **verts**, les pieds dans des babouches de cuir, un **luminaire** conique **servant** de **couvre-chef**, était juché sur **un siège rembourré** et donnait la mesure.",
+        "source_spans": [[53,60],[197,205],[208,222],[226,232],[275,284],[293,301],[305,312],[330,348]]
       },
       "changement_lieu": {
         "contexte": "Kenya",
@@ -859,7 +890,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "1. appuis\n2. délaissé\n3. dégoûté\n4. cabinet\n5. univers\n\nSans **soutien**, **négligé**, **rejeté**, **bureau**, **monde** Dinteville finit par abandonner son **cabinet** et vint s'installer à Paris, résolu à n'être plus qu'un médecin de quartier dont les rêves inoffensifs n'iraient plus affronter l'**univers** prestigieux mais redoutable des érudits et des savants, mais se cantonneraient aux plaisirs domestiques du solfège et de la cuisine."
+        "texte": "1. appuis\n2. délaissé\n3. dégoûté\n4. cabinet\n5. univers\n\nSans **soutien**, **négligé**, **rejeté**, **bureau, monde** Dinteville finit par abandonner son cabinet et vint s'installer à Paris, résolu à n'être plus qu'un médecin de quartier dont les rêves inoffensifs n'iraient plus affronter l'univers prestigieux mais redoutable des érudits et des savants, mais se cantonneraient aux plaisirs domestiques du solfège et de la cuisine.",
+        "source_spans": [[5,11],[13,21],[23,30]]
       },
       "changement_lieu": {
         "contexte": "Inde",
@@ -885,7 +917,8 @@
       },
       "homosemantique": {
         "contexte": null,
-        "texte": "Mademoiselle Yolande avait la garde des **registres d'échanges** du chef de service, l'un, un **planificateur réduit**, pour ses **affaires privées**, l'autre, un **calendrier hebdomadaire d'entreprise**, pour ses **interactions professionnelles**, et l'une des tâches les plus délicates de Mademoiselle Yolande consistait précisément à ne pas se tromper de **document** et à ne pas prendre deux **rencontres** en même temps."
+        "texte": "Mademoiselle Yolande avait la garde des **registres d'échanges** du chef de service, l'un, un **planificateur réduit**, pour ses **affaires privées**, l'autre, un **calendrier hebdomadaire d'entreprise**, pour ses **interactions professionnelles**, et l'une des tâches les plus délicates de Mademoiselle Yolande consistait précisément à ne pas se tromper de **document** et à ne pas prendre deux **rencontres** en même temps.",
+        "source_spans": [[40,67],[97,116],[127,149],[163,182],[193,219],[330,336],[362,373]]
       },
       "changement_lieu": {
         "contexte": "Chine",

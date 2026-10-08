@@ -6,6 +6,7 @@ from pathlib import Path
 
 import csv
 from datetime import datetime
+from difflib import SequenceMatcher
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request,Response
@@ -167,6 +168,11 @@ CONSTRAINTS = {
 # ces mots dans le texte source, en écho à leur mise en exergue sur le canvas.
 SOURCE_HIGHLIGHT_CONSTRAINTS = frozenset({"forcage", "homosemantique"})
 
+# Contraintes qui conservent la trame du texte source : les passages modifiés
+# y sont repérés par comparaison avec la source plutôt que d'après le balisage
+# du modèle (cf. diff_highlight).
+DIFF_HIGHLIGHT_CONSTRAINTS = frozenset({"homosemantique"})
+
 # Les prompts à variable demandent au modèle d'annoncer le paramètre choisi
 # (lieu, époque, forme) en première ligne de sa réponse. Cette mention est
 # désormais affichée par le front dans un cartouche HTML : on la retire donc
@@ -301,6 +307,93 @@ def split_leading_word_list(answer: str) -> tuple[list[str] | None, str]:
                 and all(len(s.split()) <= 10 for s in items)):
             return items, tail.lstrip()
     return None, answer
+
+
+# Découpage en mots pour la comparaison source / réécriture : apostrophes et
+# traits d'union internes restent dans le mot ("l'esclavage", "petit-fils"),
+# chaque signe de ponctuation forme un élément à part.
+DIFF_TOKEN_RE = re.compile(r"\w+(?:['’\-]\w+)*|[^\w\s]")
+
+# Mêmes critères que isPlausibleHighlight (static/js/api.js) : un passage
+# substitué reste une expression courte, jamais une phrase.
+HIGHLIGHT_MAX_LEN = 60
+
+# En deçà de cette proportion de mots communs, la réponse ne suit plus le
+# texte source (réécriture libre, liste seule, texte recopié deux fois...) :
+# la comparaison ne désignerait plus des substitutions mais du bruit.
+DIFF_MIN_RATIO = 0.5
+
+
+def _plausible_span(text: str) -> bool:
+    return (len(text) <= HIGHLIGHT_MAX_LEN
+            and re.search(r"\w", text) is not None
+            and not re.search(r"[.!?:]\s+\S", text))
+
+
+def diff_highlight(source: str, answer: str) -> tuple[str, list[list[int]]] | None:
+    """Repère les substitutions en comparant la réécriture au texte source.
+
+    Le gras posé par le modèle est peu fiable (mots inchangés mis en gras,
+    substitutions oubliées) et sa liste de « mots choisis » ne reprend pas
+    toujours le texte source à la lettre. Pour une contrainte qui conserve la
+    trame du texte (homosémantique), la comparaison mot à mot désigne au
+    contraire exactement ce qui a changé, des deux côtés à la fois.
+
+    Renvoie (réponse rebalisée en gras markdown, plages [début, fin] à
+    surligner dans `source`), ou None si les deux textes divergent trop pour
+    que la comparaison ait un sens — l'appelant garde alors le balisage du
+    modèle.
+    """
+    answer = answer.replace("*", "")
+    src_tokens = list(DIFF_TOKEN_RE.finditer(source))
+    ans_tokens = list(DIFF_TOKEN_RE.finditer(answer))
+    # normalize_for_font a déjà courbé les apostrophes de la réponse, pas
+    # celles du texte source : sans ce repli, "l'un" et "l’un" différeraient.
+    key = lambda t: t.group().replace("'", "’")
+    matcher = SequenceMatcher(
+        None, [key(t) for t in src_tokens], [key(t) for t in ans_tokens],
+        autojunk=False,
+    )
+    if matcher.ratio() < DIFF_MIN_RATIO:
+        return None
+
+    src_spans, ans_spans = [], []
+    for op, i, j, k, l in matcher.get_opcodes():
+        if op == "equal":
+            continue
+        src = (src_tokens[i].start(), src_tokens[j - 1].end()) if i < j else None
+        ans = (ans_tokens[k].start(), ans_tokens[l - 1].end()) if k < l else None
+        # Un côté invraisemblable (phrase entière réécrite, simple ponctuation)
+        # écarte la paire : pas de surlignage orphelin sur l'autre page.
+        if ((src and not _plausible_span(source[slice(*src)]))
+                or (ans and not _plausible_span(answer[slice(*ans)]))):
+            continue
+        if src:
+            src_spans.append(list(src))
+        if ans:
+            ans_spans.append(ans)
+
+    for start, end in reversed(ans_spans):
+        answer = f"{answer[:start]}**{answer[start:end]}**{answer[end:]}"
+    return answer, src_spans
+
+
+def apply_diff_highlight(constraint_id: str, source: str, answer: str,
+                         source_words: list[str] | None,
+                         ) -> tuple[str, list[str] | None, list[list[int]] | None]:
+    """Renvoie (réponse, mots source, plages source) pour l'affichage.
+
+    Partagé par /generate et generate_secours.py. Quand la comparaison
+    s'applique, les plages remplacent la liste de mots annoncée par le modèle.
+    """
+    if constraint_id in DIFF_HIGHLIGHT_CONSTRAINTS:
+        diff = diff_highlight(source, answer)
+        if diff is not None:
+            return diff[0], None, diff[1]
+        logging.warning("Réponse trop éloignée du texte source : balisage du modèle conservé")
+    if constraint_id not in SOURCE_HIGHLIGHT_CONSTRAINTS:
+        source_words = None
+    return answer, source_words, None
 
 
 def badge_value(selected: str) -> str:
@@ -464,13 +557,17 @@ def generate():
     if selected is not None:
         answer = strip_leading_mention(answer)
         variable = {"label": constraint["badge"], "value": badge_value(selected)}
+    answer, source_words, source_spans = apply_diff_highlight(
+        constraint_id, source_text, answer, source_words
+    )
     return jsonify({
         "prompt": prompt,
         "answer": answer,
         "raw_answer": raw_answer,
         "thinking": thinking,
         "variable": variable,
-        "source_words": source_words if constraint_id in SOURCE_HIGHLIGHT_CONSTRAINTS else None,
+        "source_words": source_words,
+        "source_spans": source_spans,
     })
 
 
