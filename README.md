@@ -96,7 +96,11 @@ prompt.
 
 ## Configuration du LLM
 
-Voir `.env.example`. L'appel au modèle passe par le protocole
-OpenAI-compatible : la bascule du serveur distant vers un modèle local
-(vLLM, llama.cpp, LM Studio, Ollama…) se fait uniquement dans `.env`
-(`LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`), sans modifier le code.
+Voir `.env.example`. `LLM_PROVIDER` choisit le fournisseur :
+
+- `openai` (défaut) : protocole OpenAI-compatible ; la bascule du serveur
+  distant vers un modèle local (vLLM, llama.cpp, LM Studio, Ollama…) se fait
+  uniquement dans `.env` (`LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`), sans
+  modifier le code.
+- `gemini` : le même modèle via la Gemini Developer API de Google
+  (`GEMINI_API_KEY`, `LLM_MODEL`).

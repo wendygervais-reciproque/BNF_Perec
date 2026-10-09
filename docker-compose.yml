@@ -5,9 +5,11 @@ services:
     ports:
       - "8080:8080"
     environment:
+      - LLM_PROVIDER=${LLM_PROVIDER}
       - LLM_BASE_URL=${LLM_BASE_URL}
       - LLM_API_KEY=${LLM_API_KEY}
       - LLM_MODEL=${LLM_MODEL}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     volumes:
       - .:/app
       - /app/.venv

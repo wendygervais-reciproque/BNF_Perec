@@ -19,11 +19,8 @@ Usage :
 import argparse
 import json
 import logging
-import os
 import re
 import sys
-
-from openai import OpenAI
 
 from app import (
     BASE_DIR,
@@ -35,6 +32,7 @@ from app import (
     build_prompt,
     generate_answer,
     list_texts,
+    llm_config_error,
     read_file,
     strip_leading_mention,
 )
@@ -58,14 +56,14 @@ def save_secours(data: dict) -> None:
     tmp.replace(SECOURS_PATH)
 
 
-def generate_one(client: OpenAI, model: str, text_id: str, constraint_id: str) -> dict:
+def generate_one(text_id: str, constraint_id: str) -> dict:
     constraint = CONSTRAINTS[constraint_id]
     source_text = read_file(DATA_DIR / f"{text_id}.txt")
 
     # Même fabrication de prompt que la route /generate (source unique dans app.py).
     prompt, contexte = build_prompt(constraint_id, source_text)
     _, answer, source_words = generate_answer(
-        client, model, prompt, constraint.get("check_french", False)
+        prompt, constraint.get("check_french", False)
     )
     if contexte is not None:
         # Mention affichée par le cartouche du front, pas par le canvas
@@ -117,13 +115,10 @@ def main() -> int:
         rehighlight(load_secours())
         return 0
 
-    base_url = os.environ.get("LLM_BASE_URL") or os.environ.get("UNSLOTH_URL")
-    api_key = os.environ.get("LLM_API_KEY") or os.environ.get("GEMMA_API")
-    model = os.environ.get("LLM_MODEL", "gemma-4-26B-A4B-it")
-    if not base_url or not api_key:
-        logging.error("LLM non configuré (LLM_BASE_URL / LLM_API_KEY manquants dans .env)")
+    config_error = llm_config_error()
+    if config_error:
+        logging.error(config_error)
         return 1
-    client = OpenAI(base_url=base_url, api_key=api_key)
 
     text_ids = [args.text] if args.text else list_texts()
     constraint_ids = [args.constraint] if args.constraint else list(CONSTRAINTS)
@@ -142,7 +137,7 @@ def main() -> int:
     for i, (text_id, constraint_id) in enumerate(todo, 1):
         logging.info("[%d/%d] extrait %s × %s", i, len(todo), text_id, constraint_id)
         try:
-            entry = generate_one(client, model, text_id, constraint_id)
+            entry = generate_one(text_id, constraint_id)
         except Exception as exc:
             logging.error("  échec : %s", exc)
             failures.append((text_id, constraint_id))

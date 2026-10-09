@@ -108,6 +108,88 @@ def french_ratio(text: str) -> float:
 
 load_dotenv()
 
+# Fournisseur du modèle : "openai" (serveur OpenAI-compatible : teklia, vLLM,
+# llama.cpp, Ollama…) ou "gemini" (même modèle via la Gemini Developer API).
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "openai").strip().lower()
+LLM_MODEL = os.environ.get("LLM_MODEL", "gemma-4-26B-A4B-it")
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+# Modèles Google essayés à tour de rôle quand LLM_MODEL échoue (le service
+# Gemma de l'API Gemini renvoie souvent des 500 ou ne répond pas). Liste
+# séparée par des virgules.
+GEMINI_FALLBACK_MODELS = [
+    m.strip()
+    for m in os.environ.get(
+        "GEMINI_FALLBACK_MODELS", "gemini-3.5-flash-lite"
+    ).split(",")
+    if m.strip()
+]
+if LLM_PROVIDER not in ("openai", "gemini"):
+    raise RuntimeError(
+        f"LLM_PROVIDER={LLM_PROVIDER!r} inconnu ; attendu 'openai' ou 'gemini'"
+    )
+logging.info("Fournisseur LLM : %s (modèle %s)", LLM_PROVIDER, LLM_MODEL)
+
+
+def llm_config_error() -> str | None:
+    """Message d'erreur si le fournisseur choisi n'est pas configuré, sinon None."""
+    if LLM_PROVIDER == "gemini":
+        if not GEMINI_API_KEY:
+            return "LLM non configuré (GEMINI_API_KEY manquant dans .env)"
+    elif not LLM_BASE_URL or not LLM_API_KEY:
+        return "LLM non configuré (LLM_BASE_URL / LLM_API_KEY manquants dans .env)"
+    return None
+
+
+def call_gemini(prompt: str) -> str:
+    """Appelle LLM_MODEL puis, en cas d'échec, chaque modèle de secours Google."""
+    from google import genai
+    from google.genai import types
+    # Le SDK ne retente pas et n'a pas de délai maximal par défaut. Requête
+    # coupée à 25 s ; une seule tentative par modèle pour passer vite au
+    # suivant, deux pour le dernier recours : le front abandonne à 60 s.
+    client = genai.Client(
+        api_key=GEMINI_API_KEY,
+        http_options=types.HttpOptions(timeout=25_000),
+    )
+    last_resort = types.GenerateContentConfig(
+        http_options=types.HttpOptions(
+            timeout=25_000,
+            retry_options=types.HttpRetryOptions(attempts=2, max_delay=2),
+        )
+    )
+    # Les noms de modèles Gemini sont en minuscules (gemma-4-26b-a4b-it)
+    models = [LLM_MODEL.lower()] + [
+        m.lower() for m in GEMINI_FALLBACK_MODELS if m.lower() != LLM_MODEL.lower()
+    ]
+    for model, next_model in zip(models, models[1:]):
+        try:
+            return client.models.generate_content(model=model, contents=prompt).text or ""
+        except Exception as exc:
+            logging.warning("Modèle %s en échec (%s), essai de %s", model, exc, next_model)
+    response = client.models.generate_content(
+        model=models[-1], contents=prompt, config=last_resort
+    )
+    return response.text or ""
+
+
+def call_model(prompt: str) -> str:
+    """Envoie le prompt au fournisseur configuré et renvoie la réponse brute."""
+    if LLM_PROVIDER == "gemini":
+        return call_gemini(prompt)
+    client = OpenAI(base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
+    response = client.chat.completions.create(
+        model=LLM_MODEL,
+        messages=[{"role": "user", "content": prompt}],
+        extra_body={
+            "chat_template_kwargs": {"enable_thinking": False},
+            "reasoning_effort": "low",
+        },
+    )
+    return response.choices[0].message.content or ""
+
+
 BASE_DIR = Path(__file__).parent
 DATA_DIR = BASE_DIR / "data"
 
@@ -416,8 +498,7 @@ def pick_choice(constraint_id: str, constraint: dict) -> str:
     return selected
 
 
-def generate_answer(client: OpenAI, model: str, prompt: str,
-                    check_french: bool = False) -> tuple[str, str, list[str] | None]:
+def generate_answer(prompt: str, check_french: bool = False) -> tuple[str, str, list[str] | None]:
     """Appelle le LLM et renvoie (réponse brute, réponse nettoyée, mots choisis).
 
     Les « mots choisis » sont la liste de mots-clés que le modèle annonce en
@@ -431,15 +512,7 @@ def generate_answer(client: OpenAI, model: str, prompt: str,
     word_list = None
     for attempt in (1, 2, 3):
         content = prompt if attempt == 1 else RETRY_FRENCH_PREFIX + prompt
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": content}],
-            extra_body={
-                "chat_template_kwargs": {"enable_thinking": False},
-                "reasoning_effort": "low",
-            },
-        )
-        raw_answer = response.choices[0].message.content or ""
+        raw_answer = call_model(content)
         answer = THINK_RE.sub("", raw_answer).strip()
         answer = normalize_for_font(answer)
         word_list, answer = split_leading_word_list(answer)
@@ -526,25 +599,16 @@ def generate():
     if not text_path.exists():
         return jsonify({"error": "Texte introuvable"}), 400
 
-    # LLM_* prioritaires ; UNSLOTH_URL / GEMMA_API acceptés pour compatibilité
-    # avec la config d'origine du serveur teklia.
-    base_url=os.environ["LLM_BASE_URL"]
-    api_key=os.environ["LLM_API_KEY"]
-    model = os.environ["LLM_MODEL"]
-    if not base_url or not api_key:
-        return jsonify({
-            "error": "LLM non configuré (LLM_BASE_URL / LLM_API_KEY manquants dans .env)"
-        }), 503
+    config_error = llm_config_error()
+    if config_error:
+        return jsonify({"error": config_error}), 503
 
-    print(base_url)
     source_text = read_file(text_path)
     prompt, selected = build_prompt(constraint_id, source_text)
 
-    client = OpenAI(base_url=base_url, api_key=api_key)
-
     try:
         raw_answer, answer, source_words = generate_answer(
-            client, model, prompt, constraint.get("check_french", False)
+            prompt, constraint.get("check_french", False)
         )
     except Exception as exc:
         logging.exception("Appel LLM échoué")
